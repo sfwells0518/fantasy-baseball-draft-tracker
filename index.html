@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tatis All Folks — 2026 Draft War Room</title>
+<title>Sam's Draft War Room — 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -475,6 +475,297 @@ body {
 .note-item strong { color: var(--text); font-weight: 600; }
 .note-item.green strong { color: var(--green); }
 .note-item.green { color: #065f35; }
+
+/* ── PROSPECT CALLOUT inside round cards ── */
+.prospect-callout {
+  margin: 0 10px 8px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-left: 3px solid #f59e0b;
+  border-radius: 6px;
+  padding: 7px 9px;
+}
+.pc-label {
+  font-size: 9px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 700;
+  color: #92400e;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  margin-bottom: 3px;
+}
+.pc-name {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 15px;
+  letter-spacing: .5px;
+  color: #1a2332;
+  line-height: 1.1;
+}
+.pc-pos { font-size: 10px; color: #475569; margin-top: 1px; }
+.pc-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
+.pc-tag {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.pct-od  { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.pct-es  { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.pct-mid { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.pct-stash { background: #fdf4ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+.pct-adp { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; font-family: 'DM Mono',monospace; }
+.pc-note { font-size: 10px; color: #475569; margin-top: 5px; line-height: 1.5; }
+
+/* ── PROSPECT SECTION at bottom ── */
+.prospects-section {
+  margin-top: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.prospects-hdr {
+  background: #1e3a5f;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ph-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: #fff;
+}
+.ph-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,.5);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: .06em;
+}
+.ph-legend { display: flex; gap: 12px; flex-wrap: wrap; }
+.ph-leg {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: rgba(255,255,255,.6);
+  font-family: 'DM Mono', monospace;
+}
+.ph-dot { width: 8px; height: 8px; border-radius: 2px; }
+.prospects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 900px) { .prospects-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 560px)  { .prospects-grid { grid-template-columns: 1fr; } }
+.prospect-card {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 14px;
+}
+.prospect-card:nth-child(3n)      { border-right: none; }
+@media (max-width:900px) {
+  .prospect-card:nth-child(2n)    { border-right: none; }
+  .prospect-card:nth-child(3n)    { border-right: 1px solid var(--border); }
+  .prospect-card:nth-child(3n):nth-child(2n) { border-right: none; }
+}
+@media (max-width:560px) { .prospect-card { border-right: none !important; } }
+.pcard-rank {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--text3);
+  margin-bottom: 2px;
+}
+.pcard-name {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 20px;
+  letter-spacing: .5px;
+  color: var(--text);
+  line-height: 1.1;
+}
+.pcard-meta { font-size: 10px; color: var(--text2); margin-bottom: 6px; }
+.pcard-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 7px; }
+.pcard-why  { font-size: 10px; color: var(--text2); line-height: 1.55; margin-bottom: 6px; }
+.pcard-when {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+.pcard-wl  { font-size: 9px; font-family: 'DM Mono',monospace; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 2px; }
+.pcard-wt  { font-size: 11px; font-weight: 600; color: #1e3a5f; }
+.pcard-dyn { font-size: 9px; color: var(--green); font-family: 'DM Mono',monospace; margin-top: 4px; font-weight: 600; }
+.prospects-qr {
+  padding: 12px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface2);
+}
+.pqr-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #1e3a5f;
+  margin-bottom: 8px;
+}
+.pqr-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 6px;
+}
+@media (max-width:900px) { .pqr-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width:560px)  { .pqr-grid { grid-template-columns: 1fr; } }
+.pqr-cell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 10px;
+}
+.pqr-rng  { font-size: 9px; font-family: 'DM Mono',monospace; color: var(--text3); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .06em; }
+.pqr-name { font-size: 11px; font-weight: 600; color: var(--text); }
+.pqr-pos  { font-size: 10px; color: var(--text2); }
+
+
+/* ── TAKEN / PROMOTED states ── */
+.taken-banner{background:var(--red-light);border:1px solid #fca5a5;border-radius:6px;padding:5px 9px;margin:0 10px 8px;display:flex;align-items:center;gap:7px;}
+.tb-text{font-size:10px;color:var(--red);font-weight:600;flex:1;}
+.tb-sub{font-size:9px;color:#b91c1c;}
+.promoted-banner{background:var(--green-light);border:1px solid var(--green-mid);border-left:3px solid var(--green);border-radius:6px;padding:6px 9px;margin:0 10px 6px;}
+.pb-label{font-size:9px;font-family:'DM Mono',monospace;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}
+.pb-name{font-family:'Bebas Neue',cursive;font-size:17px;color:var(--green);letter-spacing:.5px;line-height:1.1;}
+.pb-pos{font-size:10px;color:#065f35;}
+.pb-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
+.backup-row.taken-row{opacity:.4;}
+.backup-row.taken-row .b-name{text-decoration:line-through;}
+.taken-tag{font-size:9px;font-family:'DM Mono',monospace;color:var(--red);background:var(--red-light);padding:1px 5px;border-radius:3px;border:1px solid #fca5a5;margin-left:3px;}
+.next-up-tag{font-size:9px;font-family:'DM Mono',monospace;color:var(--green);background:var(--green-light);padding:1px 5px;border-radius:3px;border:1px solid var(--green-mid);margin-left:3px;}
+.backup-row.next-up{background:var(--green-light);border-radius:5px;}
+/* ── LEAGUE BOARD ── */
+.league-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);margin-bottom:10px;overflow:hidden;}
+.league-hdr{background:#1e3a5f;padding:11px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.lh-title{font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:2px;color:#fff;}
+.lh-sub{font-size:9px;color:rgba(255,255,255,.5);font-family:'DM Mono',monospace;letter-spacing:.06em;margin-top:1px;}
+.lh-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.lh-btn{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:5px 11px;border-radius:6px;border:1px solid rgba(255,255,255,.2);cursor:pointer;background:rgba(255,255,255,.1);color:#fff;transition:all .15s;}
+.lh-btn:hover{background:rgba(255,255,255,.2);}
+.league-controls{padding:8px 14px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.lc-label{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;white-space:nowrap;}
+.round-selector{display:flex;gap:4px;flex-wrap:wrap;}
+.rs-btn{font-family:'DM Mono',monospace;font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;transition:all .12s;}
+.rs-btn:hover{background:var(--surface3);}
+.rs-btn.active{background:#1e3a5f;color:#fff;border-color:#1e3a5f;}
+.rs-btn.your-pick{border-color:var(--green);color:var(--green);background:var(--green-light);}
+.rs-btn.your-pick.active{background:var(--green);color:#fff;}
+.rs-btn.keeper-rd{border-color:#c4b5fd;color:var(--purple);background:var(--purple-light);}
+.draft-board{padding:10px 14px 14px;}
+.db-round-label{font-family:'Bebas Neue',cursive;font-size:13px;letter-spacing:1px;color:#1e3a5f;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.db-your-badge{font-size:9px;font-family:'DM Mono',monospace;color:var(--green);background:var(--green-light);padding:1px 6px;border-radius:4px;border:1px solid var(--green-mid);font-weight:700;}
+.db-keeper-badge{font-size:9px;font-family:'DM Mono',monospace;color:var(--purple);background:var(--purple-light);padding:1px 6px;border-radius:4px;border:1px solid #c4b5fd;font-weight:700;}
+.picks-row{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-bottom:4px;}
+@media(max-width:900px){.picks-row{grid-template-columns:repeat(6,1fr);}}
+@media(max-width:560px){.picks-row{grid-template-columns:repeat(4,1fr);}}
+.pick-slot{border:1px solid var(--border);border-radius:6px;padding:5px 6px;background:var(--surface2);cursor:pointer;transition:all .12s;min-height:52px;display:flex;flex-direction:column;justify-content:space-between;}
+.pick-slot:hover{border-color:var(--border2);background:var(--surface3);}
+.pick-slot.yours{border-color:var(--green);background:var(--green-light);}
+.pick-slot.keeper-slot{border-color:#c4b5fd;background:var(--purple-light);cursor:default;}
+.pick-slot.filled-other{border-color:#e2e8f0;background:#f8fafc;}
+.pick-slot.filled-yours{border-color:var(--green-mid);background:var(--green-light);}
+.ps-num{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);margin-bottom:2px;}
+.pick-slot.yours .ps-num{color:var(--green);font-weight:700;}
+.pick-slot.keeper-slot .ps-num{color:var(--purple);}
+.ps-team{font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ps-player{font-size:10px;font-weight:600;color:var(--text);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pick-slot.filled-yours .ps-player{color:var(--green);}
+.pick-slot.keeper-slot .ps-player{color:var(--purple);font-size:9px;}
+.ps-empty{font-size:9px;color:var(--text3);font-style:italic;}
+.ps-tap{font-size:8px;color:var(--text3);margin-top:2px;font-style:italic;}
+.gone-section{padding:8px 14px;border-top:1px solid var(--border);background:var(--surface2);}
+.gone-title{font-family:'Bebas Neue',cursive;font-size:12px;letter-spacing:1px;color:var(--text2);margin-bottom:5px;}
+.gone-chips{display:flex;flex-wrap:wrap;gap:4px;}
+.gone-chip{font-size:9px;background:var(--surface3);border:1px solid var(--border);border-radius:4px;padding:2px 6px;color:var(--text2);display:flex;align-items:center;gap:4px;}
+.gc-x{cursor:pointer;color:var(--red);font-weight:700;font-size:10px;}
+
+
+.tab-nav {
+  display: flex;
+  gap: 0;
+  padding: 0 16px;
+  margin-bottom: 0;
+  border-bottom: 2px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.tab-btn {
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  background: none;
+  color: var(--text3);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  letter-spacing: .03em;
+  transition: color .15s, border-color .15s;
+}
+.tab-btn.active {
+  color: var(--green);
+  border-bottom-color: var(--green);
+}
+.tab-btn:hover:not(.active) {
+  color: var(--text1);
+}
+
+/* Autocomplete */
+#ac-dropdown {
+  display: none;
+  background: var(--card);
+  border: 1.5px solid var(--green);
+  border-radius: 10px;
+  margin-top: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+  font-size: 13px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+}
+.ac-item {
+  padding: 11px 14px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+  transition: background .12s;
+}
+.ac-item:first-child { border-radius: 10px 10px 0 0; }
+.ac-item:last-child { border-bottom: none; border-radius: 0 0 10px 10px; }
+.ac-item:only-child { border-radius: 10px; }
+.ac-item:hover { background: rgba(74,222,128,.12); }
+.ac-name { font-weight: 600; color: var(--text1); }
+.ac-meta { font-size: 11px; color: var(--text3); text-align: right; white-space: nowrap; }
+.ac-pos { color: var(--green); font-weight: 700; }
+.pos-display-badge {
+  display: none;
+  margin-top: 6px;
+  padding: 8px 12px;
+  background: rgba(74,222,128,.1);
+  border: 1.5px solid var(--green);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: .02em;
+}
 </style>
 </head>
 <body>
@@ -482,7 +773,7 @@ body {
 <!-- HEADER -->
 <div class="header">
   <div>
-    <div class="team-name">Tatis All Folks</div>
+    <div class="team-name">Sam's Fantasy ⚾️ Draft War Room</div>
     <div class="season-tag">2026 FANTASY BASEBALL · LIVE DRAFT TRACKER · March 17, 2026 · 7:00 PM</div>
   </div>
   <div class="header-stats">
@@ -522,6 +813,14 @@ body {
   <div class="pos-slot" id="slot-RP1"><div class="pos-label">RP</div><div class="pos-empty">Empty</div></div>
 </div>
 
+<!-- TAB NAV -->
+<div class="tab-nav" id="tab-nav">
+  <button class="tab-btn active" id="tab-draft" onclick="switchTab('draft')">📋 Draft Guide</button>
+  <button class="tab-btn" id="tab-league" onclick="switchTab('league')">🏟 League Board</button>
+</div>
+
+<!-- TAB: DRAFT GUIDE -->
+<div id="panel-draft">
 <!-- MAIN GRID -->
 <div class="grid" id="main-grid"></div>
 
@@ -533,6 +832,7 @@ body {
     <div class="note-item"><strong>Corbin Carroll (OF · ARI)</strong> — hamate, ADP 7, huge steal if healthy</div>
     <div class="note-item"><strong>Hunter Greene (SP · CIN)</strong> — bone spurs, likely out until June. Avoid.</div>
     <div class="note-item"><strong>Jacob deGrom (SP · TEX)</strong> — dart throw only, always a health risk</div>
+    <div class="note-item"><strong>⚠ Brice Turang (2B · MIL)</strong> — ESPN #55 / FP #55. DO NOT wait until Rd 17 — he will be gone. Target Rd 5-6 or pivot to backup list on that card.</div></div>
   </div>
   <div class="note-card">
     <div class="note-title">🔒 Your 4 Keepers</div>
@@ -553,14 +853,25 @@ body {
   </div>
 </div>
 
+</div><!-- /panel-draft -->
+
+<!-- TAB: LEAGUE BOARD -->
+<div id="panel-league" style="display:none">
+  <div id="round-selector" style="display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px 8px"></div>
+  <div id="gone-chips" style="display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px;min-height:28px"></div>
+  <div id="draft-board" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 16px 32px"></div>
+</div><!-- /panel-league -->
+
 <!-- INPUT MODAL -->
 <div class="modal-overlay" id="modal" style="display:none;">
   <div class="modal">
     <div class="modal-title" id="modal-title">Log Your Pick</div>
     <div class="modal-sub" id="modal-sub">Round X · Pick #XX</div>
-    <input type="text" id="modal-input" placeholder="Player name (e.g. Jazz Chisholm Jr.)" autocomplete="off" />
-    <input type="text" id="modal-pos-input" placeholder="Position + Team (e.g. 2B/3B — NYY)" autocomplete="off" />
-    <div class="modal-hint">Type name + position, then click Save. Click "Clear Pick" to undo.</div>
+    <input type="text" id="modal-input" placeholder="Start typing player name..." autocomplete="off" oninput="acSearch(this.value)" onblur="acHide()" />
+    <div id="ac-dropdown"></div>
+    <div id="modal-pos-display" class="pos-display-badge"></div>
+    <input type="text" id="modal-pos-input" style="display:none" />
+    <div class="modal-hint">Start typing · tap a result to select · position auto-fills</div>
     <div class="modal-actions">
       <button class="modal-btn modal-confirm" onclick="confirmPick()">Save</button>
       <button class="modal-btn modal-clear" onclick="clearPick()">Clear</button>
@@ -570,171 +881,233 @@ body {
 </div>
 
 <script>
-const ROUNDS = [
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var ROUNDS = [
   {r:1, pk:'#1', type:'pick', val:'f', vl:'At ADP', avail:'Best player in fantasy',
    p:{n:'Shohei Ohtani', pos:'SP/DH — LAD', adp:1, note:'Unanimous 1.01. Two-way return in 2026: 45+ HR, ace Ks, ~20 SB. Zero debate.'},
    b:[
      {n:'N/A — Ohtani is yours',pos:'',adp:''},
    ]},
 
-  {r:2, pk:'#24', type:'pick', val:'s', vl:'Great Value', avail:'~13th best available',
-   p:{n:'Jazz Chisholm Jr.', pos:'2B/3B — NYY', adp:23, note:'Top 12 gone by pick #24. Multi-eligible 2B/3B, 30/30 upside on the Yankees. Scarcest position in the draft.'},
+  {r:2, pk:'#24', type:'pick', val:'s', vl:'Great Value', avail:'ESPN #27 — At ADP',
+   p:{n:'Jazz Chisholm Jr.', pos:'2B/3B — NYY', adp:27, note:'ESPN #27 / FP #23. Top 12 gone by #24. Multi-eligible 2B/3B, 30/30 upside in NYY lineup.'},
    b:[
-     {n:'Yoshinobu Yamamoto',pos:'SP · LAD',adp:24,note:'Best SP available, 6-pitch ace'},
-     {n:'Pete Alonso',pos:'1B · BAL',adp:25,note:'35+ HR floor, Baltimore power context'},
-     {n:'Trea Turner',pos:'SS · PHI',adp:27,note:'Speed/avg/pop, 25+ SB upside'},
-     {n:'Ketel Marte',pos:'2B · ARI',adp:28,note:'Elite 2B if Chisholm and Yamamoto gone'},
-     {n:'Manny Machado',pos:'3B · SD',adp:30,note:'Consistent 30 HR 3B veteran floor'},
-   ]},
+     {n:'Yoshinobu Yamamoto',pos:'SP · LAD',adp:38,note:'Best SP available, 6-pitch ace'},
+     {n:'Pete Alonso',pos:'1B · BAL',adp:28,note:'35+ HR floor, Baltimore power context'},
+     {n:'Trea Turner',pos:'SS · PHI',adp:21,note:'Speed/avg/pop, 25+ SB upside'},
+     {n:'Ketel Marte',pos:'2B · ARI',adp:35,note:'ESPN #35 / FP ~29. 2B eligibility, .280+ BA, 25 HR, elite ARI lineup. Great value at #48.'},
+     {n:'Manny Machado',pos:'3B · SD',adp:25,note:'ESPN #25 — elite steal at pick #49. Durable 30-HR 3B every single year.'},
+   ,
+     {n:'Kyle Tucker',pos:'OF · LAD',adp:14,note:'ESPN #14, LAD OF — batting 2nd between Ohtani/Betts. Elite power/speed.'},
+     {n:'Junior Caminero',pos:'3B · TB',adp:29,note:'ESPN #29. Young 3B stud, 35+ HR upside, multi-cat contributor.'},
+     {n:'James Wood',pos:'OF · WSH',adp:42,note:'ESPN #42. Giant OF prospect, power/speed combo, 25+ HR ceiling.'}]},
 
   {r:3, pk:'KEEPER', type:'keeper', val:'k', vl:'Keeper',
    p:{n:'Wyatt Langford', pos:'OF — TEX', adp:50, note:'Rd 3 cost. ADP ~50 — slight premium but 24 yrs old, 4 contract years of dynasty upside.', meta:'Rd 3 Cost · ADP ~50'}},
 
-  {r:4, pk:'#48', type:'pick', val:'s', vl:'Great Value', avail:'~25th best available',
-   p:{n:'Ketel Marte', pos:'2B — ARI', adp:28, note:'Best 2B in fantasy 3 straight years. Elite floor, low K rate. 2B is extremely scarce — priority.'},
+  {r:4, pk:'#48', type:'pick', val:'s', vl:'Great Value', avail:'ESPN #35 — Great Value',
+   p:{n:'Ketel Marte', pos:'2B — ARI', adp:35, note:'ESPN #35 / FP ~29. 2B eligibility, .280+ BA, 25 HR, elite ARI lineup. Great value at #48.'},
    b:[
-     {n:'Manny Machado',pos:'3B · SD',adp:30,note:'30 HR elite veteran 3B floor'},
-     {n:'Hunter Brown',pos:'SP · HOU',adp:30,note:'Elite K rate, durable Astros workhorse'},
-     {n:'Logan Gilbert',pos:'SP · SEA',adp:35,note:'200-inning workhorse with solid ratios'},
-     {n:'Logan Webb',pos:'SP · SF',adp:40,note:'Elite WHIP, groundball ace, durable'},
-     {n:'Matt Olson',pos:'1B · ATL',adp:43,note:'30+ HR 1B, Braves run production'},
-   ]},
+     {n:'Manny Machado',pos:'3B · SD',adp:25,note:'ESPN #25 — elite steal at pick #49. Durable 30-HR 3B every single year.'},
+     {n:'Hunter Brown',pos:'SP · HOU',adp:37,note:'Elite K rate, durable Astros workhorse'},
+     {n:'Logan Gilbert',pos:'SP · SEA',adp:39,note:'200-inning workhorse with solid ratios'},
+     {n:'Logan Webb',pos:'SP · SF',adp:44,note:'ESPN #44. Ground-ball machine, sub-3 ERA ceiling, workhorse 200+ IP. Strong value at #72.'},
+     {n:'Matt Olson',pos:'1B · ATL',adp:30,note:'30+ HR 1B, Braves run production'},
+   ,
+     {n:'Bryan Woo',pos:'SP · SEA',adp:40,note:'ESPN #40. Elite K rate, SEA ace in waiting, injury risk baked into ADP.'},
+     {n:'Chris Sale',pos:'SP · ATL',adp:41,note:'ESPN #41. Cy Young form — if available here it is a massive steal.'},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:43,note:'Speed/power CF leadoff, 25+ SB upside in Fenway lineup.'}]},
 
   {r:5, pk:'#49', type:'pick', val:'s', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
-   p:{n:'Manny Machado', pos:'3B — SD', adp:30, note:'Immediately follows #48. Grab whoever just slipped back to you. Machado = 30 HR floor, elite 3B.'},
+   p:{n:'Manny Machado', pos:'3B — SD', adp:25, note:'ESPN #25 — elite steal at pick #49. Durable 30-HR 3B every single year.'},
    b:[
-     {n:'Hunter Brown',pos:'SP · HOU',adp:30,note:'Elite K rate SP — grab if Machado gone'},
-     {n:'Logan Gilbert',pos:'SP · SEA',adp:35,note:'200-inning workhorse SP'},
-     {n:'Logan Webb',pos:'SP · SF',adp:40,note:'Elite WHIP groundball machine'},
-     {n:'Matt Olson',pos:'1B · ATL',adp:43,note:'Power 1B with Braves run support'},
-     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power CF, top of Red Sox order'},
-   ]},
+     {n:'Hunter Brown',pos:'SP · HOU',adp:37,note:'Elite K rate SP — grab if Machado gone'},
+     {n:'Logan Gilbert',pos:'SP · SEA',adp:39,note:'200-inning workhorse SP'},
+     {n:'Logan Webb',pos:'SP · SF',adp:44,note:'ESPN #44. Ground-ball machine, sub-3 ERA ceiling, workhorse 200+ IP. Strong value at #72.'},
+     {n:'Matt Olson',pos:'1B · ATL',adp:30,note:'Power 1B with Braves run support'},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:43,note:'Speed/power CF, top of Red Sox order'},
+   ,
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:32,note:'ESPN #32. Power bat, multi-pos eligible, 35+ HR ceiling.'},
+     {n:'Chris Sale',pos:'SP · ATL',adp:41,note:'ESPN #41. If still available — steal of the draft at this price.'},
+     {n:'William Contreras',pos:'C · MIL',adp:53,note:'Top C on board if Raleigh kept. Grab catcher early if needed.'}]},
 
   {r:6, pk:'#72', type:'pick', val:'g', vl:'Good Value', avail:'~37th best available',
-   p:{n:'Logan Webb', pos:'SP — SF', adp:40, note:'Elite WHIP, groundball ace. SP scarce with Sanchez/Woo/Crochet/Skenes/Skubal all kept off board.'},
+   p:{n:'Logan Webb', pos:'SP — SF', adp:44, note:'ESPN #44. Ground-ball machine, sub-3 ERA ceiling, workhorse 200+ IP. Strong value at #72.'},
    b:[
-     {n:'Mookie Betts',pos:'SS · LAD',adp:49,note:'SS eligible, Dodgers lineup, multi-pos gold'},
-     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power CF, elite SB upside'},
-     {n:'Matt Olson',pos:'1B · ATL',adp:43,note:'30+ HR 1B depth if still here'},
-     {n:'Rafael Devers',pos:'1B/3B · SF',adp:47,note:'Power bat, multi-pos eligible'},
-     {n:'William Contreras',pos:'C · MIL',adp:54,note:'Best C available — Raleigh is kept!'},
-   ]},
+     {n:'Mookie Betts',pos:'SS · LAD',adp:22,note:'ESPN #22 — massive surplus at pick #96. SS-eligible, elite BA/R/HR. Best value on board at this point.'},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:43,note:'Speed/power CF, elite SB upside'},
+     {n:'Matt Olson',pos:'1B · ATL',adp:30,note:'30+ HR 1B depth if still here'},
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:32,note:'Power bat, multi-pos eligible'},
+     {n:'William Contreras',pos:'C · MIL',adp:53,note:'FP #53. Raleigh is KEPT — Contreras is the #2 C on the board. Do NOT sleep on catcher here.'},
+   ,
+     {n:'Max Fried',pos:'SP · NYY',adp:47,note:'ESPN #47. Durable NYY ace, mid-3s ERA floor, workhorse innings.'},
+     {n:'Freddy Peralta',pos:'SP · NYM',adp:46,note:'ESPN #46. 200K upside, strong ratios, now in NYM.'},
+     {n:'CJ Abrams',pos:'SS · WSH',adp:54,note:'Speed-first SS with 25+ SB and growing power, great H2H cats.'}]},
 
   {r:'6K', pk:'KEEPER', type:'keeper', val:'k', vl:'Keeper',
-   p:{n:'Pete Crow-Armstrong', pos:'OF — CHC', adp:30, note:'BEST SURPLUS. ADP ~30 player at Rd 6 cost. 31 HR / 35 SB at age 23. Dynasty cornerstone.', meta:'Rd 6 Cost · ADP ~30 · BEST SURPLUS'}},
+   p:{n:'Pete Crow-Armstrong', pos:'OF — CHC', adp:16, note:'BEST SURPLUS. ADP ~30 player at Rd 6 cost. 31 HR / 35 SB at age 23. Dynasty cornerstone.', meta:'Rd 6 Cost · ADP ~30 · BEST SURPLUS'}},
 
-  {r:8, pk:'#96', type:'pick', val:'g', vl:'Good Value', avail:'~49th best available',
-   p:{n:'Mookie Betts', pos:'SS/2B — LAD', adp:49, note:'SS eligible, Dodgers lineup, multi-pos gold. Elite all-around producer in the best lineup in baseball.'},
+  {r:8, pk:'#96', type:'pick', val:'g', vl:'Good Value', avail:'ESPN #22 — Massive Steal',
+   p:{n:'Mookie Betts', pos:'SS/2B — LAD', adp:22, note:'ESPN #22 — massive surplus at pick #96. SS-eligible, elite BA/R/HR. Best value on board at this point.'},
    b:[
-     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power CF, top of Red Sox order'},
-     {n:'William Contreras',pos:'C · MIL',adp:54,note:'URGENT — best C available, Raleigh kept'},
-     {n:'Rafael Devers',pos:'1B/3B · SF',adp:47,note:'Power bat, multi-pos eligible'},
-     {n:'Matt Olson',pos:'1B · ATL',adp:43,note:'30 HR 1B if still somehow here'},
-     {n:'Freddy Peralta',pos:'SP · NYM',adp:59,note:'200 K floor, SP2 on Mets contender'},
-   ]},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:43,note:'Speed/power CF, top of Red Sox order'},
+     {n:'William Contreras',pos:'C · MIL',adp:53,note:'FP #53. Raleigh is KEPT — Contreras is the #2 C on the board. Do NOT sleep on catcher here.'},
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:32,note:'Power bat, multi-pos eligible'},
+     {n:'Matt Olson',pos:'1B · ATL',adp:30,note:'30 HR 1B if still somehow here'},
+     {n:'Freddy Peralta',pos:'SP · NYM',adp:46,note:'ESPN #46, now with NYM. 200K upside, strong ratios. Great value in Rd 10.'},
+   ,
+     {n:'Cole Ragans',pos:'SP · KC',adp:56,note:'FP #56. Elite stuff, ADP suppressed by labrum scare — big upside.'},
+     {n:'CJ Abrams',pos:'SS · WSH',adp:54,note:'Speed/SB machine with growing pop — great categories contributor.'},
+     {n:'Jackson Merrill',pos:'OF · SD',adp:60,note:'ESPN #60. FP says 10 picks too cheap — bat was .300+ before concussion.'}]},
 
   {r:9, pk:'#97', type:'pick', val:'s', vl:'⚠ GET CATCHER!', avail:'⚡ Immediate turn',
-   p:{n:'William Contreras', pos:'C — MIL', adp:54, note:'URGENT. Cal Raleigh is kept and gone. Contreras is the last good catcher. If you skipped him at #96, take him NOW. Do not wait.', warn:true},
+   p:{n:'William Contreras', pos:'C — MIL', adp:53, note:'FP #53. Raleigh is KEPT — Contreras is the #2 C on the board. Do NOT sleep on catcher here.', warn:true},
    b:[
-     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power CF if C already covered'},
-     {n:'Rafael Devers',pos:'1B/3B · SF',adp:47,note:'Multi-pos power bat'},
-     {n:'Freddy Peralta',pos:'SP · NYM',adp:59,note:'200 K floor SP2 on Mets'},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:43,note:'Speed/power CF if C already covered'},
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:32,note:'Multi-pos power bat'},
+     {n:'Freddy Peralta',pos:'SP · NYM',adp:46,note:'ESPN #46, now with NYM. 200K upside, strong ratios. Great value in Rd 10.'},
      {n:'Riley Greene',pos:'OF · DET',adp:62,note:'Breakout 2025, 157 games, multi-pos'},
-     {n:'Cole Ragans',pos:'SP · KC',adp:55,note:'High-K SP, elite ratios'},
-   ]},
+     {n:'Cole Ragans',pos:'SP · KC',adp:56,note:'FP #56. Lab scare depressing ADP but stuff is elite. Best SP value in mid-rounds.'},
+   ,
+     {n:'Shea Langeliers',pos:'C · ATH',adp:63,note:'Power C if Contreras gone — 30+ HR upside, everyday starter.'},
+     {n:'Jackson Merrill',pos:'OF · SD',adp:60,note:'ESPN #60. Breakout OF candidate, elite bat tool, SD everyday CF.'},
+     {n:'Zach Neto',pos:'SS · LAA',adp:51,note:'ESPN #51. Multi-cat SS, speed+pop, young with upside.'}]},
 
   {r:10, pk:'#120', type:'pick', val:'g', vl:'Good Value', avail:'~61st best available',
-   p:{n:'Freddy Peralta', pos:'SP — NYM', adp:59, note:'200 K floor, SP2 on Mets contender. Eury Perez + Gerrit Cole both kept — Peralta fills critical SP need at good value.'},
+   p:{n:'Freddy Peralta', pos:'SP — NYM', adp:46, note:'ESPN #46, now with NYM. 200K upside, strong ratios. Great value in Rd 10.'},
    b:[
      {n:'Riley Greene',pos:'OF · DET',adp:62,note:'Breakout 2025, 157 games, multi-pos'},
-     {n:'Cole Ragans',pos:'SP · KC',adp:55,note:'High-K SP with elite ratios'},
-     {n:'Josh Naylor',pos:'1B · SEA',adp:59,note:'Power 1B depth pick'},
+     {n:'Cole Ragans',pos:'SP · KC',adp:56,note:'FP #56. Lab scare depressing ADP but stuff is elite. Best SP value in mid-rounds.'},
+     {n:'Josh Naylor',pos:'1B · SEA',adp:49,note:'ESPN #49, now with SEA. Confirmed everyday 1B. Power + BA combo, solid run producer.'},
      {n:'Corbin Carroll',pos:'OF · ARI',adp:'7 ⚠',note:'HUGE steal if healthy — check injury!'},
-     {n:'Chris Sale',pos:'SP · ATL',adp:35,note:'Big steal if still available at pick 120'},
-   ]},
+     {n:'Chris Sale',pos:'SP · ATL',adp:41,note:'ESPN #41 — if available at Rd 13, steal of the draft. Back-to-back with Ragans locks your rotation.'},
+   ,
+     {n:'Jackson Merrill',pos:'OF · SD',adp:60,note:'ESPN #60. Elite bat, .300+ upside, SD everyday CF.'},
+     {n:'Zach Neto',pos:'SS · LAA',adp:51,note:'ESPN #51. Speed+pop SS, multi-cat contributor.'},
+     {n:'Max Fried',pos:'SP · NYY',adp:47,note:'ESPN #47 — if still here it is massive value in Rd 10.'}]},
 
   {r:11, pk:'#121', type:'pick', val:'s', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
    p:{n:'Riley Greene', pos:'OF — DET', adp:62, note:'Breakout 2025 — 157 games played, emerging power, multi-pos eligible. Great immediate follow after Peralta.'},
    b:[
-     {n:'Cole Ragans',pos:'SP · KC',adp:55,note:'High-K SP if Greene gone'},
-     {n:'Chris Sale',pos:'SP · ATL',adp:35,note:'Big steal if still here at pick 121'},
-     {n:'Josh Naylor',pos:'1B · SEA',adp:59,note:'Power 1B depth'},
+     {n:'Cole Ragans',pos:'SP · KC',adp:56,note:'FP #56. Lab scare depressing ADP but stuff is elite. Best SP value in mid-rounds.'},
+     {n:'Chris Sale',pos:'SP · ATL',adp:41,note:'ESPN #41 — if available at Rd 13, steal of the draft. Back-to-back with Ragans locks your rotation.'},
+     {n:'Josh Naylor',pos:'1B · SEA',adp:49,note:'ESPN #49, now with SEA. Confirmed everyday 1B. Power + BA combo, solid run producer.'},
      {n:'Corbin Carroll',pos:'OF · ARI',adp:'7 ⚠',note:'Steal of the draft if healthy'},
      {n:'George Kirby',pos:'SP · SEA',adp:90,note:'Elite command, WHIP anchor'},
-   ]},
+   ,
+     {n:'Max Fried',pos:'SP · NYY',adp:47,note:'ESPN #47 — steal if still available in Rd 11.'},
+     {n:'Jackson Merrill',pos:'OF · SD',adp:60,note:'ESPN #60. Breakout bat, everyday CF, .300 upside.'},
+     {n:'Maikel Garcia',pos:'3B · KC',adp:64,note:'ESPN #64. Underrated 3B with speed, avg, and improving power.'}]},
 
   {r:12, pk:'#144', type:'pick', val:'s', vl:'Great Value', avail:'~73rd best available',
-   p:{n:'Cole Ragans', pos:'SP — KC', adp:55, note:'High-K SP with elite ratios. Critical SP depth with so many arms kept off board by other teams.'},
+   p:{n:'Cole Ragans', pos:'SP — KC', adp:56, note:'FP #56. Lab scare depressing ADP but stuff is elite. Best SP value in mid-rounds.'},
    b:[
-     {n:'Chris Sale',pos:'SP · ATL',adp:35,note:'ADP 35 — steal if SP-light draft room'},
+     {n:'Chris Sale',pos:'SP · ATL',adp:41,note:'ESPN #41 — if available at Rd 13, steal of the draft. Back-to-back with Ragans locks your rotation.'},
      {n:'Corbin Carroll',pos:'OF · ARI',adp:'7 ⚠',note:'Check injury — monster steal if healthy'},
-     {n:'Matt Olson',pos:'1B · ATL',adp:43,note:'30 HR 1B depth if still here'},
+     {n:'Matt Olson',pos:'1B · ATL',adp:30,note:'30 HR 1B depth if still here'},
      {n:'George Kirby',pos:'SP · SEA',adp:90,note:'Elite command WHIP anchor'},
-     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power CF if OF thin'},
-   ]},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:43,note:'Speed/power CF if OF thin'},
+   ,
+     {n:'Maikel Garcia',pos:'3B · KC',adp:64,note:'ESPN #64. Speed/avg 3B, underrated multi-cat contributor.'},
+     {n:'Zack Wheeler',pos:'SP · PHI',adp:65,note:'ESPN #65. Elite ace stuff, PHI offense behind him, 200+ Ks.'},
+     {n:'Byron Buxton',pos:'OF · MIN',adp:57,note:'ESPN #57. Monster upside when healthy — power/speed 30/20 ceiling.'}]},
 
   {r:13, pk:'#145', type:'pick', val:'s', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
-   p:{n:'Chris Sale', pos:'SP — ATL', adp:35, note:'ADP 35 — if SP-light draft room lets him fall this deep, huge steal. Back-to-back with Ragans gives an elite rotation core.'},
+   p:{n:'Chris Sale', pos:'SP — ATL', adp:41, note:'ESPN #41 — if available at Rd 13, steal of the draft. Back-to-back with Ragans locks your rotation.'},
    b:[
      {n:'Corbin Carroll',pos:'OF · ARI',adp:'7 ⚠',note:'Massive steal if healthy — check status'},
      {n:'George Kirby',pos:'SP · SEA',adp:90,note:'Elite command, best WHIP arm in range'},
      {n:'Griffin Jax',pos:'RP · MIN',adp:'~170',note:'Rising fast — locked MIN closer, saves'},
-     {n:'Rafael Devers',pos:'1B/3B · SF',adp:47,note:'Power bat, multi-pos, good value'},
-     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power OF if still available'},
-   ]},
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:32,note:'Power bat, multi-pos, good value'},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:43,note:'Speed/power OF if still available'},
+   ,
+     {n:'Zack Wheeler',pos:'SP · PHI',adp:65,note:'ESPN #65. Ace-level stuff, durable, elite K/9.'},
+     {n:'Byron Buxton',pos:'OF · MIN',adp:57,note:'ESPN #57. Health dart with massive 30/20 upside.'},
+     {n:'Josh Hader',pos:'RP · HOU',adp:68,note:'ESPN #68. Elite closer, 40+ save pace, elite WHIP and Ks.'}]},
 
   {r:14, pk:'KEEPER', type:'keeper', val:'k', vl:'Keeper',
-   p:{n:'Mason Miller', pos:'RP — SD', adp:26, note:'MASSIVE SURPLUS. #1 closer in all of fantasy. 38 SV / 2.48 ERA / 100 K projected. ADP ~26 at Rd 14 cost.', meta:'Rd 14 Cost · ADP ~26 · MASSIVE VALUE'}},
+   p:{n:'Mason Miller', pos:'RP — SD', adp:43, note:'MASSIVE SURPLUS. #1 closer in all of fantasy. 38 SV / 2.48 ERA / 100 K projected. ADP ~26 at Rd 14 cost.', meta:'Rd 14 Cost · ADP ~26 · MASSIVE VALUE'}},
 
   {r:15, pk:'#169', type:'pick', val:'g', vl:'Good Value', avail:'~86th best available',
    p:{n:'George Kirby', pos:'SP — SEA', adp:90, note:'Elite command SP. Best WHIP-anchoring arm available in this range. Consistently wins ERA + WHIP in H2H categories.'},
    b:[
      {n:'Griffin Jax',pos:'RP · MIN',adp:'~170',note:'Locked MIN closer, ADP rising fast'},
-     {n:'Rafael Devers',pos:'1B/3B · SF',adp:47,note:'Power bat, multi-pos — steal if here'},
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:32,note:'Power bat, multi-pos — steal if here'},
      {n:'Corbin Carroll',pos:'OF · ARI',adp:'7 ⚠',note:'Massive steal if healthy and still here'},
-     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power CF if still available'},
-     {n:'Max Fried',pos:'SP · NYY',adp:45,note:'Durable lefty SP with solid ratios'},
-   ]},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:43,note:'Speed/power CF if still available'},
+     {n:'Max Fried',pos:'SP · NYY',adp:47,note:'ESPN #47. Durable NYY ace. Mid-3s ERA floor, workhorse innings. Good value in Rd 18.'},
+   ,
+     {n:'Andres Munoz',pos:'RP · SEA',adp:66,note:'ESPN #66. Filthy stuff, locked closer role, elite ratios.'},
+     {n:'Josh Hader',pos:'RP · HOU',adp:68,note:'ESPN #68. Elite closer — 40 save upside, dominant Ks.'},
+     {n:'Maikel Garcia',pos:'3B · KC',adp:64,note:'ESPN #64. Speed/avg 3B, multi-cat value at this price.'}]},
 
   {r:16, pk:'#192', type:'pick', val:'g', vl:'Good Value', avail:'~97th best available',
    p:{n:'Griffin Jax', pos:'RP — MIN', adp:170, note:'Rising ADP — locked MN closer. Edwin Diaz is kept by Mets WS. Saves are scarce — secure your second closer here.'},
    b:[
      {n:'Ryan Walker',pos:'RP · SF',adp:'~185',note:'Rising — locked SF closer, solid ratios'},
      {n:'Brice Turang',pos:'2B · MIL',adp:55,note:'Speed/avg 2B, multi-pos, great SB/AVG'},
-     {n:'Max Fried',pos:'SP · NYY',adp:45,note:'Durable lefty SP if still available'},
-     {n:'Rafael Devers',pos:'1B/3B · SF',adp:47,note:'Power bat if still somehow available'},
+     {n:'Max Fried',pos:'SP · NYY',adp:47,note:'ESPN #47. Durable NYY ace. Mid-3s ERA floor, workhorse innings. Good value in Rd 18.'},
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:32,note:'Power bat if still somehow available'},
      {n:'Francisco Lindor',pos:'SS · NYM',adp:'16 ⚠',note:'Hamate — verify health before targeting'},
-   ]},
+   ,
+     {n:'Andres Munoz',pos:'RP · SEA',adp:66,note:'Elite closer if Jax gone — locked SEA role.'},
+     {n:'Josh Hader',pos:'RP · HOU',adp:68,note:'40-save ceiling, best K rate among closers.'},
+     {n:'Zack Wheeler',pos:'SP · PHI',adp:65,note:'ESPN #65 — elite ace value if still on board.'}]},
 
-  {r:17, pk:'#193', type:'pick', val:'s', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
-   p:{n:'Brice Turang', pos:'2B — MIL', adp:55, note:'Speed/avg 2B with multi-pos eligibility. Great SB and AVG category contributor in H2H. Perfect immediate follow after Jax.'},
+  {r:17, pk:'#193', type:'pick', val:'s', vl:'⚠ ADP ALERT', avail:'⚠ ADP MISMATCH — See Note',
+   p:{n:'Brice Turang', pos:'2B — MIL', adp:55, note:'⚠ ESPN #55 / FP #55 — WILL BE GONE by Rd 17! Turang is going in Rd 5 range. Target him in Rd 5-6 instead or pivot to backup list.'},
    b:[
      {n:'Ryan Walker',pos:'RP · SF',adp:'~185',note:'Locked SF closer, ADP rising'},
-     {n:'Max Fried',pos:'SP · NYY',adp:45,note:'Durable lefty SP if still here'},
+     {n:'Max Fried',pos:'SP · NYY',adp:47,note:'ESPN #47. Durable NYY ace. Mid-3s ERA floor, workhorse innings. Good value in Rd 18.'},
      {n:'Francisco Lindor',pos:'SS · NYM',adp:'16 ⚠',note:'Hamate — 30/30 if healthy, verify first'},
-     {n:'Josh Naylor',pos:'1B · SEA',adp:59,note:'Power 1B depth pick'},
+     {n:'Josh Naylor',pos:'1B · SEA',adp:49,note:'ESPN #49, now with SEA. Confirmed everyday 1B. Power + BA combo, solid run producer.'},
      {n:'George Kirby',pos:'SP · SEA',adp:90,note:'Elite command SP if still available'},
-   ]},
+   ,
+     {n:'Andres Munoz',pos:'RP · SEA',adp:66,note:'Locked SEA closer, elite K rate, saves upside.'},
+     {n:'Josh Hader',pos:'RP · HOU',adp:68,note:'40+ save pace, dominant ratios.'},
+     {n:'Maikel Garcia',pos:'3B · KC',adp:64,note:'ESPN #64. Speed/avg 3B — underrated value in late rounds.'}]},
 
   {r:18, pk:'#216', type:'pick', val:'g', vl:'Good Value', avail:'~109th best available',
-   p:{n:'Max Fried', pos:'SP — NYY', adp:45, note:'Durable lefty SP with solid ratios. Multiple Rd 18 keepers (Strider, Holliday, Skubal, Wetherholt, Baldwin) all free up the pool.'},
+   p:{n:'Max Fried', pos:'SP — NYY', adp:47, note:'ESPN #47. Durable NYY ace. Mid-3s ERA floor, workhorse innings. Good value in Rd 18.'},
    b:[
-     {n:'Josh Naylor',pos:'1B · SEA',adp:59,note:'Power 1B depth, solid counting stats'},
+     {n:'Josh Naylor',pos:'1B · SEA',adp:49,note:'ESPN #49, now with SEA. Confirmed everyday 1B. Power + BA combo, solid run producer.'},
      {n:'Ryan Walker',pos:'RP · SF',adp:'~185',note:'SF closer if saves still needed'},
      {n:'Francisco Lindor',pos:'SS · NYM',adp:'16 ⚠',note:'Verify hamate — elite if healthy'},
      {n:'Jacob deGrom',pos:'SP · TEX',adp:'43 ⚠',note:'Health dart only — elite ceiling'},
      {n:'Brice Turang',pos:'2B · MIL',adp:55,note:'Speed/avg 2B if somehow still here'},
-   ]},
+   ,
+     {n:'Roki Sasaki',pos:'SP · LAD',adp:100,note:'LAD SP depth behind elite rotation — dynasty stash.'},
+     {n:'George Kirby',pos:'SP · SEA',adp:90,note:'Elite command, sub-3 ERA ceiling, deep SP option.'},
+     {n:'Maikel Garcia',pos:'3B · KC',adp:64,note:'ESPN #64. Speed 3B — great AVG/SB contributor if still here.'}]},
 
   {r:19, pk:'#217', type:'pick', val:'s', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
-   p:{n:'Josh Naylor', pos:'1B/DH — SEA', adp:59, note:'Power 1B depth. Multiple Rd 19 keepers (Perez, Cole, Springer, Griffin, Soderstrom) all gone — opens the pool nicely.'},
+   p:{n:'Josh Naylor', pos:'1B/DH — SEA', adp:49, note:'ESPN #49, now with SEA. Confirmed everyday 1B. Power + BA combo, solid run producer.'},
    b:[
      {n:'Ryan Walker',pos:'RP · SF',adp:'~185',note:'SF closer for saves depth'},
      {n:'Roki Sasaki',pos:'SP · LAD',adp:100,note:'On your roster — dynasty stash'},
      {n:'Brice Turang',pos:'2B · MIL',adp:55,note:'Speed/avg 2B depth if still here'},
      {n:'Francisco Lindor',pos:'SS · NYM',adp:'16 ⚠',note:'Verify hamate — 30/30 upside'},
      {n:'Jacob deGrom',pos:'SP · TEX',adp:'43 ⚠',note:'Late dart if you want the ceiling risk'},
-   ]},
+   ,
+     {n:'George Kirby',pos:'SP · SEA',adp:90,note:'Elite command SP — if available in Rd 19 it is a steal.'},
+     {n:'Roki Sasaki',pos:'SP · LAD',adp:100,note:'Dynasty stash SP, huge K upside in LAD.'},
+     {n:'Maikel Garcia',pos:'3B · KC',adp:64,note:'Speed/avg 3B — strong H2H categories at this price.'}]},
 
   {r:20, pk:'KEEPER', type:'keeper', val:'k', vl:'Keeper',
    p:{n:'Jacob Misiorowski', pos:'SP — MIL', adp:130, note:'Dynasty gem. 99.3 mph fastball, 32% K rate, 2025 Slider of the Year. Ace ceiling, 4 contract years left.', meta:'Rd 20 Cost · ADP ~130 · DYNASTY GEM'}},
@@ -747,7 +1120,10 @@ const ROUNDS = [
      {n:'Otto Lopez',pos:'2B/OF · MIA',adp:'~200',note:'Multi-eligible, AVG + steals late'},
      {n:'Ryan Walker',pos:'RP · SF',adp:'~185',note:'Closer if saves are still thin'},
      {n:'Maikel Garcia',pos:'2B/3B · KC',adp:'~130',note:'Speed, avg, multi-pos value'},
-   ]},
+   ,
+     {n:'Gavin Williams',pos:'SP · CLE',adp:120,note:'Power arm, strikeout upside if healthy CLE rotation spot.'},
+     {n:'Lenyn Sosa',pos:'2B/SS · CWS',adp:150,note:'Multi-pos middle infield, pop/speed combo in CWS lineup.'},
+     {n:'Mickey Moniak',pos:'OF · LAA',adp:160,note:'Power OF flier, improved contact, everyday role locked in.'}]},
 
   {r:22, pk:'#264', type:'pick', val:'g', vl:'Late Depth', avail:'~133rd best available',
    p:{n:'Jacob Wilson', pos:'SS — ATH', adp:115, note:'.311 AVG in 2025, elite contact tool, signed 7-yr deal. Batting average anchor — wins AVG category all season.'},
@@ -757,7 +1133,10 @@ const ROUNDS = [
      {n:'Kyle Manzardo',pos:'1B · CLE',adp:'~220',note:'Power dart, locked Cleveland spot'},
      {n:'Maikel Garcia',pos:'2B/3B · KC',adp:'~130',note:'Speed/avg multi-pos'},
      {n:'Ryan Walker',pos:'RP · SF',adp:'~185',note:'Closer depth if needed'},
-   ]},
+   ,
+     {n:'Gavin Williams',pos:'SP · CLE',adp:120,note:'Power arm, K upside — good dynasty stash.'},
+     {n:'Mickey Moniak',pos:'OF · LAA',adp:160,note:'Power OF with everyday role — late-round pop dart.'},
+     {n:'Casey Mize',pos:'SP · DET',adp:200,note:'Stuff plays when healthy — deep SP stash option.'}]},
 
   {r:23, pk:'#265', type:'pick', val:'g', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
    p:{n:'Jonathan Aranda', pos:'1B/DH — TB', adp:144, note:'.316 avg, 14 HR in 106 games last year. Breakout candidate with everyday role locked in Tampa.'},
@@ -767,7 +1146,10 @@ const ROUNDS = [
      {n:'Maikel Garcia',pos:'2B/3B · KC',adp:'~130',note:'Speed/avg, multi-pos'},
      {n:'Dennis Santana',pos:'RP · PIT (roster)',adp:'—',note:'Monitor PIT closer — on your roster'},
      {n:'Roki Sasaki',pos:'SP · LAD (roster)',adp:100,note:'Dynasty hold if not already drafted'},
-   ]},
+   ,
+     {n:'Mickey Moniak',pos:'OF · LAA',adp:160,note:'Everyday OF, improving power, late-round upside.'},
+     {n:'Casey Mize',pos:'SP · DET',adp:200,note:'Deep SP stash — starter stuff with K upside.'},
+     {n:'Gavin Williams',pos:'SP · CLE',adp:120,note:'Strikeout arm — dynasty value if available this late.'}]},
 
   {r:24, pk:'#288', type:'pick', val:'g', vl:'Depth Flier', avail:'~145th best available',
    p:{n:'Otto Lopez', pos:'2B/OF — MIA', adp:200, note:'Multi-eligible late gem. AVG and steals contributor with 2B/OF positional flexibility.'},
@@ -777,7 +1159,10 @@ const ROUNDS = [
      {n:'Lenyn Sosa',pos:'2B/SS · CWS (roster)',adp:'—',note:'Multi-eligible depth'},
      {n:'Ramon Laureano',pos:'OF · SD',adp:'—',note:'Power/speed veteran flier'},
      {n:'Maikel Garcia',pos:'2B/3B · KC',adp:'~130',note:'Speed/avg if still available'},
-   ]},
+   ,
+     {n:'Mickey Moniak',pos:'OF · LAA',adp:160,note:'Power OF dart — everyday role, upside play.'},
+     {n:'Casey Mize',pos:'SP · DET',adp:200,note:'Deep SP stash.'},
+     {n:'Ronny Henriquez',pos:'SP · TEX',adp:250,note:'Dart throw SP — stuff is real, opportunity in TEX rotation.'}]},
 
   {r:25, pk:'#289', type:'pick', val:'g', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
    p:{n:'Kyle Manzardo', pos:'1B — CLE', adp:220, note:'Power upside in Cleveland. Everyday role locked. Good late 1B dart if position still thin on your roster.'},
@@ -787,7 +1172,10 @@ const ROUNDS = [
      {n:'Ramon Laureano',pos:'OF · SD',adp:'—',note:'Power/speed veteran dart'},
      {n:'Mickey Moniak',pos:'OF · COL',adp:'—',note:'Coors boost, power/speed upside'},
      {n:'Gavin Williams',pos:'SP · CLE (roster)',adp:'—',note:'Health risk but elite stuff when on'},
-   ]},
+   ,
+     {n:'Casey Mize',pos:'SP · DET',adp:200,note:'Deep SP stash, durable stuff when healthy.'},
+     {n:'Ronny Henriquez',pos:'SP · TEX',adp:250,note:'Dart throw — real K stuff in TEX.'},
+     {n:'Kyle Finnegan',pos:'RP · WSH',adp:220,note:'Closer in weak WSH pen — saves upside on a rebuilder.'}]},
 
   {r:26, pk:'#312', type:'pick', val:'g', vl:'Stash Pick', avail:'Deep depth territory',
    p:{n:'Dennis Santana', pos:'RP — PIT (on roster)', adp:null, note:'Monitor PIT closer situation. Already on your roster — stash pick for saves upside if he wins the role.'},
@@ -797,7 +1185,10 @@ const ROUNDS = [
      {n:'Casey Mize',pos:'SP · DET (roster)',adp:'—',note:'Bounce-back arm, on your roster'},
      {n:'Nick Lodolo',pos:'SP · CIN (roster)',adp:'—',note:'Bounce-back SP, on your roster'},
      {n:'Bryan King',pos:'RP · HOU (roster)',adp:'—',note:'Deep bullpen dart'},
-   ]},
+   ,
+     {n:'Casey Mize',pos:'SP · DET',adp:200,note:'Healthy SP dart.'},
+     {n:'Ronny Henriquez',pos:'SP · TEX',adp:250,note:'K upside dart.'},
+     {n:'Kyle Finnegan',pos:'RP · WSH',adp:220,note:'Saves dart in thin WSH pen.'}]},
 
   {r:27, pk:'#313', type:'pick', val:'g', vl:'Final Dart', avail:'Last pick of the draft',
    p:{n:'Jeremiah Estrada', pos:'RP — SD (on roster)', adp:null, note:'High-leverage Padres arm. Saves/holds upside in one of baseball\'s elite bullpens.'},
@@ -807,14 +1198,20 @@ const ROUNDS = [
      {n:'Kyle Finnegan',pos:'RP · DET (roster)',adp:'—',note:'Monitor DET closer situation'},
      {n:'Casey Mize',pos:'SP · DET (roster)',adp:'—',note:'Bounce-back arm'},
      {n:'Ronny Henriquez',pos:'RP · MIA (roster)',adp:'—',note:'MIA bullpen depth'},
-   ]},
+   ,
+     {n:'Andrew Painter',pos:'SP · PHI',adp:280,note:'PHI SP prospect — dynasty dart if roster spot opens.'},
+     {n:'Marcus Stroman',pos:'SP · NYY',adp:260,note:'Veteran depth SP — ground ball machine.'},
+     {n:'Brent Honeywell',pos:'SP · BOS',adp:270,note:'Final flier — upside dart with MLB opportunity.'}]},
 ];
 
-let picks = JSON.parse(localStorage.getItem('taf_picks_2026') || '{}');
-let draftStarted = JSON.parse(localStorage.getItem('taf_started') || 'false');
-let startTime = localStorage.getItem('taf_starttime') || null;
-let activeModal = null;
-let clockInterval = null;
+var picks = JSON.parse(localStorage.getItem('taf_picks_2026') || '{}');
+var leaguePicks = JSON.parse(localStorage.getItem('taf_league_2026') || '{}');
+var TEAMS = [];
+var KEEPERS = {};
+var draftStarted = JSON.parse(localStorage.getItem('taf_started') || 'false');
+var startTime = localStorage.getItem('taf_starttime') || null;
+var activeModal = null;
+var clockInterval = null;
 
 function save() {
   localStorage.setItem('taf_picks_2026', JSON.stringify(picks));
@@ -826,9 +1223,9 @@ function startDraft() {
   draftStarted = true;
   if (!startTime) startTime = Date.now().toString();
   save();
-  const dot = document.getElementById('clock-dot');
-  const status = document.getElementById('clock-status');
-  const btn = document.getElementById('start-btn');
+  var dot = document.getElementById('clock-dot');
+  var status = document.getElementById('clock-status');
+  var btn = document.getElementById('start-btn');
   dot.classList.add('live');
   status.textContent = 'DRAFT LIVE — tap any round card to log your pick';
   btn.textContent = '● LIVE';
@@ -839,13 +1236,13 @@ function startDraft() {
 
 function startClock() {
   if (clockInterval) clearInterval(clockInterval);
-  clockInterval = setInterval(() => {
+  clockInterval = setInterval(function() {
     if (!startTime) return;
-    const elapsed = Math.floor((Date.now() - parseInt(startTime)) / 1000);
-    const h = Math.floor(elapsed / 3600);
-    const m = Math.floor((elapsed % 3600) / 60);
-    const s = elapsed % 60;
-    const parts = [];
+    var elapsed = Math.floor((Date.now() - parseInt(startTime)) / 1000);
+    var h = Math.floor(elapsed / 3600);
+    var m = Math.floor((elapsed % 3600) / 60);
+    var s = elapsed % 60;
+    var parts = [];
     if (h > 0) parts.push(h + 'h');
     parts.push((m < 10 ? '0' : '') + m + 'm');
     parts.push((s < 10 ? '0' : '') + s + 's');
@@ -865,48 +1262,73 @@ function resetDraft() {
   document.getElementById('clock-dot').classList.remove('live');
   document.getElementById('clock-status').textContent = 'Draft starts March 17 at 7:00 PM — Click START when your draft begins';
   document.getElementById('clock-time').textContent = '7:00 PM';
-  const btn = document.getElementById('start-btn');
+  var btn = document.getElementById('start-btn');
   btn.textContent = '▶ START';
   btn.style.background = '';
   renderAll();
 }
 
 function openModal(roundKey) {
-  const rd = ROUNDS.find(r => String(r.r) === String(roundKey));
+  var _badge = document.getElementById('modal-pos-display'); if(_badge){ _badge.style.display='none'; _badge.textContent=''; }
+  var rd = null; for(var _i=0;_i<ROUNDS.length;_i++){if(String(ROUNDS[_i].r)===String(roundKey)){rd=ROUNDS[_i];break;}}
   if (!rd || rd.type === 'keeper') return;
   if (!draftStarted) { alert('Click START DRAFT first!'); return; }
   activeModal = roundKey;
-  const existing = picks[roundKey];
+  var existing = picks[roundKey];
   document.getElementById('modal-title').textContent = 'Round ' + rd.r + ' · ' + rd.pk;
   document.getElementById('modal-sub').textContent = rd.avail || '';
   document.getElementById('modal-input').value = existing ? existing.name : '';
   document.getElementById('modal-pos-input').value = existing ? existing.pos : '';
   document.getElementById('modal').style.display = 'flex';
-  setTimeout(() => document.getElementById('modal-input').focus(), 80);
+  setTimeout(function(){ document.getElementById('modal-input').focus(); }, 80);
 }
 
 function closeModal() {
+  var dd = document.getElementById('ac-dropdown'); if(dd){ dd.style.display = 'none'; dd.innerHTML = ''; }
+  var badge = document.getElementById('modal-pos-display'); if(badge){ badge.style.display='none'; badge.textContent=''; }
   document.getElementById('modal').style.display = 'none';
   activeModal = null;
 }
 
 function confirmPick() {
-  const name = document.getElementById('modal-input').value.trim();
-  const pos = document.getElementById('modal-pos-input').value.trim();
-  if (!name) { closeModal(); return; }
-  picks[activeModal] = { name, pos: pos || '—' };
-  save();
+  var name = document.getElementById('modal-input').value.trim();
+  var pos  = document.getElementById('modal-pos-input').value.trim();
+  if(!name){ window._lgMode = false; closeModal(); return; }
+  if(window._lgMode && lgPickModal) {
+    var mine = (lgPickModal.teamIdx === getMyTeamIdx(lgPickModal.round));
+    if(mine) {
+      picks[String(lgPickModal.round)] = {name: name, pos: pos || '—'};
+      save();
+    } else {
+      leaguePicks[lgPickModal.pid] = {name: name, pos: pos || '—'};
+      saveLeague();
+    }
+    window._lgMode = false;
+    lgPickModal = null;
+  } else {
+    picks[activeModal] = {name: name, pos: pos || '—'};
+    save();
+  }
   closeModal();
   renderAll();
 }
 
 function clearPick() {
-  if (activeModal && picks[activeModal]) { delete picks[activeModal]; save(); }
+  if(window._lgMode && lgPickModal) {
+    var mine = (lgPickModal.teamIdx === getMyTeamIdx(lgPickModal.round));
+    if(mine){ delete picks[String(lgPickModal.round)]; save(); }
+    else { delete leaguePicks[lgPickModal.pid]; saveLeague(); }
+    window._lgMode = false;
+    lgPickModal = null;
+  } else if(activeModal && picks[activeModal]) {
+    delete picks[activeModal];
+    save();
+  }
   closeModal();
   renderAll();
 }
 
-document.addEventListener('keydown', e => {
+document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeModal();
   if (e.key === 'Enter' && activeModal) confirmPick();
 });
@@ -916,42 +1338,346 @@ function vcClass(v) {
 }
 
 function getCurrentRound() {
-  for (const rd of ROUNDS) {
+  for (var rd of ROUNDS) {
     if (rd.type === 'keeper') continue;
     if (!picks[String(rd.r)]) return String(rd.r);
   }
   return null;
 }
 
-function renderAll() {
-  const grid = document.getElementById('main-grid');
-  grid.innerHTML = '';
-  const currentRd = draftStarted ? getCurrentRound() : null;
-  let draftedCount = 0;
-  const pickableCount = ROUNDS.filter(r => r.type === 'pick').length;
 
-  ROUNDS.forEach(rd => {
-    const key = String(rd.r);
-    const isDrafted = !!picks[key];
-    const isKeeper = rd.type === 'keeper';
-    const isCurrent = currentRd === key && draftStarted;
+
+var PLAYER_DB = [
+  {n:"Shohei Ohtani",p:"SP/DH",t:"LAD"},
+  {n:"Juan Soto",p:"OF",t:"NYM"},
+  {n:"Jose Ramirez",p:"3B",t:"CLE"},
+  {n:"Corbin Carroll",p:"OF",t:"ARI"},
+  {n:"Ronald Acuna Jr.",p:"OF",t:"ATL"},
+  {n:"Gunnar Henderson",p:"SS/3B",t:"BAL"},
+  {n:"Kyle Tucker",p:"OF",t:"CHC"},
+  {n:"Fernando Tatis Jr.",p:"SS/OF",t:"SD"},
+  {n:"Francisco Lindor",p:"SS",t:"NYM"},
+  {n:"Pete Crow-Armstrong",p:"OF",t:"CHC"},
+  {n:"Wyatt Langford",p:"OF",t:"TEX"},
+  {n:"Mason Miller",p:"RP",t:"SD"},
+  {n:"Jacob Misiorowski",p:"SP",t:"MIL"},
+  {n:"Jazz Chisholm Jr.",p:"2B/3B",t:"NYY"},
+  {n:"Yoshibu Yamamoto",p:"SP",t:"LAD"},
+  {n:"Pete Alonso",p:"1B",t:"BAL"},
+  {n:"Trea Turner",p:"SS",t:"PHI"},
+  {n:"Ketel Marte",p:"2B",t:"ARI"},
+  {n:"Manny Machado",p:"3B",t:"SD"},
+  {n:"Hunter Brown",p:"SP",t:"HOU"},
+  {n:"Logan Gilbert",p:"SP",t:"SEA"},
+  {n:"Logan Webb",p:"SP",t:"SF"},
+  {n:"Bobby Witt Jr.",p:"SS",t:"KC"},
+  {n:"Yordan Alvarez",p:"DH/OF",t:"HOU"},
+  {n:"Elly De La Cruz",p:"SS/3B",t:"CIN"},
+  {n:"Roman Anthony",p:"OF",t:"BOS"},
+  {n:"Spencer Strider",p:"SP",t:"ATL"},
+  {n:"James Wood",p:"OF",t:"WSH"},
+  {n:"Jac Caglianone",p:"1B/SP",t:"KC"},
+  {n:"Brent Rooker",p:"OF/DH",t:"OAK"},
+  {n:"Bryan Woo",p:"SP",t:"SEA"},
+  {n:"Vladimir Guerrero Jr.",p:"1B",t:"TOR"},
+  {n:"Bryce Harper",p:"1B/DH",t:"PHI"},
+  {n:"Paul Skenes",p:"SP",t:"PIT"},
+  {n:"Tarik Skubal",p:"SP",t:"DET"},
+  {n:"Garrett Crochet",p:"SP",t:"BOS"},
+  {n:"Mookie Betts",p:"OF/SS",t:"LAD"},
+  {n:"Freddy Peralta",p:"SP",t:"MIL"},
+  {n:"Riley Greene",p:"OF",t:"DET"},
+  {n:"Cole Ragans",p:"SP",t:"KC"},
+  {n:"Chris Sale",p:"SP",t:"ATL"},
+  {n:"George Kirby",p:"SP",t:"SEA"},
+  {n:"William Contreras",p:"C",t:"MIL"},
+  {n:"Luis Gil",p:"SP",t:"NYY"},
+  {n:"Gerrit Cole",p:"SP",t:"NYY"},
+  {n:"Jackson Holliday",p:"2B/SS",t:"BAL"},
+  {n:"Jackson Chourio",p:"OF",t:"MIL"},
+  {n:"CJ Abrams",p:"SS",t:"WSH"},
+  {n:"Zach Neto",p:"SS",t:"LAA"},
+  {n:"Cal Raleigh",p:"C",t:"SEA"},
+  {n:"George Springer",p:"OF",t:"TOR"},
+  {n:"Drake Baldwin",p:"C",t:"ATL"},
+  {n:"Tyler Soderstrom",p:"C/DH",t:"OAK"},
+  {n:"Cristopher Sanchez",p:"SP",t:"PHI"},
+  {n:"Edwin Diaz",p:"RP",t:"NYM"},
+  {n:"Byron Buxton",p:"OF",t:"MIN"},
+  {n:"Emmet Sheehan",p:"SP",t:"LAD"},
+  {n:"Jesus Luzardo",p:"SP",t:"PHI"},
+  {n:"Bubba Chandler",p:"SP",t:"PIT"},
+  {n:"Cam Schlittler",p:"SP",t:"NYY"},
+  {n:"Carter Jensen",p:"C",t:"KC"},
+  {n:"Konnor Griffin",p:"SS",t:"DET"},
+  {n:"Nick Kurtz",p:"1B",t:"OAK"},
+  {n:"JJ Wetherholt",p:"2B/SS",t:"WSH"},
+  {n:"Hunter Goodman",p:"C/1B",t:"COL"},
+  {n:"Adley Rutschman",p:"C",t:"BAL"},
+  {n:"Sean Murphy",p:"C",t:"ATL"},
+  {n:"Gabriel Moreno",p:"C",t:"ARI"},
+  {n:"Patrick Bailey",p:"C",t:"SF"},
+  {n:"Austin Wells",p:"C",t:"NYY"},
+  {n:"Bo Naylor",p:"C",t:"CLE"},
+  {n:"Gunnar Hoglund",p:"SP",t:"OAK"},
+  {n:"Framber Valdez",p:"SP",t:"HOU"},
+  {n:"Zac Gallen",p:"SP",t:"ARI"},
+  {n:"Corbin Burnes",p:"SP",t:"ARI"},
+  {n:"Max Fried",p:"SP",t:"NYY"},
+  {n:"Blake Snell",p:"SP",t:"SF"},
+  {n:"Sandy Alcantara",p:"SP",t:"MIA"},
+  {n:"Pablo Lopez",p:"SP",t:"MIN"},
+  {n:"Sonny Gray",p:"SP",t:"STL"},
+  {n:"Clarke Schmidt",p:"SP",t:"NYY"},
+  {n:"MacKenzie Gore",p:"SP",t:"WSH"},
+  {n:"Tyler Glasnow",p:"SP",t:"LAD"},
+  {n:"Nathan Eovaldi",p:"SP",t:"TEX"},
+  {n:"Shane Bieber",p:"SP",t:"CLE"},
+  {n:"Hunter Greene",p:"SP",t:"CIN"},
+  {n:"Bryce Miller",p:"SP",t:"SEA"},
+  {n:"Nestor Cortes",p:"SP",t:"NYY"},
+  {n:"Brady Singer",p:"SP",t:"KC"},
+  {n:"JP Sears",p:"SP",t:"OAK"},
+  {n:"Jose Berrios",p:"SP",t:"TOR"},
+  {n:"Tanner Bibee",p:"SP",t:"CLE"},
+  {n:"Nick Pivetta",p:"SP",t:"BOS"},
+  {n:"Michael King",p:"SP",t:"SD"},
+  {n:"Chris Bassitt",p:"SP",t:"TOR"},
+  {n:"Landen Roupp",p:"SP",t:"SF"},
+  {n:"Jacob deGrom",p:"SP",t:"TEX"},
+  {n:"Kevin Gausman",p:"SP",t:"TOR"},
+  {n:"Devin Williams",p:"RP",t:"NYY"},
+  {n:"Ryan Helsley",p:"RP",t:"STL"},
+  {n:"Felix Bautista",p:"RP",t:"BAL"},
+  {n:"Alexis Diaz",p:"RP",t:"CIN"},
+  {n:"Emmanuel Clase",p:"RP",t:"CLE"},
+  {n:"Jordan Romano",p:"RP",t:"TOR"},
+  {n:"Clay Holmes",p:"RP",t:"NYM"},
+  {n:"Evan Phillips",p:"RP",t:"LAD"},
+  {n:"Griffin Jax",p:"RP",t:"MIN"},
+  {n:"Andres Munoz",p:"RP",t:"SEA"},
+  {n:"David Bednar",p:"RP",t:"PIT"},
+  {n:"Josh Hader",p:"RP",t:"HOU"},
+  {n:"Kenley Jansen",p:"RP",t:"BOS"},
+  {n:"Pete Fairbanks",p:"RP",t:"TB"},
+  {n:"Tanner Scott",p:"RP",t:"LAD"},
+  {n:"Robert Stephenson",p:"RP",t:"TB"},
+  {n:"Paul Sewald",p:"RP",t:"ARI"},
+  {n:"Raisel Iglesias",p:"RP",t:"LAA"},
+  {n:"Tyler Matzek",p:"RP",t:"ATL"},
+  {n:"A.J. Minter",p:"RP",t:"ATL"},
+  {n:"Luke Weaver",p:"RP",t:"NYY"},
+  {n:"Camilo Doval",p:"RP",t:"SF"},
+  {n:"Jeff Hoffman",p:"RP",t:"PHI"},
+  {n:"Carlos Estevez",p:"RP",t:"LAA"},
+  {n:"Brusdar Graterol",p:"RP",t:"LAD"},
+  {n:"Dylan Floro",p:"RP",t:"MIN"},
+  {n:"Jhoan Duran",p:"RP",t:"MIN"},
+  {n:"Jason Adam",p:"RP",t:"TB"},
+  {n:"Ryan Pressly",p:"RP",t:"HOU"},
+  {n:"Scott Barlow",p:"RP",t:"KC"},
+  {n:"Aaron Judge",p:"OF",t:"NYY"},
+  {n:"Mike Trout",p:"OF",t:"LAA"},
+  {n:"Julio Rodriguez",p:"OF",t:"SEA"},
+  {n:"Steven Kwan",p:"OF",t:"CLE"},
+  {n:"Lane Thomas",p:"OF",t:"WSH"},
+  {n:"Cedric Mullins",p:"OF",t:"BAL"},
+  {n:"Seiya Suzuki",p:"OF",t:"CHC"},
+  {n:"Ian Happ",p:"OF",t:"CHC"},
+  {n:"Teoscar Hernandez",p:"OF",t:"LAD"},
+  {n:"Michael Conforto",p:"OF",t:"SF"},
+  {n:"Brandon Nimmo",p:"OF",t:"NYM"},
+  {n:"Jesse Winker",p:"OF",t:"WSH"},
+  {n:"Lourdes Gurriel Jr.",p:"OF",t:"ARI"},
+  {n:"Taylor Ward",p:"OF",t:"LAA"},
+  {n:"Hunter Renfroe",p:"OF",t:"LAA"},
+  {n:"Starling Marte",p:"OF",t:"NYM"},
+  {n:"Chas McCormick",p:"OF",t:"HOU"},
+  {n:"Daulton Varsho",p:"OF",t:"TOR"},
+  {n:"Jake McCarthy",p:"OF",t:"ARI"},
+  {n:"Trent Grisham",p:"OF",t:"NYY"},
+  {n:"Randal Grichuk",p:"OF",t:"COL"},
+  {n:"Lars Nootbaar",p:"OF",t:"STL"},
+  {n:"Nolan Arenado",p:"3B",t:"STL"},
+  {n:"Alex Verdugo",p:"OF",t:"NYY"},
+  {n:"Eddie Rosario",p:"OF",t:"ATL"},
+  {n:"Nick Castellanos",p:"OF",t:"PHI"},
+  {n:"Kyle Schwarber",p:"OF/DH",t:"PHI"},
+  {n:"Marcell Ozuna",p:"OF/DH",t:"ATL"},
+  {n:"Andrew McCutchen",p:"OF/DH",t:"MIL"},
+  {n:"Cody Bellinger",p:"OF/1B",t:"CHC"},
+  {n:"Michael Brantley",p:"OF/DH",t:"HOU"},
+  {n:"Josh Lowe",p:"OF",t:"TB"},
+  {n:"Randy Arozarena",p:"OF",t:"SEA"},
+  {n:"Byron Buxton",p:"OF",t:"MIN"},
+  {n:"Jose Siri",p:"OF",t:"TB"},
+  {n:"Kerry Carpenter",p:"OF",t:"DET"},
+  {n:"Parker Meadows",p:"OF",t:"DET"},
+  {n:"Jarren Duran",p:"OF",t:"BOS"},
+  {n:"Tyler O\'Neill",p:"OF",t:"BOS"},
+  {n:"David Hamilton",p:"SS/2B",t:"BOS"},
+  {n:"Masyn Winn",p:"SS",t:"STL"},
+  {n:"Jordan Walker",p:"OF/3B",t:"STL"},
+  {n:"Lars Nootbaar",p:"OF",t:"STL"},
+  {n:"Anthony Rizzo",p:"1B",t:"NYY"},
+  {n:"Christian Walker",p:"1B",t:"ARI"},
+  {n:"Matt Olson",p:"1B",t:"ATL"},
+  {n:"Nathaniel Lowe",p:"1B",t:"TEX"},
+  {n:"Spencer Torkelson",p:"1B",t:"DET"},
+  {n:"Josh Bell",p:"1B",t:"MIA"},
+  {n:"Andrew Vaughn",p:"1B/OF",t:"CWS"},
+  {n:"Ryan Mountcastle",p:"1B",t:"BAL"},
+  {n:"Josh Naylor",p:"1B",t:"CLE"},
+  {n:"Vinnie Pasquantino",p:"1B",t:"KC"},
+  {n:"Alec Bohm",p:"3B",t:"PHI"},
+  {n:"Austin Riley",p:"3B",t:"ATL"},
+  {n:"Jose Miranda",p:"1B/3B",t:"MIN"},
+  {n:"Salvador Perez",p:"C",t:"KC"},
+  {n:"Elias Diaz",p:"C",t:"COL"},
+  {n:"Willson Contreras",p:"C",t:"STL"},
+  {n:"MJ Melendez",p:"C/OF",t:"KC"},
+  {n:"Keibert Ruiz",p:"C",t:"WSH"},
+  {n:"Jose Trevino",p:"C",t:"NYY"},
+  {n:"Yasmani Grandal",p:"C",t:"CHW"},
+  {n:"Mike Zunino",p:"C",t:"CLE"},
+  {n:"Connor Wong",p:"C",t:"BOS"},
+  {n:"Danny Jansen",p:"C",t:"TOR"},
+  {n:"Jonah Heim",p:"C",t:"TEX"},
+  {n:"Ryan Jeffers",p:"C",t:"MIN"},
+  {n:"Alejandro Kirk",p:"C",t:"TOR"},
+  {n:"Eric Haase",p:"C/OF",t:"DET"},
+  {n:"Tucker Barnhart",p:"C",t:"DET"},
+  {n:"Christian Vazquez",p:"C",t:"MIN"},
+  {n:"Marcus Semien",p:"2B/SS",t:"TEX"},
+  {n:"Gleyber Torres",p:"2B",t:"NYY"},
+  {n:"Jonathan India",p:"2B",t:"CIN"},
+  {n:"Andres Gimenez",p:"2B/SS",t:"CLE"},
+  {n:"Jorge Polanco",p:"2B/SS",t:"SEA"},
+  {n:"Ozzie Albies",p:"2B",t:"ATL"},
+  {n:"Whit Merrifield",p:"2B/OF",t:"PHI"},
+  {n:"Jake Cronenworth",p:"1B/2B",t:"SD"},
+  {n:"Ha-Seong Kim",p:"SS/2B/3B",t:"SD"},
+  {n:"Xander Bogaerts",p:"SS",t:"SD"},
+  {n:"Paul DeJong",p:"SS",t:"SF"},
+  {n:"Willy Adames",p:"SS",t:"SF"},
+  {n:"Amed Rosario",p:"SS",t:"LAD"},
+  {n:"Isiah Kiner-Falefa",p:"SS/3B",t:"NYY"},
+  {n:"Elvis Andrus",p:"SS",t:"OAK"},
+  {n:"Josh Rojas",p:"SS/2B/3B",t:"SEA"},
+  {n:"Eugenio Suarez",p:"3B/SS",t:"SEA"},
+  {n:"Ryan McMahon",p:"2B/3B",t:"COL"},
+  {n:"Jeimer Candelario",p:"3B/1B",t:"WSH"},
+  {n:"Ke\'Bryan Hayes",p:"3B",t:"PIT"},
+  {n:"Brett Baty",p:"3B",t:"NYM"},
+  {n:"Patrick Wisdom",p:"3B/1B",t:"CHC"},
+  {n:"Max Muncy",p:"1B/2B/3B",t:"LAD"},
+  {n:"Justin Turner",p:"3B/1B",t:"BOS"},
+  {n:"Royce Lewis",p:"SS/3B",t:"MIN"},
+  {n:"Joey Wiemer",p:"OF",t:"MIL"},
+  {n:"Michael Massey",p:"2B",t:"KC"},
+  {n:"Brice Turang",p:"2B/SS",t:"MIL"},
+  {n:"Geraldo Perdomo",p:"SS",t:"ARI"},
+  {n:"Otto Lopez",p:"2B/OF",t:"MIA"},
+  {n:"Jacob Wilson",p:"SS/2B",t:"OAK"},
+  {n:"Jonathan Aranda",p:"2B/1B",t:"TB"},
+  {n:"Kyle Manzardo",p:"1B",t:"CLE"},
+  {n:"Nolan McLean",p:"SS/OF",t:"OAK"},
+  {n:"Ben Rice",p:"1B/C",t:"NYY"},
+  {n:"Kyle Stowers",p:"OF",t:"MIA"},
+  {n:"Kevin McGonigle",p:"2B",t:"NYM"},
+  {n:"Matthew Shaw",p:"SS/2B",t:"CHC"},
+  {n:"Chase DeLauter",p:"OF",t:"CLE"},
+  {n:"Trey Yesavage",p:"SP",t:"TOR"},
+  {n:"Sal Stewart",p:"1B",t:"CIN"},
+  {n:"Samuel Basallo",p:"C/DH",t:"BAL"},
+  {n:"Munetaka Murakami",p:"3B",t:"TOR"},
+  {n:"Luke Keaschall",p:"2B/OF",t:"MIN"},
+  {n:"Daylen Lile",p:"OF",t:"PHI"},
+  {n:"Tatsuya Imai",p:"SP",t:"CWS"},
+  {n:"Coby Mayo",p:"3B",t:"BAL"},
+  {n:"Connelly Early",p:"SP",t:"BOS"},
+  {n:"Roki Sasaki",p:"SP",t:"LAD"},
+  {n:"Jackson Merrill",p:"OF",t:"SD"},
+  {n:"Joey Bart",p:"C",t:"PIT"},
+  {n:"Henry Davis",p:"C/OF",t:"PIT"},
+  {n:"Gavin Williams",p:"SP",t:"CLE"},
+  {n:"Andrew Abbott",p:"SP",t:"CIN"},
+  {n:"Cade Cavalli",p:"SP",t:"WSH"},
+  {n:"Joey Wiemer",p:"OF",t:"MIL"},
+  {n:"Kodai Senga",p:"SP",t:"NYM"},
+  {n:"Jordan Lawlar",p:"SS",t:"ARI"},
+  {n:"Jasson Dominguez",p:"OF",t:"NYY"},
+  {n:"Evan Carter",p:"OF",t:"TEX"},
+  {n:"Druw Jones",p:"OF",t:"ARI"},
+  {n:"Colton Cowser",p:"OF",t:"BAL"},
+  {n:"Heston Kjerstad",p:"OF",t:"BAL"},
+  {n:"Dylan Crews",p:"OF",t:"WSH"},
+  {n:"Eloy Jimenez",p:"OF/DH",t:"CWS"},
+  {n:"Adael Amador",p:"SS/2B",t:"COL"},
+  {n:"Nolan Schanuel",p:"1B",t:"LAA"},
+  {n:"Zach Neto",p:"SS",t:"LAA"},
+  {n:"Reid Detmers",p:"SP",t:"LAA"},
+  {n:"Ben Joyce",p:"RP",t:"LAA"},
+  {n:"Jose Soriano",p:"SP",t:"LAA"},
+  {n:"Victor Mederos",p:"SP",t:"LAA"},
+];
+
+// Total: 272 players
+
+var PROSPECT_DATA = {"15": {"label": "Prospect Target", "name": "Trey Yesavage", "pos": "SP - Toronto Blue Jays - Age 23", "tags": [["pct-od", "Opening Day Starter"], ["pct-adp", "ADP ~149"]], "note": "Confirmed #3 in TOR rotation. Postseason legend - dominated the Yankees in the ALCS. 41% K rate in minors, wipeout splitter. Innings cap early but locked in. With Gerrit Cole and Eury Perez both kept by other teams, Yesavage is your best available SP prospect. Priority pick in Rd 15-16."}, "19": {"label": "Prospect Target", "name": "Sal Stewart", "pos": "1B - Cincinnati Reds - Age 22", "tags": [["pct-od", "Opening Day (batting 6th)"], ["pct-adp", "ADP ~201"]], "note": "Best value rookie hitter in the draft. Confirmed in CIN Opening Day lineup. .315/.394/.629 in Triple-A, 21% barrel rate, 95.4 mph avg exit velo, 5 HR in MLB debut. Projects 25+ HR and .270 avg. Steal at ADP 201 - do not var him slip past Rd 22."}, "21": {"label": "Two Prospect Targets", "name": "Murakami + Basallo", "pos": "3B/DH TOR + C/DH BAL - Both Opening Day", "tags": [["pct-od", "Both confirmed starters"], ["pct-adp", "ADP ~185 / ~231"]], "note": "MURAKAMI: Japan all-time HR king under 30. Confirmed in TOR everyday lineup. Averaged 36 HR per season over last 4 NPB years. Real 25-30 HR upside. Best late 3B available with Jazz kept. BASALLO: $84M pre-arb deal locks everyday role. Hit 23 HR in 76 Triple-A games at age 20. Top-5 prospect. 20+ HR with C eligibility - critical since Raleigh was kept by another team."}, "22": {"label": "Prospect Target", "name": "Tatsuya Imai", "pos": "SP - Chicago White Sox - Age 26", "tags": [["pct-od", "Opening Day Starter"], ["pct-adp", "ADP ~190"]], "note": "Sub-2.50 ERA in Japan for 4 straight seasons. Elite splitter generates wipeout whiff rates. CWS is a bad team but that means consistent starts and good ratios. In H2H categories his ERA, WHIP, and K categories are the value. Great SP depth add given how many arms are already kept across your league."}, "23": {"label": "Prospect Target", "name": "Daylen Lile", "pos": "OF - Philadelphia Phillies - Age 22", "tags": [["pct-od", "Opening Day CF (confirmed)"], ["pct-adp", "ADP ~270"]], "note": "Son of Carl Crawford - confirmed PHI CF from Opening Day. Back-to-back 42 and 46 SB seasons in minors with solid averages. Phillies have a loaded lineup for counting stats. Pure SB and AVG weapon in H2H. Cheapest legitimate stolen base source available in the late draft."}, "24": {"label": "Prospect Target", "name": "Luke Keaschall", "pos": "2B/OF - Minnesota Twins - Age 24", "tags": [["pct-od", "Opening Day Roster"], ["pct-adp", "ADP ~150 (50 picks too late - ESPN)"]], "note": "ESPN Passan says he is being drafted 50 spots too late. Missed most of 2025 with forearm fracture but hit .294/.359/.436 with 4 HR and 9 SB in 42 post-return games. Fully healthy for 2026. Top-5 dynasty 2B target, multi-eligible. Speed and avg combo in a winning MIN lineup. With Jazz Chisholm kept, 2B is very thin in your league."}, "25": {"label": "Prospect Power Dart", "name": "Coby Mayo", "pos": "3B - Baltimore Orioles - Age 23", "tags": [["pct-od", "Opening Day Roster"], ["pct-adp", "ADP ~290"]], "note": "Former top-5 overall prospect. Rough first 100 MLB games but finished 2025 strong - .301 avg, .393 OBP, .548 SLG and 5 HR in the final month. Carrying that form into spring 2026. Pete Alonso now hitting behind him. Camden Yards is HR-friendly. Pure power ceiling dart at essentially free in rounds 25-27."}, "26": {"label": "Prospect Stash - Monitor", "name": "Connelly Early", "pos": "SP - Boston Red Sox - Age 24", "tags": [["pct-es", "NOT Opening Day - monitor"], ["pct-adp", "ADP ~223"]], "note": "UPDATE March 17: Early is in a 5-man competition for the BOS 5th rotation spot. He is NOT confirmed for Opening Day. Plus fastball with elite extension. Worth a final-round stash. If he starts in Triple-A he will be waiver wire available in mid-April."}};
+
+function renderProspectCallout(rdNum) {
+  var data = PROSPECT_DATA[String(rdNum)];
+  if(!data) return '';
+  var tagHtml = '';
+  data.tags.forEach(function(t) {
+    tagHtml += '<span class="pc-tag ' + t[0] + '">' + t[1] + '</span>';
+  });
+  return '<div class="prospect-callout">'
+    + '<div class="pc-label">' + data.label + '</div>'
+    + '<div class="pc-name">' + data.name + '</div>'
+    + '<div class="pc-pos">' + data.pos + '</div>'
+    + '<div class="pc-tags">' + tagHtml + '</div>'
+    + '<div class="pc-note">' + data.note + '</div>'
+    + '</div>';
+}
+function getTakenSet() {
+  var s = new Set();
+  try { Object.values(picks || {}).forEach(function(p){ if(p && p.name) s.add(p.name.toLowerCase()); }); } catch(e){}
+  try { Object.values(leaguePicks || {}).forEach(function(p){ if(p && p.name) s.add(p.name.toLowerCase()); }); } catch(e){}
+  try { Object.values(KEEPERS || {}).forEach(function(name){ if(name) s.add(name.toLowerCase()); }); } catch(e){}
+  return s;
+}
+
+function renderAll() {
+  var grid = document.getElementById('main-grid');
+  grid.innerHTML = '';
+  var currentRd = draftStarted ? getCurrentRound() : null;
+  var draftedCount = 0;
+  var pickableCount = ROUNDS.filter(function(r){ return r.type === 'pick'; }).length;
+
+  ROUNDS.forEach(function(rd) {
+    var key = String(rd.r);
+    var isDrafted = !!picks[key];
+    var isKeeper = rd.type === 'keeper';
+    var isCurrent = currentRd === key && draftStarted;
     if (isDrafted || isKeeper) draftedCount++;
 
-    const card = document.createElement('div');
+    var card = document.createElement('div');
     card.className = 'round-card'
       + (isKeeper ? ' keeper-card' : '')
       + (isDrafted && !isKeeper ? ' drafted' : '')
       + (isCurrent ? ' current' : '');
 
-    let html = '';
+    var html = '';
 
     // Header
-    html += `<div class="card-header">
-      <span class="round-num">RD ${rd.r}</span>
-      <span class="pick-bubble ${isKeeper?'keeper':isDrafted?'done':'normal'}">${rd.pk}</span>
-      <span class="avail-note">${rd.avail || ''}</span>
-      ${isCurrent ? '<span class="current-badge">ON THE CLOCK</span>' : ''}
-    </div>`;
+    html += '<div class="card-header">'
+      + '<span class="round-num">RD ' + rd.r + '</span>'
+      + '<span class="pick-bubble ' + (isKeeper?'keeper':isDrafted?'done':'normal') + '">' + rd.pk + '</span>'
+      + '<span class="avail-note">' + (rd.avail || '') + '</span>'
+      + (isCurrent ? '<span class="current-badge">ON THE CLOCK</span>' : '')
+      + '</div>';
 
     if (isKeeper) {
       html += `<div class="keeper-body">
@@ -961,56 +1687,68 @@ function renderAll() {
         <div class="keeper-note">${rd.p.note}</div>
       </div>`;
     } else if (isDrafted) {
-      html += `<div class="drafted-display" onclick="openModal('${key}')">
-        <div class="dl">✓ DRAFTED</div>
-        <div class="dn">${picks[key].name}</div>
-        <div class="dp">${picks[key].pos}</div>
-        <div class="edit-hint">Tap to edit</div>
-      </div>`;
+      html += '<div class="drafted-display" onclick="openModal(\'' + key + '\')">'
+        + '<div class="dl">&#10003; DRAFTED</div>'
+        + '<div class="dn">' + picks[key].name + '</div>'
+        + '<div class="dp">' + picks[key].pos + '</div>'
+        + '<div class="edit-hint">Tap to edit</div>'
+        + '</div>';
     } else {
-      html += `<div class="primary" onclick="openModal('${key}')">
-        <div class="primary-label">Target${draftStarted ? ' — tap to log pick' : ''}</div>
-        <div class="player-name">${rd.p.n}</div>
-        <div class="player-pos">${rd.p.pos}</div>
-        <div class="meta-row">
-          ${rd.p.adp ? `<span class="adp-tag">ADP ${rd.p.adp}</span>` : ''}
-          <span class="val-tag ${vcClass(rd.val)}">${rd.vl}</span>
-          ${rd.p.warn ? '<span class="warn-tag">⚠ URGENT</span>' : ''}
-        </div>
-        <div class="pick-note">${rd.p.note}</div>
-        ${draftStarted ? '<div class="draft-hint">↑ Tap to log your actual pick</div>' : ''}
-      </div>`;
+      // primary render handled below with taken-check
 
-      if (rd.b && rd.b.length) {
-        html += `<div class="backups"><div class="backups-label">If taken →</div>`;
-        rd.b.forEach((b, i) => {
-          if (!b.n || b.n.startsWith('N/A')) return;
-          html += `<div class="backup-row">
-            <span class="b-num">${i+1}</span>
-            <span class="b-name">${b.n}</span>
-            <span class="b-pos">${b.pos}</span>
-            <span class="b-adp">${b.adp ? 'ADP '+b.adp : b.note ? '· '+b.note : ''}</span>
-          </div>`;
-        });
-        html += `</div>`;
+      var takenSet = getTakenSet();
+      var primaryTaken = takenSet.has(rd.p.n.toLowerCase());
+      var backupsTagged = (rd.b || []).filter(function(b){ return b.n && !b.n.startsWith('N/A'); }).map(function(b){ return {n:b.n, pos:b.pos||'', adp:b.adp||'', note:b.note||'', taken: takenSet.has(b.n.toLowerCase())}; });
+      var firstAvail = null;
+      for(var bi=0; bi<backupsTagged.length; bi++){ if(!backupsTagged[bi].taken){ firstAvail = backupsTagged[bi]; break; } }
+
+      if(primaryTaken && firstAvail) {
+        html += '<div class="taken-banner"><span style="font-size:12px">✗</span><div><div class="tb-text">' + rd.p.n + ' — Already Taken</div><div class="tb-sub">Next available target auto-promoted below</div></div></div>';
+        html += '<div class="promoted-banner"><div class="pb-label">↑ Next Target — Auto Promoted</div><div class="pb-name">' + firstAvail.n + '</div><div class="pb-pos">' + firstAvail.pos + '</div><div class="pb-meta">' + (firstAvail.adp ? '<span class="adp-tag">ADP ' + firstAvail.adp + '</span>' : '') + '<span class="val-tag ' + vcClass(rd.val) + '">' + rd.vl + '</span></div></div>';
+        html += '<div class="primary" onclick="openModal(' + "'" + key + "'" + ')" style="opacity:.4;pointer-events:none"><div class="primary-label">Original target (taken)</div><div class="player-name" style="text-decoration:line-through;color:var(--text3)">' + rd.p.n + '</div><div class="player-pos">' + rd.p.pos + '</div></div>';
+      } else if(primaryTaken) {
+        html += '<div class="taken-banner"><span style="font-size:12px">✗</span><div><div class="tb-text">' + rd.p.n + ' — Taken. All backups also gone.</div><div class="tb-sub">Check League Board above for best available</div></div></div>';
+        html += '<div class="primary" onclick="openModal(' + "'" + key + "'" + ')"><div class="primary-label">Best available — check board</div><div class="player-name" style="text-decoration:line-through;color:var(--text3)">' + rd.p.n + '</div><div class="player-pos">' + rd.p.pos + '</div>' + (draftStarted ? '<div class="draft-hint">↑ Tap to log your actual pick</div>' : '') + '</div>';
+      } else {
+        html += '<div class="primary" onclick="openModal(' + "'" + key + "'" + ')"><div class="primary-label">Target' + (draftStarted ? ' — tap to log pick' : '') + '</div><div class="player-name">' + rd.p.n + '</div><div class="player-pos">' + rd.p.pos + '</div><div class="meta-row">' + (rd.p.adp ? '<span class="adp-tag">ADP ' + rd.p.adp + '</span>' : '') + '<span class="val-tag ' + vcClass(rd.val) + '">' + rd.vl + '</span>' + (rd.p.warn ? '<span class="warn-tag">⚠ URGENT</span>' : '') + '</div><div class="pick-note">' + rd.p.note + '</div>' + (draftStarted ? '<div class="draft-hint">↑ Tap to log your actual pick</div>' : '') + '</div>';
+      }
+
+      if(backupsTagged.length) {
+        html += '<div class="backups"><div class="backups-label">If taken →</div>';
+        // Only show available players, up to 5
+        var available = backupsTagged.filter(function(b){ return !b.taken; }).slice(0, 5);
+        for(var bi2 = 0; bi2 < available.length; bi2++) {
+          var b = available[bi2];
+          var isNext = bi2 === 0 && primaryTaken;
+          var rc = isNext ? 'backup-row next-up' : 'backup-row';
+          var badge = isNext ? '<span class="next-up-tag">NEXT UP</span>' : '';
+          var adpt = b.adp ? 'ADP ' + b.adp : (b.note ? '· ' + b.note : '');
+          html += '<div class="' + rc + '"><span class="b-num">' + (bi2+1) + '</span><span class="b-name">' + b.n + badge + '</span><span class="b-pos">' + b.pos + '</span><span class="b-adp">' + adpt + '</span></div>';
+        }
+        if(available.length === 0) {
+          html += '<div class="backup-row"><span class="b-name" style="color:var(--text3);font-style:italic">All backups taken — check League Board</span></div>';
+        }
+        html += '</div>';
       }
     }
 
+    if(rd.type !== 'keeper' && !isDrafted) { html += renderProspectCallout(rd.r); }
     card.innerHTML = html;
     grid.appendChild(card);
   });
 
-  const draftedPicks = Object.keys(picks).length;
+  var draftedPicks = Object.keys(picks).length;
   document.getElementById('drafted-count').textContent = draftedPicks;
   document.getElementById('remaining-count').textContent = pickableCount - draftedPicks;
   updateRosterBar();
+  if(lgVisible){ renderLeagueBoard(activeLgRound); }
 }
 
 function updateRosterBar() {
-  const slots = {C:[], '1B':[], '2B':[], SS:[], '3B':[], OF:[], SP:[], RP:[]};
+  var slots = {C:[], '1B':[], '2B':[], SS:[], '3B':[], OF:[], SP:[], RP:[]};
 
-  const classify = (posStr, name) => {
-    const p = (posStr || '').toUpperCase();
+  var classify = function(posStr, name) {
+    var p = (posStr || '').toUpperCase();
     if (p.includes('SP')) { slots['SP'].push(name); return; }
     if (p.includes('RP')) { slots['RP'].push(name); return; }
     if (p.match(/\bC\b/) || p.startsWith('C ') || p.startsWith('C/') || p === 'C') { slots['C'].push(name); return; }
@@ -1022,16 +1760,16 @@ function updateRosterBar() {
     slots['OF'].push(name);
   };
 
-  Object.values(picks).forEach(p => classify(p.pos, p.name));
+  Object.values(picks || {}).forEach(function(p){ classify(p.pos, p.name); });
   classify('OF', 'Langford'); classify('OF', 'PCA');
   classify('RP', 'M. Miller'); classify('SP', 'Misiorowski');
 
-  const updateSlot = (id, name) => {
-    const s = document.getElementById(id);
+  var updateSlot = function(id, name) {
+    var s = document.getElementById(id);
     if (!s) return;
     s.className = 'pos-slot' + (name ? ' filled' : '');
-    let pl = s.querySelector('.pos-player');
-    let em = s.querySelector('.pos-empty');
+    var pl = s.querySelector('.pos-player');
+    var em = s.querySelector('.pos-empty');
     if (name) {
       if (!pl) { pl = document.createElement('div'); pl.className = 'pos-player'; s.appendChild(pl); }
       pl.textContent = name;
@@ -1055,9 +1793,9 @@ function updateRosterBar() {
 }
 
 function exportRoster() {
-  let text = 'TATIS ALL FOLKS — 2026 DRAFT RESULTS\n=====================================\n\n';
-  ROUNDS.forEach(rd => {
-    const key = String(rd.r);
+  var text = 'TATIS ALL FOLKS — 2026 DRAFT RESULTS\n=====================================\n\n';
+  ROUNDS.forEach(function(rd) {
+    var key = String(rd.r);
     if (rd.type === 'keeper') {
       text += `Rd ${rd.r} [KEEPER]: ${rd.p.n} (${rd.p.pos})\n`;
     } else if (picks[key]) {
@@ -1066,23 +1804,353 @@ function exportRoster() {
       text += `Rd ${rd.r} [${rd.pk}]: — not yet picked\n`;
     }
   });
-  const blob = new Blob([text], {type:'text/plain'});
-  const a = document.createElement('a');
+  var blob = new Blob([text], {type:'text/plain'});
+  var a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'tatis_all_folks_2026_draft.txt';
   a.click();
 }
 
+
+// ── AUTOCOMPLETE ──────────────────────────────────────
+function acSearch(query) {
+  var dd = document.getElementById('ac-dropdown');
+  if(!query || query.length < 2) { dd.style.display = 'none'; dd.innerHTML = ''; return; }
+  var q = query.toLowerCase();
+  var starts = [], contains = [];
+  for(var i = 0; i < PLAYER_DB.length; i++) {
+    var pl = PLAYER_DB[i];
+    var ln = pl.n.toLowerCase();
+    if(ln.indexOf(q) === 0) { starts.push(pl); }
+    else if(ln.indexOf(q) !== -1) { contains.push(pl); }
+    if(starts.length + contains.length >= 10) break;
+  }
+  var matches = starts.concat(contains).slice(0, 8);
+  if(!matches.length) { dd.style.display = 'none'; dd.innerHTML = ''; return; }
+  var html = '';
+  for(var j = 0; j < matches.length; j++) {
+    var p = matches[j];
+    var safeName = p.n.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    var safePos = p.p.replace(/'/g, "\\'");
+    var safeTeam = p.t.replace(/'/g, "\\'");
+    html += '<div class="ac-item" onmousedown="acSelect(\'' + safeName + '\',\'' + safePos + '\',\'' + safeTeam + '\')">';
+    html += '<span class="ac-name">' + p.n + '</span>';
+    html += '<span class="ac-meta"><span class="ac-pos">' + p.p + '</span>&nbsp;·&nbsp;' + p.t + '</span>';
+    html += '</div>';
+  }
+  dd.innerHTML = html;
+  dd.style.display = 'block';
+}
+
+function acSelect(name, pos, team) {
+  document.getElementById('modal-input').value = name;
+  document.getElementById('modal-pos-input').value = pos + ' · ' + team;
+  document.getElementById('ac-dropdown').style.display = 'none';
+  document.getElementById('ac-dropdown').innerHTML = '';
+  var badge = document.getElementById('modal-pos-display');
+  if(badge) {
+    badge.textContent = pos + ' · ' + team;
+    badge.style.display = 'block';
+  }
+}
+
+function acHide() {
+  setTimeout(function(){ 
+    var dd = document.getElementById('ac-dropdown');
+    if(dd) dd.style.display = 'none';
+  }, 150);
+}
+// ──────────────────────────────────────────────────────
+
 // Init
 if (draftStarted) {
   document.getElementById('clock-dot').classList.add('live');
   document.getElementById('clock-status').textContent = 'DRAFT LIVE — tap any round card to log your pick';
-  const btn = document.getElementById('start-btn');
+  var btn = document.getElementById('start-btn');
   btn.textContent = '● LIVE';
   btn.style.background = '#065f35';
   if (startTime) startClock();
 }
 renderAll();
+
+// ── LEAGUE DRAFT TRACKER ─────────────────────────────────────────────────
+var TEAMS = ["Stuntin' Like My Vladdy", "Serenity Now", "Team Kim", "Sho Bombs and Cruz Missiles", "You're Killin Me Smalls", "Holliday Cruz Lines", "YORDONG (Sad Pat)", "GlasNow and Later", "Can of Corn", "Mets WS Back ON", "RIP Dollar Dog Night", "Tatis All Folks"];
+var KEEPERS = {"0_7": "Vladdy Jr.", "0_22": "Roman Anthony", "0_20": "Elly De La Cruz", "0_18": "Spencer Strider", "1_19": "E. Sheehan", "1_15": "Bobby Witt Jr.", "1_14": "Jac Caglianone", "1_20": "James Wood", "2_15": "Zach Neto", "2_12": "Jesus Luzardo", "2_13": "Bubba Chandler", "2_20": "Cam Schlittler", "3_6": "C. Sanchez", "3_20": "Nolan McLean", "3_19": "Eury Perez", "3_18": "Drake Baldwin", "4_20": "Kyle Stowers", "4_2": "Cal Raleigh", "4_19": "G. Springer", "4_22": "Luis Gil", "5_18": "J. Holliday", "5_19": "Gerrit Cole", "5_20": "Chase DeLauter", "5_22": "Matthew Shaw", "6_11": "Yordan Alvarez", "6_13": "Brent Rooker", "6_6": "Bryan Woo", "6_20": "G. Perdomo", "7_16": "G. Crochet", "7_18": "Tarik Skubal", "7_19": "T. Soderstrom", "7_20": "Carter Jensen", "8_19": "K. Griffin", "8_20": "Nick Kurtz", "8_18": "JJ Wetherholt", "8_17": "H. Goodman", "9_9": "Edwin Diaz", "9_5": "Bryce Harper", "9_20": "K. McGonigle", "9_15": "Byron Buxton", "10_18": "CJ Abrams", "10_20": "J. Chourio", "10_19": "Ben Rice", "10_15": "Paul Skenes", "11_3": "Langford", "11_6": "PCA", "11_14": "Mason Miller", "11_20": "Misiorowski"};
+var leaguePicks = JSON.parse(localStorage.getItem('taf_league_2026') || '{}');
+var activeLgRound = 1;
+var lgPickModal = null;
+var lgVisible = false;
+
+function saveLeague(){ localStorage.setItem('taf_league_2026', JSON.stringify(leaguePicks)); }
+function pickId(round, teamIdx){ return 'r' + round + '_t' + teamIdx; }
+function keeperKey(round, teamIdx){ return '' + teamIdx + '_' + round; }
+function isKeeper(round, teamIdx){ return !!KEEPERS[keeperKey(round, teamIdx)]; }
+function keeperName(round, teamIdx){ return KEEPERS[keeperKey(round, teamIdx)] || ''; }
+function getMyTeamIdx(round){ return (round % 2 === 1) ? 0 : 11; }
+function slotToTeam(round, slot){ return (round % 2 === 1) ? slot : 11 - slot; }
+
+function toggleLeague() { switchTab('league'); }
+function switchTab(tab) {
+  var isDraft = tab === 'draft';
+  document.getElementById('panel-draft').style.display = isDraft ? 'block' : 'none';
+  document.getElementById('panel-league').style.display = isDraft ? 'none' : 'block';
+  document.getElementById('tab-draft').className = 'tab-btn' + (isDraft ? ' active' : '');
+  document.getElementById('tab-league').className = 'tab-btn' + (!isDraft ? ' active' : '');
+  lgVisible = !isDraft;
+  if(!isDraft){ renderRoundSelector(); renderLeagueBoard(activeLgRound); }
+}
+
+function renderRoundSelector() {
+  var el = document.getElementById('round-selector');
+  if(!el) return;
+  el.innerHTML = '';
+  for(var r = 1; r <= 27; r++) {
+    var myIdx = getMyTeamIdx(r);
+    var isKeeperRd = isKeeper(r, myIdx);
+    var btn = document.createElement('button');
+    var cls = 'rs-btn ' + (isKeeperRd ? 'keeper-rd' : 'your-pick');
+    if(r === activeLgRound) cls += ' active';
+    btn.className = cls;
+    btn.textContent = r;
+    btn.setAttribute('data-round', r);
+    btn.onclick = (function(round){ return function(){ activeLgRound = round; renderRoundSelector(); renderLeagueBoard(round); }; })(r);
+    el.appendChild(btn);
+  }
+}
+
+function renderLeagueBoard(round) {
+  var el = document.getElementById('draft-board');
+  if(!el) return;
+  var myTeamIdx = getMyTeamIdx(round);
+  var isKeeperRd = isKeeper(round, myTeamIdx);
+  var label = 'Round ' + round;
+  if(isKeeperRd) label += ' <span class="db-keeper-badge">🔒 Your Keeper — ' + keeperName(round, myTeamIdx) + '</span>';
+  else label += ' <span class="db-your-badge">⭐ Your Pick (pick ' + (round % 2 === 1 ? '1st' : 'last') + ')</span>';
+
+  var html = '<div class="db-round-label">' + label + '</div><div class="picks-row">';
+  for(var slot = 0; slot < 12; slot++) {
+    var teamIdx = slotToTeam(round, slot);
+    var team = TEAMS[teamIdx] || '';
+    var shortTeam = team.split(' ').slice(0,2).join(' ');
+    var pid = pickId(round, teamIdx);
+    var mine = (teamIdx === myTeamIdx);
+    var kp = isKeeper(round, teamIdx);
+    var drafted = leaguePicks[pid];
+    var myOwnPick = mine && picks[String(round)];
+    var overallPick = (round % 2 === 1) ? (round-1)*12 + slot + 1 : round*12 - slot;
+
+    var slotClass = 'pick-slot';
+    if(kp) slotClass += ' keeper-slot';
+    else if(mine && myOwnPick) slotClass += ' filled-yours';
+    else if(mine) slotClass += ' yours';
+    else if(drafted) slotClass += ' filled-other';
+
+    var clickAttr = kp ? '' : 'onclick="openLgModal(' + "'" + pid + "'," + teamIdx + ',' + round + ')"';
+    html += '<div class="' + slotClass + '" ' + clickAttr + '>';
+    html += '<div class="ps-num">#' + overallPick + '</div>';
+    html += '<div class="ps-team">' + shortTeam + '</div>';
+    if(kp) html += '<div class="ps-player">' + keeperName(round, teamIdx) + '</div>';
+    else if(mine && myOwnPick) html += '<div class="ps-player">' + myOwnPick.name + '</div>';
+    else if(drafted) html += '<div class="ps-player">' + drafted.name + '</div>';
+    else html += '<div class="ps-empty">' + (mine ? '← YOUR PICK' : 'Empty') + '</div>' + (mine ? '' : '<div class="ps-tap">tap to log</div>');
+    html += '</div>';
+  }
+  html += '</div>';
+  el.innerHTML = html;
+  renderGoneChips(round);
+}
+
+function renderGoneChips(round) {
+  var el = document.getElementById('gone-chips');
+  if(!el) return;
+  var html = '';
+  var myTeamIdx = getMyTeamIdx(round);
+  for(var slot = 0; slot < 12; slot++) {
+    var teamIdx = slotToTeam(round, slot);
+    if(teamIdx === myTeamIdx) continue;
+    var pid = pickId(round, teamIdx);
+    var kp = isKeeper(round, teamIdx);
+    if(kp) {
+      html += '<span class="gone-chip" style="border-color:#c4b5fd;color:#6d28d9">' + keeperName(round, teamIdx) + ' <em style="font-size:8px">(keeper)</em></span>';
+    } else if(leaguePicks[pid]) {
+      html += '<span class="gone-chip">' + leaguePicks[pid].name + '<span class="gc-x" onclick="clearLgPick(' + "'" + pid + "'" + ')">×</span></span>';
+    }
+  }
+  if(!html) html = '<span style="font-size:10px;color:var(--text3);font-style:italic">No picks logged yet for this round</span>';
+  el.innerHTML = html;
+}
+
+function openLgModal(pid, teamIdx, round) {
+  var _badge = document.getElementById('modal-pos-display'); if(_badge){ _badge.style.display='none'; _badge.textContent=''; }
+  lgPickModal = {pid: pid, teamIdx: teamIdx, round: round};
+  var mine = (teamIdx === getMyTeamIdx(round));
+  var team = TEAMS[teamIdx] || '';
+  var existing = mine ? picks[String(round)] : leaguePicks[pid];
+  document.getElementById('modal-title').textContent = mine ? 'Round ' + round + ' · Your Pick' : 'Round ' + round + ' · ' + team;
+  document.getElementById('modal-sub').textContent = mine ? 'Log your pick here OR tap the round card above' : 'Log ' + team + "'s pick";
+  document.getElementById('modal-input').value = existing ? existing.name : '';
+  document.getElementById('modal-pos-input').value = existing ? (existing.pos || '') : '';
+  window._lgMode = true;
+  document.getElementById('modal').style.display = 'flex';
+  setTimeout(function(){ document.getElementById('modal-input').focus(); }, 80);
+}
+
+function clearLgPick(pid) {
+  delete leaguePicks[pid];
+  saveLeague();
+  if(lgVisible) renderLeagueBoard(activeLgRound);
+  renderAll();
+}
+
+function clearAllOtherPicks() {
+  if(!confirm('Clear all other teams logged picks?')) return;
+  leaguePicks = {};
+  saveLeague();
+  if(lgVisible) renderLeagueBoard(activeLgRound);
+  renderAll();
+}
+
+// Init
+renderRoundSelector();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
+
+<div class="prospects-section">
+  <div class="prospects-hdr">
+    <div>
+      <div class="ph-title">🔬 Full Prospect Draft Guide</div>
+      <div class="ph-sub">ALL KEEPERS REMOVED · ADP REFRESHED FROM ESPN + FANTASYPROS · MARCH 17, 2026</div>
+    </div>
+    <div class="ph-legend">
+      <div class="ph-leg"><div class="ph-dot" style="background:#92400e"></div>Opening Day</div>
+      <div class="ph-leg"><div class="ph-dot" style="background:#1d4ed8"></div>Early Season</div>
+      <div class="ph-leg"><div class="ph-dot" style="background:#166534"></div>Midseason</div>
+      <div class="ph-leg"><div class="ph-dot" style="background:#7e22ce"></div>Waiver Stash</div>
+    </div>
+  </div>
+
+  <div class="prospects-grid">
+
+    <div class="prospect-card">
+      <div class="pcard-rank">PROSPECT #1 · SP</div>
+      <div class="pcard-name">Trey Yesavage</div>
+      <div class="pcard-meta">SP — Toronto Blue Jays · Age 23 · Confirmed #3 Starter</div>
+      <div class="pcard-tags"><span class="pc-tag pct-od">Opening Day</span><span class="pc-tag pct-adp">ADP ~149</span></div>
+      <div class="pcard-why">Postseason legend — shut down Ohtani and the Yankees in the ALCS. 41% K rate across 4 minor league levels, wipeout splitter. Locked into TOR rotation behind Cease/Gausman. Innings cap early (~140) but elite stuff wins H2H weeks. Best SP prospect available after Cole/Eury Perez both kept by other teams.</div>
+      <div class="pcard-when"><div class="pcard-wl">When to Draft</div><div class="pcard-wt">Rounds 15–16 · Picks #169–192 · Don't let him slip</div></div>
+      <div class="pcard-dyn">⭐ Dynasty: Potential top-15 SP within 2 years</div>
+    </div>
+
+    <div class="prospect-card">
+      <div class="pcard-rank">PROSPECT #2 · 1B</div>
+      <div class="pcard-name">Sal Stewart</div>
+      <div class="pcard-meta">1B — Cincinnati Reds · Age 22 · Confirmed Opening Day 1B</div>
+      <div class="pcard-tags"><span class="pc-tag pct-od">Opening Day (batting 6th)</span><span class="pc-tag pct-adp">ADP ~201</span></div>
+      <div class="pcard-why">Best value rookie hitter in the draft. Batting 6th in CIN's confirmed Opening Day lineup. .315/.394/.629 in Triple-A, 21% barrel rate, 95.4 mph avg exit velo, 5 HR in MLB debut September. Great American Ball Park is a launching pad. 25+ HR / .270 avg projection — absurdly cheap at ADP 201.</div>
+      <div class="pcard-when"><div class="pcard-wl">When to Draft</div><div class="pcard-wt">Rounds 19–21 · Picks #217–241 · Do not wait past Rd 22</div></div>
+      <div class="pcard-dyn">⭐ Dynasty: Legitimate top-10 1B for 5+ years</div>
+    </div>
+
+    <div class="prospect-card">
+      <div class="pcard-rank">PROSPECT #3 · C/DH</div>
+      <div class="pcard-name">Samuel Basallo</div>
+      <div class="pcard-meta">C/DH — Baltimore Orioles · Age 21 · Confirmed Everyday DH</div>
+      <div class="pcard-tags"><span class="pc-tag pct-od">Opening Day DH</span><span class="pc-tag pct-adp">ADP ~231</span></div>
+      <div class="pcard-why">$84M pre-arb deal = locked everyday role through 2034. Hit 23 HR in 76 Triple-A games (45 HR pace) at age 20. Top-5 prospect in baseball. 20+ HR upside with C eligibility — crucial because Cal Raleigh is kept by another team. Camden Yards ranked #2 in HR rate. Best late-round C available to you by a large margin.</div>
+      <div class="pcard-when"><div class="pcard-wl">When to Draft</div><div class="pcard-wt">Rounds 21–23 · Picks #241–265 · Don't let slip past Rd 24</div></div>
+      <div class="pcard-dyn">⭐ Dynasty: Top-5 catcher for the next decade</div>
+    </div>
+
+    <div class="prospect-card">
+      <div class="pcard-rank">PROSPECT #4 · 3B/DH</div>
+      <div class="pcard-name">Munetaka Murakami</div>
+      <div class="pcard-meta">3B/DH — Toronto Blue Jays · Age 25 · Confirmed Starter</div>
+      <div class="pcard-tags"><span class="pc-tag pct-od">Opening Day (confirmed)</span><span class="pc-tag pct-adp">ADP ~185</span></div>
+      <div class="pcard-why">Japan's all-time HR king under 30. Averaged 36 HR/season over his last 4 NPB years, 6x HR champion. Confirmed in TOR's everyday lineup. MLB adjustment is the only risk, but the power is undeniable. With Machado and Jazz both gone/kept, 3B is thin — Murakami is your best late 3B dart with genuine 25–30 HR upside.</div>
+      <div class="pcard-when"><div class="pcard-wl">When to Draft</div><div class="pcard-wt">Rounds 20–22 · Picks #240–264 · Best late 3B available</div></div>
+      <div class="pcard-dyn">⭐ Dynasty: 3-year power window, then age risk</div>
+    </div>
+
+    <div class="prospect-card">
+      <div class="pcard-rank">PROSPECT #5 · 2B/OF</div>
+      <div class="pcard-name">Luke Keaschall</div>
+      <div class="pcard-meta">2B/OF — Minnesota Twins · Age 24 · Opening Day Roster</div>
+      <div class="pcard-tags"><span class="pc-tag pct-od">Opening Day</span><span class="pc-tag pct-adp">ADP ~150 (50 picks too late per ESPN)</span></div>
+      <div class="pcard-why">ESPN's Jeff Passan explicitly says he's being drafted 50 spots too late. Missed most of 2025 with forearm fracture but .294/.359/.436 with 4 HR / 9 SB in 42 post-return games. Fully healthy for 2026. Top-5 dynasty 2B target, multi-eligible. Speed/avg/power in a winning MIN lineup. Jazz Chisholm is kept — 2B is extremely thin in your league. Keaschall is your best option.</div>
+      <div class="pcard-when"><div class="pcard-wl">When to Draft</div><div class="pcard-wt">Rounds 22–24 · Picks #264–288 · Best late 2B in the draft</div></div>
+      <div class="pcard-dyn">⭐ Dynasty: Top-10 2B potential for 4+ years</div>
+    </div>
+
+    <div class="prospect-card">
+      <div class="pcard-rank">PROSPECT #6 · OF</div>
+      <div class="pcard-name">Daylen Lile</div>
+      <div class="pcard-meta">OF — Philadelphia Phillies · Age 22 · Confirmed Opening Day CF</div>
+      <div class="pcard-tags"><span class="pc-tag pct-od">Opening Day CF (confirmed)</span><span class="pc-tag pct-adp">ADP ~270</span></div>
+      <div class="pcard-why">Son of Carl Crawford — the speed genes are real. Confirmed as PHI Opening Day CF. Back-to-back 42 and 46 SB seasons in minors with .313/.334 avg. Phillies are a loaded lineup for counting stats. Pure SB/AVG category weapon in H2H. Steals are hard to find late in drafts — Lile is the cheapest legitimate source available in rounds 24+.</div>
+      <div class="pcard-when"><div class="pcard-wl">When to Draft</div><div class="pcard-wt">Rounds 23–25 · Picks #265–289 · Best late SB source</div></div>
+      <div class="pcard-dyn">⭐ Dynasty: Elite SB floor for 5+ years</div>
+    </div>
+
+    <div class="prospect-card">
+      <div class="pcard-rank">PROSPECT #7 · SP</div>
+      <div class="pcard-name">Tatsuya Imai</div>
+      <div class="pcard-meta">SP — Chicago White Sox · Age 26 · Opening Day Starter</div>
+      <div class="pcard-tags"><span class="pc-tag pct-od">Opening Day Rotation</span><span class="pc-tag pct-adp">ADP ~190</span></div>
+      <div class="pcard-why">Sub-2.50 ERA in Japan 4 straight seasons. Elite splitter generates wipeout whiff rates comparable to Yamamoto. Bad team (CWS) means fewer wins but easy ratios and consistent starts. In H2H categories the ERA/WHIP/K categories are what matter — not wins. Excellent SP depth add given how many arms are already kept across your league.</div>
+      <div class="pcard-when"><div class="pcard-wl">When to Draft</div><div class="pcard-wt">Rounds 22–24 · Picks #264–288 · Reliable SP depth</div></div>
+      <div class="pcard-dyn">⭐ Dynasty: Proven track record helps floor projection</div>
+    </div>
+
+    <div class="prospect-card">
+      <div class="pcard-rank">PROSPECT #8 · 3B</div>
+      <div class="pcard-name">Coby Mayo</div>
+      <div class="pcard-meta">3B — Baltimore Orioles · Age 23 · Opening Day Roster</div>
+      <div class="pcard-tags"><span class="pc-tag pct-od">Opening Day</span><span class="pc-tag pct-adp">ADP ~290</span></div>
+      <div class="pcard-why">Former top-5 overall prospect. Rough debut but finished 2025 strong (.301/.393/.548, 5 HR final month) and carrying that form into spring 2026. Pete Alonso now hitting behind him in BAL's lineup. Camden Yards is HR-friendly. Pure power dart at ADP ~290 — the ceiling is real even if the floor is uncertain. Best risk/reward 3B option in rounds 25+.</div>
+      <div class="pcard-when"><div class="pcard-wl">When to Draft</div><div class="pcard-wt">Rounds 25–27 · Picks #289–313 · Pure power ceiling dart</div></div>
+      <div class="pcard-dyn">⭐ Dynasty: High ceiling, floor still being established</div>
+    </div>
+
+    <div class="prospect-card">
+      <div class="pcard-rank">PROSPECT #9 · SP (MONITOR)</div>
+      <div class="pcard-name">Connelly Early</div>
+      <div class="pcard-meta">SP — Boston Red Sox · Age 24 · 5th Spot Competition</div>
+      <div class="pcard-tags"><span class="pc-tag pct-es">NOT locked in — monitor</span><span class="pc-tag pct-adp">ADP ~223</span></div>
+      <div class="pcard-why">UPDATE March 17: Early is in a 5-way competition for BOS's 5th rotation spot vs. Payton Tolle, Kutter Crawford, Patrick Sandoval, and Oviedo. He is NOT confirmed for Opening Day. Plus fastball, elite extension, excellent upside if he wins the job. Worth a final-round stash — if he starts in Triple-A he'll likely be waiver-wire available mid-April. Draft him as insurance late.</div>
+      <div class="pcard-when"><div class="pcard-wl">When to Draft</div><div class="pcard-wt">Rounds 26–27 · Final round stash / waiver wire candidate</div></div>
+      <div class="pcard-dyn">⭐ Dynasty: Strong SP3/4 ceiling for 4+ years</div>
+    </div>
+
+  </div>
+
+  <div class="prospects-qr">
+    <div class="pqr-title">Quick Reference — Prospect Draft Order</div>
+    <div class="pqr-grid">
+      <div class="pqr-cell"><div class="pqr-rng">Rds 15–16 · #169–192</div><div class="pqr-name">Trey Yesavage</div><div class="pqr-pos">SP · TOR · Best SP prospect available</div></div>
+      <div class="pqr-cell"><div class="pqr-rng">Rds 19–21 · #217–241</div><div class="pqr-name">Sal Stewart</div><div class="pqr-pos">1B · CIN · Best value hitter in class</div></div>
+      <div class="pqr-cell"><div class="pqr-rng">Rds 20–22 · #240–264</div><div class="pqr-name">Munetaka Murakami</div><div class="pqr-pos">3B · TOR · Power dart, confirmed starter</div></div>
+      <div class="pqr-cell"><div class="pqr-rng">Rds 21–23 · #241–265</div><div class="pqr-name">Samuel Basallo</div><div class="pqr-pos">C/DH · BAL · C depth with 20+ HR</div></div>
+      <div class="pqr-cell"><div class="pqr-rng">Rds 22–24 · #264–288</div><div class="pqr-name">Keaschall + Imai</div><div class="pqr-pos">2B · MIN / SP · CWS · Depth picks</div></div>
+      <div class="pqr-cell"><div class="pqr-rng">Rds 23–27 · #265–313</div><div class="pqr-name">Lile · Mayo · Early</div><div class="pqr-pos">OF PHI / 3B BAL / SP BOS · Final darts</div></div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
