@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tatis All Folks — 2026 Draft War Room</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #0a7c45;
+  --green-light: #e8f7ef;
+  --green-mid: #c3e9d5;
+  --amber: #b45309;
+  --amber-light: #fef3c7;
+  --red: #c0392b;
+  --red-light: #fdecea;
+  --blue: #1d4ed8;
+  --blue-light: #eff6ff;
+  --purple: #6d28d9;
+  --purple-light: #f5f3ff;
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --surface2: #f8fafc;
+  --surface3: #eef2f7;
+  --border: #e2e8f0;
+  --border2: #cbd5e1;
+  --text: #1a2332;
+  --text2: #475569;
+  --text3: #94a3b8;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  min-height: 100vh;
+  padding: 12px;
+}
+
+/* HEADER */
+.header {
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.team-name {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 32px;
+  letter-spacing: 2px;
+  color: var(--green);
+  line-height: 1;
+}
+.season-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+.header-stats {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.stat-block { text-align: center; }
+.stat-num {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 26px;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.stat-lbl {
+  font-size: 9px;
+  color: var(--text3);
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.06em;
+}
+.stat-block.pick1 .stat-num { color: var(--amber); }
+.stat-block.drafted .stat-num { color: var(--green); }
+.stat-block.remaining .stat-num { color: var(--text2); }
+
+/* DRAFT CLOCK */
+.draft-clock {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.clock-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.clock-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--text3);
+  flex-shrink: 0;
+}
+.clock-dot.live {
+  background: var(--green);
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:0.5; transform:scale(1.3); }
+}
+.clock-status {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.clock-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.clock-time {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 20px;
+  color: var(--amber);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.draft-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 7px;
+  border: 1px solid var(--border2);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn-start { background: var(--green); color: #fff; border-color: var(--green); }
+.btn-start:hover { background: #065f35; }
+.btn-reset { background: var(--surface); color: var(--text2); }
+.btn-reset:hover { background: var(--surface3); }
+.btn-export { background: var(--blue-light); color: var(--blue); border-color: #bfdbfe; }
+.btn-export:hover { background: #dbeafe; }
+
+/* ROSTER BAR */
+.roster-bar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.pos-slot {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  box-shadow: var(--shadow);
+}
+.pos-slot.filled { border-color: var(--green-mid); background: var(--green-light); }
+.pos-label {
+  font-size: 9px;
+  font-family: 'DM Mono', monospace;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  margin-bottom: 2px;
+}
+.pos-slot.filled .pos-label { color: var(--green); }
+.pos-player {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--green);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pos-empty { font-size: 10px; color: var(--text3); font-style: italic; }
+
+/* MAIN GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .grid { grid-template-columns: 1fr; }
+  .roster-bar { grid-template-columns: repeat(5, 1fr); }
+  .header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .header-stats { gap: 10px; }
+  .draft-clock { flex-direction: column; align-items: flex-start; }
+  .clock-right { width: 100%; justify-content: space-between; }
+  .draft-actions { flex: 1; }
+  .btn { flex: 1; text-align: center; }
+  .footer-notes { grid-template-columns: 1fr; }
+}
+
+/* ROUND CARD */
+.round-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.round-card:hover { box-shadow: var(--shadow-md); border-color: var(--border2); }
+.round-card.keeper-card { border-color: #c4b5fd; background: #fdfcff; }
+.round-card.drafted { border-color: var(--green-mid); background: var(--green-light); }
+.round-card.current { border-color: var(--amber); border-width: 2px; box-shadow: 0 0 0 3px rgba(180,83,9,0.1); }
+
+/* CURRENT BADGE */
+.current-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-family: 'DM Mono', monospace;
+  color: var(--amber);
+  background: var(--amber-light);
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  animation: fadePulse 1.5s infinite;
+  margin-left: auto;
+}
+@keyframes fadePulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+
+/* CARD HEADER */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+}
+.keeper-card .card-header { background: #f5f3ff; border-bottom-color: #e9d5ff; }
+.drafted .card-header { background: #d1fae5; border-bottom-color: var(--green-mid); }
+.current .card-header { background: var(--amber-light); border-bottom-color: #fde68a; }
+
+.round-num {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  min-width: 28px;
+}
+.pick-bubble {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  padding: 1px 7px;
+  border-radius: 4px;
+  border: 1px solid;
+  font-weight: 500;
+}
+.pick-bubble.normal { color: var(--text2); border-color: var(--border2); background: var(--surface); }
+.pick-bubble.keeper { color: var(--purple); border-color: #c4b5fd; background: var(--purple-light); }
+.pick-bubble.done { color: var(--green); border-color: var(--green-mid); background: var(--green-light); }
+.avail-note {
+  font-size: 9px;
+  color: var(--text3);
+  margin-left: auto;
+  font-family: 'DM Mono', monospace;
+  text-align: right;
+}
+
+/* DRAFTED DISPLAY */
+.drafted-display {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--green-mid);
+  cursor: pointer;
+}
+.drafted-display .dl { font-size: 9px; font-family: 'DM Mono', monospace; color: var(--green); letter-spacing: 0.1em; margin-bottom: 2px; font-weight: 600; }
+.drafted-display .dn { font-family: 'Bebas Neue', cursive; font-size: 18px; color: var(--green); letter-spacing: 0.5px; }
+.drafted-display .dp { font-size: 10px; color: #065f35; }
+.drafted-display .edit-hint { font-size: 9px; color: var(--text3); margin-top: 2px; font-style: italic; }
+
+/* PRIMARY PICK */
+.primary {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.primary-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 2px;
+}
+.player-name {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  color: var(--text);
+}
+.player-pos { font-size: 10px; color: var(--text2); margin-top: 1px; }
+.meta-row { display: flex; align-items: center; gap: 5px; margin-top: 5px; flex-wrap: wrap; }
+.adp-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text2);
+  background: var(--surface3);
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.val-tag {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.vs { background: var(--green-light); color: var(--green); border: 1px solid var(--green-mid); }
+.vg { background: var(--blue-light); color: var(--blue); border: 1px solid #bfdbfe; }
+.vf { background: var(--amber-light); color: var(--amber); border: 1px solid #fde68a; }
+.vk { background: var(--purple-light); color: var(--purple); border: 1px solid #c4b5fd; }
+.warn-tag {
+  font-size: 9px;
+  color: var(--red);
+  background: var(--red-light);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  border: 1px solid #fca5a5;
+}
+.pick-note { font-size: 10px; color: var(--text2); margin-top: 5px; line-height: 1.5; }
+.draft-hint { font-size: 9px; color: var(--text3); margin-top: 4px; font-style: italic; }
+
+/* BACKUPS */
+.backups { padding: 5px 10px 8px; }
+.backups-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text3);
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 3px;
+  font-weight: 600;
+}
+.backup-row {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 3px 0;
+  border-top: 1px solid var(--border);
+}
+.b-num { font-size: 9px; color: var(--text3); width: 12px; flex-shrink: 0; }
+.b-name { font-size: 11px; font-weight: 500; color: var(--text); flex: 1; }
+.b-pos { font-size: 9px; color: var(--text2); }
+.b-adp { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text3); white-space: nowrap; }
+
+/* KEEPER BODY */
+.keeper-body { padding: 9px 10px; }
+.keeper-name { font-family: 'Bebas Neue', cursive; font-size: 20px; color: var(--purple); letter-spacing: 0.5px; }
+.keeper-pos { font-size: 10px; color: #7c3aed; margin-top: 1px; }
+.keeper-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--purple);
+  background: var(--purple-light);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #c4b5fd;
+  display: inline-block;
+  margin-top: 5px;
+  font-weight: 500;
+}
+.keeper-note { font-size: 10px; color: #5b21b6; margin-top: 5px; line-height: 1.5; }
+
+/* INPUT MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.45);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+  padding: 16px;
+}
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  padding: 20px;
+  width: 340px;
+  max-width: 100%;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+.modal-title { font-family: 'Bebas Neue', cursive; font-size: 24px; color: var(--text); letter-spacing: 1px; margin-bottom: 2px; }
+.modal-sub { font-size: 11px; color: var(--text2); margin-bottom: 14px; font-family: 'DM Mono', monospace; }
+.modal input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  margin-bottom: 7px;
+  transition: border-color 0.15s;
+}
+.modal input:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(180,83,9,0.08); }
+.modal-hint { font-size: 10px; color: var(--text3); margin-bottom: 14px; line-height: 1.6; }
+.modal-actions { display: flex; gap: 8px; }
+.modal-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.modal-confirm { background: var(--green); color: #fff; border-color: var(--green); }
+.modal-confirm:hover { background: #065f35; }
+.modal-cancel { background: var(--surface2); color: var(--text2); }
+.modal-cancel:hover { background: var(--surface3); }
+.modal-clear { background: var(--red-light); color: var(--red); border-color: #fca5a5; }
+.modal-clear:hover { background: #fee2e2; }
+
+/* FOOTER */
+.footer-notes {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.note-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 10px 12px;
+}
+.note-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--amber);
+  margin-bottom: 6px;
+}
+.note-item {
+  font-size: 10px;
+  color: var(--text2);
+  padding: 3px 0;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.4;
+}
+.note-item strong { color: var(--text); font-weight: 600; }
+.note-item.green strong { color: var(--green); }
+.note-item.green { color: #065f35; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="team-name">Tatis All Folks</div>
+    <div class="season-tag">2026 FANTASY BASEBALL · LIVE DRAFT TRACKER · March 17, 2026 · 7:00 PM</div>
+  </div>
+  <div class="header-stats">
+    <div class="stat-block pick1"><div class="stat-num">1st</div><div class="stat-lbl">Overall Pick</div></div>
+    <div class="stat-block drafted"><div class="stat-num" id="drafted-count">0</div><div class="stat-lbl">Drafted</div></div>
+    <div class="stat-block remaining"><div class="stat-num" id="remaining-count">23</div><div class="stat-lbl">Remaining</div></div>
+  </div>
+</div>
+
+<!-- DRAFT CLOCK -->
+<div class="draft-clock">
+  <div class="clock-left">
+    <div class="clock-dot" id="clock-dot"></div>
+    <div class="clock-status" id="clock-status">Draft starts March 17 at 7:00 PM — Click START when your draft begins</div>
+  </div>
+  <div class="clock-right">
+    <div class="clock-time" id="clock-time">7:00 PM</div>
+    <div class="draft-actions">
+      <button class="btn btn-start" onclick="startDraft()" id="start-btn">▶ START</button>
+      <button class="btn btn-export" onclick="exportRoster()">↓ Export</button>
+      <button class="btn btn-reset" onclick="resetDraft()">↺ Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- ROSTER BAR -->
+<div class="roster-bar" id="roster-bar">
+  <div class="pos-slot" id="slot-C"><div class="pos-label">C</div><div class="pos-empty">Empty</div></div>
+  <div class="pos-slot" id="slot-1B"><div class="pos-label">1B</div><div class="pos-empty">Empty</div></div>
+  <div class="pos-slot" id="slot-2B"><div class="pos-label">2B</div><div class="pos-empty">Empty</div></div>
+  <div class="pos-slot" id="slot-SS"><div class="pos-label">SS</div><div class="pos-empty">Empty</div></div>
+  <div class="pos-slot" id="slot-3B"><div class="pos-label">3B</div><div class="pos-empty">Empty</div></div>
+  <div class="pos-slot" id="slot-OF1"><div class="pos-label">OF</div><div class="pos-empty">Empty</div></div>
+  <div class="pos-slot" id="slot-OF2"><div class="pos-label">OF</div><div class="pos-empty">Empty</div></div>
+  <div class="pos-slot" id="slot-OF3"><div class="pos-label">OF</div><div class="pos-empty">Empty</div></div>
+  <div class="pos-slot" id="slot-SP1"><div class="pos-label">SP</div><div class="pos-empty">Empty</div></div>
+  <div class="pos-slot" id="slot-RP1"><div class="pos-label">RP</div><div class="pos-empty">Empty</div></div>
+</div>
+
+<!-- MAIN GRID -->
+<div class="grid" id="main-grid"></div>
+
+<!-- FOOTER NOTES -->
+<div class="footer-notes">
+  <div class="note-card">
+    <div class="note-title">⚠ Injury Flags — Check Day-Of</div>
+    <div class="note-item"><strong>Francisco Lindor (SS · NYM)</strong> — hamate, verify status before targeting</div>
+    <div class="note-item"><strong>Corbin Carroll (OF · ARI)</strong> — hamate, ADP 7, huge steal if healthy</div>
+    <div class="note-item"><strong>Hunter Greene (SP · CIN)</strong> — bone spurs, likely out until June. Avoid.</div>
+    <div class="note-item"><strong>Jacob deGrom (SP · TEX)</strong> — dart throw only, always a health risk</div>
+  </div>
+  <div class="note-card">
+    <div class="note-title">🔒 Your 4 Keepers</div>
+    <div class="note-item green"><strong>Rd 3:</strong> Wyatt Langford · OF · TEX · ADP ~50</div>
+    <div class="note-item green"><strong>Rd 6:</strong> Pete Crow-Armstrong · OF · CHC · ADP ~30</div>
+    <div class="note-item green"><strong>Rd 14:</strong> Mason Miller · RP · SD · ADP ~26 ← BEST VALUE</div>
+    <div class="note-item green"><strong>Rd 20:</strong> Jacob Misiorowski · SP · MIL · ADP ~130</div>
+  </div>
+  <div class="note-card">
+    <div class="note-title">⚡ Back-to-Back Turns</div>
+    <div class="note-item"><strong>#48→#49:</strong> Ketel Marte + Machado / Hunter Brown</div>
+    <div class="note-item"><strong>#96→#97:</strong> Mookie Betts + Contreras (GET C!)</div>
+    <div class="note-item"><strong>#120→#121:</strong> Freddy Peralta + Riley Greene</div>
+    <div class="note-item"><strong>#144→#145:</strong> Cole Ragans + Chris Sale</div>
+    <div class="note-item"><strong>#192→#193:</strong> Griffin Jax + Brice Turang</div>
+    <div class="note-item"><strong>#216→#217:</strong> Max Fried + Josh Naylor</div>
+    <div class="note-item"><strong>#264→#265:</strong> Jacob Wilson + Jonathan Aranda</div>
+  </div>
+</div>
+
+<!-- INPUT MODAL -->
+<div class="modal-overlay" id="modal" style="display:none;">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Log Your Pick</div>
+    <div class="modal-sub" id="modal-sub">Round X · Pick #XX</div>
+    <input type="text" id="modal-input" placeholder="Player name (e.g. Jazz Chisholm Jr.)" autocomplete="off" />
+    <input type="text" id="modal-pos-input" placeholder="Position + Team (e.g. 2B/3B — NYY)" autocomplete="off" />
+    <div class="modal-hint">Type name + position, then click Save. Click "Clear Pick" to undo.</div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-confirm" onclick="confirmPick()">Save</button>
+      <button class="modal-btn modal-clear" onclick="clearPick()">Clear</button>
+      <button class="modal-btn modal-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ROUNDS = [
+  {r:1, pk:'#1', type:'pick', val:'f', vl:'At ADP', avail:'Best player in fantasy',
+   p:{n:'Shohei Ohtani', pos:'SP/DH — LAD', adp:1, note:'Unanimous 1.01. Two-way return in 2026: 45+ HR, ace Ks, ~20 SB. Zero debate.'},
+   b:[
+     {n:'N/A — Ohtani is yours',pos:'',adp:''},
+   ]},
+
+  {r:2, pk:'#24', type:'pick', val:'s', vl:'Great Value', avail:'~13th best available',
+   p:{n:'Jazz Chisholm Jr.', pos:'2B/3B — NYY', adp:23, note:'Top 12 gone by pick #24. Multi-eligible 2B/3B, 30/30 upside on the Yankees. Scarcest position in the draft.'},
+   b:[
+     {n:'Yoshinobu Yamamoto',pos:'SP · LAD',adp:24,note:'Best SP available, 6-pitch ace'},
+     {n:'Pete Alonso',pos:'1B · BAL',adp:25,note:'35+ HR floor, Baltimore power context'},
+     {n:'Trea Turner',pos:'SS · PHI',adp:27,note:'Speed/avg/pop, 25+ SB upside'},
+     {n:'Ketel Marte',pos:'2B · ARI',adp:28,note:'Elite 2B if Chisholm and Yamamoto gone'},
+     {n:'Manny Machado',pos:'3B · SD',adp:30,note:'Consistent 30 HR 3B veteran floor'},
+   ]},
+
+  {r:3, pk:'KEEPER', type:'keeper', val:'k', vl:'Keeper',
+   p:{n:'Wyatt Langford', pos:'OF — TEX', adp:50, note:'Rd 3 cost. ADP ~50 — slight premium but 24 yrs old, 4 contract years of dynasty upside.', meta:'Rd 3 Cost · ADP ~50'}},
+
+  {r:4, pk:'#48', type:'pick', val:'s', vl:'Great Value', avail:'~25th best available',
+   p:{n:'Ketel Marte', pos:'2B — ARI', adp:28, note:'Best 2B in fantasy 3 straight years. Elite floor, low K rate. 2B is extremely scarce — priority.'},
+   b:[
+     {n:'Manny Machado',pos:'3B · SD',adp:30,note:'30 HR elite veteran 3B floor'},
+     {n:'Hunter Brown',pos:'SP · HOU',adp:30,note:'Elite K rate, durable Astros workhorse'},
+     {n:'Logan Gilbert',pos:'SP · SEA',adp:35,note:'200-inning workhorse with solid ratios'},
+     {n:'Logan Webb',pos:'SP · SF',adp:40,note:'Elite WHIP, groundball ace, durable'},
+     {n:'Matt Olson',pos:'1B · ATL',adp:43,note:'30+ HR 1B, Braves run production'},
+   ]},
+
+  {r:5, pk:'#49', type:'pick', val:'s', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
+   p:{n:'Manny Machado', pos:'3B — SD', adp:30, note:'Immediately follows #48. Grab whoever just slipped back to you. Machado = 30 HR floor, elite 3B.'},
+   b:[
+     {n:'Hunter Brown',pos:'SP · HOU',adp:30,note:'Elite K rate SP — grab if Machado gone'},
+     {n:'Logan Gilbert',pos:'SP · SEA',adp:35,note:'200-inning workhorse SP'},
+     {n:'Logan Webb',pos:'SP · SF',adp:40,note:'Elite WHIP groundball machine'},
+     {n:'Matt Olson',pos:'1B · ATL',adp:43,note:'Power 1B with Braves run support'},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power CF, top of Red Sox order'},
+   ]},
+
+  {r:6, pk:'#72', type:'pick', val:'g', vl:'Good Value', avail:'~37th best available',
+   p:{n:'Logan Webb', pos:'SP — SF', adp:40, note:'Elite WHIP, groundball ace. SP scarce with Sanchez/Woo/Crochet/Skenes/Skubal all kept off board.'},
+   b:[
+     {n:'Mookie Betts',pos:'SS · LAD',adp:49,note:'SS eligible, Dodgers lineup, multi-pos gold'},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power CF, elite SB upside'},
+     {n:'Matt Olson',pos:'1B · ATL',adp:43,note:'30+ HR 1B depth if still here'},
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:47,note:'Power bat, multi-pos eligible'},
+     {n:'William Contreras',pos:'C · MIL',adp:54,note:'Best C available — Raleigh is kept!'},
+   ]},
+
+  {r:'6K', pk:'KEEPER', type:'keeper', val:'k', vl:'Keeper',
+   p:{n:'Pete Crow-Armstrong', pos:'OF — CHC', adp:30, note:'BEST SURPLUS. ADP ~30 player at Rd 6 cost. 31 HR / 35 SB at age 23. Dynasty cornerstone.', meta:'Rd 6 Cost · ADP ~30 · BEST SURPLUS'}},
+
+  {r:8, pk:'#96', type:'pick', val:'g', vl:'Good Value', avail:'~49th best available',
+   p:{n:'Mookie Betts', pos:'SS/2B — LAD', adp:49, note:'SS eligible, Dodgers lineup, multi-pos gold. Elite all-around producer in the best lineup in baseball.'},
+   b:[
+     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power CF, top of Red Sox order'},
+     {n:'William Contreras',pos:'C · MIL',adp:54,note:'URGENT — best C available, Raleigh kept'},
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:47,note:'Power bat, multi-pos eligible'},
+     {n:'Matt Olson',pos:'1B · ATL',adp:43,note:'30 HR 1B if still somehow here'},
+     {n:'Freddy Peralta',pos:'SP · NYM',adp:59,note:'200 K floor, SP2 on Mets contender'},
+   ]},
+
+  {r:9, pk:'#97', type:'pick', val:'s', vl:'⚠ GET CATCHER!', avail:'⚡ Immediate turn',
+   p:{n:'William Contreras', pos:'C — MIL', adp:54, note:'URGENT. Cal Raleigh is kept and gone. Contreras is the last good catcher. If you skipped him at #96, take him NOW. Do not wait.', warn:true},
+   b:[
+     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power CF if C already covered'},
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:47,note:'Multi-pos power bat'},
+     {n:'Freddy Peralta',pos:'SP · NYM',adp:59,note:'200 K floor SP2 on Mets'},
+     {n:'Riley Greene',pos:'OF · DET',adp:62,note:'Breakout 2025, 157 games, multi-pos'},
+     {n:'Cole Ragans',pos:'SP · KC',adp:55,note:'High-K SP, elite ratios'},
+   ]},
+
+  {r:10, pk:'#120', type:'pick', val:'g', vl:'Good Value', avail:'~61st best available',
+   p:{n:'Freddy Peralta', pos:'SP — NYM', adp:59, note:'200 K floor, SP2 on Mets contender. Eury Perez + Gerrit Cole both kept — Peralta fills critical SP need at good value.'},
+   b:[
+     {n:'Riley Greene',pos:'OF · DET',adp:62,note:'Breakout 2025, 157 games, multi-pos'},
+     {n:'Cole Ragans',pos:'SP · KC',adp:55,note:'High-K SP with elite ratios'},
+     {n:'Josh Naylor',pos:'1B · SEA',adp:59,note:'Power 1B depth pick'},
+     {n:'Corbin Carroll',pos:'OF · ARI',adp:'7 ⚠',note:'HUGE steal if healthy — check injury!'},
+     {n:'Chris Sale',pos:'SP · ATL',adp:35,note:'Big steal if still available at pick 120'},
+   ]},
+
+  {r:11, pk:'#121', type:'pick', val:'s', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
+   p:{n:'Riley Greene', pos:'OF — DET', adp:62, note:'Breakout 2025 — 157 games played, emerging power, multi-pos eligible. Great immediate follow after Peralta.'},
+   b:[
+     {n:'Cole Ragans',pos:'SP · KC',adp:55,note:'High-K SP if Greene gone'},
+     {n:'Chris Sale',pos:'SP · ATL',adp:35,note:'Big steal if still here at pick 121'},
+     {n:'Josh Naylor',pos:'1B · SEA',adp:59,note:'Power 1B depth'},
+     {n:'Corbin Carroll',pos:'OF · ARI',adp:'7 ⚠',note:'Steal of the draft if healthy'},
+     {n:'George Kirby',pos:'SP · SEA',adp:90,note:'Elite command, WHIP anchor'},
+   ]},
+
+  {r:12, pk:'#144', type:'pick', val:'s', vl:'Great Value', avail:'~73rd best available',
+   p:{n:'Cole Ragans', pos:'SP — KC', adp:55, note:'High-K SP with elite ratios. Critical SP depth with so many arms kept off board by other teams.'},
+   b:[
+     {n:'Chris Sale',pos:'SP · ATL',adp:35,note:'ADP 35 — steal if SP-light draft room'},
+     {n:'Corbin Carroll',pos:'OF · ARI',adp:'7 ⚠',note:'Check injury — monster steal if healthy'},
+     {n:'Matt Olson',pos:'1B · ATL',adp:43,note:'30 HR 1B depth if still here'},
+     {n:'George Kirby',pos:'SP · SEA',adp:90,note:'Elite command WHIP anchor'},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power CF if OF thin'},
+   ]},
+
+  {r:13, pk:'#145', type:'pick', val:'s', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
+   p:{n:'Chris Sale', pos:'SP — ATL', adp:35, note:'ADP 35 — if SP-light draft room lets him fall this deep, huge steal. Back-to-back with Ragans gives an elite rotation core.'},
+   b:[
+     {n:'Corbin Carroll',pos:'OF · ARI',adp:'7 ⚠',note:'Massive steal if healthy — check status'},
+     {n:'George Kirby',pos:'SP · SEA',adp:90,note:'Elite command, best WHIP arm in range'},
+     {n:'Griffin Jax',pos:'RP · MIN',adp:'~170',note:'Rising fast — locked MIN closer, saves'},
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:47,note:'Power bat, multi-pos, good value'},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power OF if still available'},
+   ]},
+
+  {r:14, pk:'KEEPER', type:'keeper', val:'k', vl:'Keeper',
+   p:{n:'Mason Miller', pos:'RP — SD', adp:26, note:'MASSIVE SURPLUS. #1 closer in all of fantasy. 38 SV / 2.48 ERA / 100 K projected. ADP ~26 at Rd 14 cost.', meta:'Rd 14 Cost · ADP ~26 · MASSIVE VALUE'}},
+
+  {r:15, pk:'#169', type:'pick', val:'g', vl:'Good Value', avail:'~86th best available',
+   p:{n:'George Kirby', pos:'SP — SEA', adp:90, note:'Elite command SP. Best WHIP-anchoring arm available in this range. Consistently wins ERA + WHIP in H2H categories.'},
+   b:[
+     {n:'Griffin Jax',pos:'RP · MIN',adp:'~170',note:'Locked MIN closer, ADP rising fast'},
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:47,note:'Power bat, multi-pos — steal if here'},
+     {n:'Corbin Carroll',pos:'OF · ARI',adp:'7 ⚠',note:'Massive steal if healthy and still here'},
+     {n:'Jarren Duran',pos:'OF · BOS',adp:44,note:'Speed/power CF if still available'},
+     {n:'Max Fried',pos:'SP · NYY',adp:45,note:'Durable lefty SP with solid ratios'},
+   ]},
+
+  {r:16, pk:'#192', type:'pick', val:'g', vl:'Good Value', avail:'~97th best available',
+   p:{n:'Griffin Jax', pos:'RP — MIN', adp:170, note:'Rising ADP — locked MN closer. Edwin Diaz is kept by Mets WS. Saves are scarce — secure your second closer here.'},
+   b:[
+     {n:'Ryan Walker',pos:'RP · SF',adp:'~185',note:'Rising — locked SF closer, solid ratios'},
+     {n:'Brice Turang',pos:'2B · MIL',adp:55,note:'Speed/avg 2B, multi-pos, great SB/AVG'},
+     {n:'Max Fried',pos:'SP · NYY',adp:45,note:'Durable lefty SP if still available'},
+     {n:'Rafael Devers',pos:'1B/3B · SF',adp:47,note:'Power bat if still somehow available'},
+     {n:'Francisco Lindor',pos:'SS · NYM',adp:'16 ⚠',note:'Hamate — verify health before targeting'},
+   ]},
+
+  {r:17, pk:'#193', type:'pick', val:'s', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
+   p:{n:'Brice Turang', pos:'2B — MIL', adp:55, note:'Speed/avg 2B with multi-pos eligibility. Great SB and AVG category contributor in H2H. Perfect immediate follow after Jax.'},
+   b:[
+     {n:'Ryan Walker',pos:'RP · SF',adp:'~185',note:'Locked SF closer, ADP rising'},
+     {n:'Max Fried',pos:'SP · NYY',adp:45,note:'Durable lefty SP if still here'},
+     {n:'Francisco Lindor',pos:'SS · NYM',adp:'16 ⚠',note:'Hamate — 30/30 if healthy, verify first'},
+     {n:'Josh Naylor',pos:'1B · SEA',adp:59,note:'Power 1B depth pick'},
+     {n:'George Kirby',pos:'SP · SEA',adp:90,note:'Elite command SP if still available'},
+   ]},
+
+  {r:18, pk:'#216', type:'pick', val:'g', vl:'Good Value', avail:'~109th best available',
+   p:{n:'Max Fried', pos:'SP — NYY', adp:45, note:'Durable lefty SP with solid ratios. Multiple Rd 18 keepers (Strider, Holliday, Skubal, Wetherholt, Baldwin) all free up the pool.'},
+   b:[
+     {n:'Josh Naylor',pos:'1B · SEA',adp:59,note:'Power 1B depth, solid counting stats'},
+     {n:'Ryan Walker',pos:'RP · SF',adp:'~185',note:'SF closer if saves still needed'},
+     {n:'Francisco Lindor',pos:'SS · NYM',adp:'16 ⚠',note:'Verify hamate — elite if healthy'},
+     {n:'Jacob deGrom',pos:'SP · TEX',adp:'43 ⚠',note:'Health dart only — elite ceiling'},
+     {n:'Brice Turang',pos:'2B · MIL',adp:55,note:'Speed/avg 2B if somehow still here'},
+   ]},
+
+  {r:19, pk:'#217', type:'pick', val:'s', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
+   p:{n:'Josh Naylor', pos:'1B/DH — SEA', adp:59, note:'Power 1B depth. Multiple Rd 19 keepers (Perez, Cole, Springer, Griffin, Soderstrom) all gone — opens the pool nicely.'},
+   b:[
+     {n:'Ryan Walker',pos:'RP · SF',adp:'~185',note:'SF closer for saves depth'},
+     {n:'Roki Sasaki',pos:'SP · LAD',adp:100,note:'On your roster — dynasty stash'},
+     {n:'Brice Turang',pos:'2B · MIL',adp:55,note:'Speed/avg 2B depth if still here'},
+     {n:'Francisco Lindor',pos:'SS · NYM',adp:'16 ⚠',note:'Verify hamate — 30/30 upside'},
+     {n:'Jacob deGrom',pos:'SP · TEX',adp:'43 ⚠',note:'Late dart if you want the ceiling risk'},
+   ]},
+
+  {r:20, pk:'KEEPER', type:'keeper', val:'k', vl:'Keeper',
+   p:{n:'Jacob Misiorowski', pos:'SP — MIL', adp:130, note:'Dynasty gem. 99.3 mph fastball, 32% K rate, 2025 Slider of the Year. Ace ceiling, 4 contract years left.', meta:'Rd 20 Cost · ADP ~130 · DYNASTY GEM'}},
+
+  {r:21, pk:'#241', type:'pick', val:'g', vl:'Late Value', avail:'~122nd best available',
+   p:{n:'Roki Sasaki', pos:'SP — LAD', adp:100, note:'On your roster from last year. Dynasty stash — elite upside pitching in the Dodgers organization.'},
+   b:[
+     {n:'Jacob Wilson',pos:'SS · ATH',adp:115,note:'.311 AVG anchor, 7-yr deal, elite contact'},
+     {n:'Jonathan Aranda',pos:'1B · TB',adp:144,note:'.316 avg, 14 HR breakout, everyday role'},
+     {n:'Otto Lopez',pos:'2B/OF · MIA',adp:'~200',note:'Multi-eligible, AVG + steals late'},
+     {n:'Ryan Walker',pos:'RP · SF',adp:'~185',note:'Closer if saves are still thin'},
+     {n:'Maikel Garcia',pos:'2B/3B · KC',adp:'~130',note:'Speed, avg, multi-pos value'},
+   ]},
+
+  {r:22, pk:'#264', type:'pick', val:'g', vl:'Late Depth', avail:'~133rd best available',
+   p:{n:'Jacob Wilson', pos:'SS — ATH', adp:115, note:'.311 AVG in 2025, elite contact tool, signed 7-yr deal. Batting average anchor — wins AVG category all season.'},
+   b:[
+     {n:'Jonathan Aranda',pos:'1B · TB',adp:144,note:'.316 avg, 14 HR breakout — everyday role'},
+     {n:'Otto Lopez',pos:'2B/OF · MIA',adp:'~200',note:'Multi-eligible late gem, AVG + steals'},
+     {n:'Kyle Manzardo',pos:'1B · CLE',adp:'~220',note:'Power dart, locked Cleveland spot'},
+     {n:'Maikel Garcia',pos:'2B/3B · KC',adp:'~130',note:'Speed/avg multi-pos'},
+     {n:'Ryan Walker',pos:'RP · SF',adp:'~185',note:'Closer depth if needed'},
+   ]},
+
+  {r:23, pk:'#265', type:'pick', val:'g', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
+   p:{n:'Jonathan Aranda', pos:'1B/DH — TB', adp:144, note:'.316 avg, 14 HR in 106 games last year. Breakout candidate with everyday role locked in Tampa.'},
+   b:[
+     {n:'Otto Lopez',pos:'2B/OF · MIA',adp:'~200',note:'Multi-eligible, AVG + steals'},
+     {n:'Kyle Manzardo',pos:'1B · CLE',adp:'~220',note:'Power dart, locked spot'},
+     {n:'Maikel Garcia',pos:'2B/3B · KC',adp:'~130',note:'Speed/avg, multi-pos'},
+     {n:'Dennis Santana',pos:'RP · PIT (roster)',adp:'—',note:'Monitor PIT closer — on your roster'},
+     {n:'Roki Sasaki',pos:'SP · LAD (roster)',adp:100,note:'Dynasty hold if not already drafted'},
+   ]},
+
+  {r:24, pk:'#288', type:'pick', val:'g', vl:'Depth Flier', avail:'~145th best available',
+   p:{n:'Otto Lopez', pos:'2B/OF — MIA', adp:200, note:'Multi-eligible late gem. AVG and steals contributor with 2B/OF positional flexibility.'},
+   b:[
+     {n:'Kyle Manzardo',pos:'1B · CLE',adp:'~220',note:'Power dart, everyday role locked'},
+     {n:'Dennis Santana',pos:'RP · PIT (roster)',adp:'—',note:'Monitor for closer role'},
+     {n:'Lenyn Sosa',pos:'2B/SS · CWS (roster)',adp:'—',note:'Multi-eligible depth'},
+     {n:'Ramon Laureano',pos:'OF · SD',adp:'—',note:'Power/speed veteran flier'},
+     {n:'Maikel Garcia',pos:'2B/3B · KC',adp:'~130',note:'Speed/avg if still available'},
+   ]},
+
+  {r:25, pk:'#289', type:'pick', val:'g', vl:'Back-to-Back!', avail:'⚡ Immediate turn',
+   p:{n:'Kyle Manzardo', pos:'1B — CLE', adp:220, note:'Power upside in Cleveland. Everyday role locked. Good late 1B dart if position still thin on your roster.'},
+   b:[
+     {n:'Dennis Santana',pos:'RP · PIT (roster)',adp:'—',note:'Closer watch — on your roster'},
+     {n:'Lenyn Sosa',pos:'2B/SS · CWS (roster)',adp:'—',note:'Multi-eligible depth'},
+     {n:'Ramon Laureano',pos:'OF · SD',adp:'—',note:'Power/speed veteran dart'},
+     {n:'Mickey Moniak',pos:'OF · COL',adp:'—',note:'Coors boost, power/speed upside'},
+     {n:'Gavin Williams',pos:'SP · CLE (roster)',adp:'—',note:'Health risk but elite stuff when on'},
+   ]},
+
+  {r:26, pk:'#312', type:'pick', val:'g', vl:'Stash Pick', avail:'Deep depth territory',
+   p:{n:'Dennis Santana', pos:'RP — PIT (on roster)', adp:null, note:'Monitor PIT closer situation. Already on your roster — stash pick for saves upside if he wins the role.'},
+   b:[
+     {n:'Jeremiah Estrada',pos:'RP · SD (roster)',adp:'—',note:'High-leverage Padres arm, holds/saves'},
+     {n:'Gavin Williams',pos:'SP · CLE (roster)',adp:'—',note:'Elite stuff when healthy — dart'},
+     {n:'Casey Mize',pos:'SP · DET (roster)',adp:'—',note:'Bounce-back arm, on your roster'},
+     {n:'Nick Lodolo',pos:'SP · CIN (roster)',adp:'—',note:'Bounce-back SP, on your roster'},
+     {n:'Bryan King',pos:'RP · HOU (roster)',adp:'—',note:'Deep bullpen dart'},
+   ]},
+
+  {r:27, pk:'#313', type:'pick', val:'g', vl:'Final Dart', avail:'Last pick of the draft',
+   p:{n:'Jeremiah Estrada', pos:'RP — SD (on roster)', adp:null, note:'High-leverage Padres arm. Saves/holds upside in one of baseball\'s elite bullpens.'},
+   b:[
+     {n:'Nick Lodolo',pos:'SP · CIN (roster)',adp:'—',note:'Ace stuff, bounce-back candidate'},
+     {n:'Bryan King',pos:'RP · HOU (roster)',adp:'—',note:'Astros bullpen depth dart'},
+     {n:'Kyle Finnegan',pos:'RP · DET (roster)',adp:'—',note:'Monitor DET closer situation'},
+     {n:'Casey Mize',pos:'SP · DET (roster)',adp:'—',note:'Bounce-back arm'},
+     {n:'Ronny Henriquez',pos:'RP · MIA (roster)',adp:'—',note:'MIA bullpen depth'},
+   ]},
+];
+
+let picks = JSON.parse(localStorage.getItem('taf_picks_2026') || '{}');
+let draftStarted = JSON.parse(localStorage.getItem('taf_started') || 'false');
+let startTime = localStorage.getItem('taf_starttime') || null;
+let activeModal = null;
+let clockInterval = null;
+
+function save() {
+  localStorage.setItem('taf_picks_2026', JSON.stringify(picks));
+  localStorage.setItem('taf_started', JSON.stringify(draftStarted));
+  if (startTime) localStorage.setItem('taf_starttime', startTime);
+}
+
+function startDraft() {
+  draftStarted = true;
+  if (!startTime) startTime = Date.now().toString();
+  save();
+  const dot = document.getElementById('clock-dot');
+  const status = document.getElementById('clock-status');
+  const btn = document.getElementById('start-btn');
+  dot.classList.add('live');
+  status.textContent = 'DRAFT LIVE — tap any round card to log your pick';
+  btn.textContent = '● LIVE';
+  btn.style.background = '#065f35';
+  startClock();
+  renderAll();
+}
+
+function startClock() {
+  if (clockInterval) clearInterval(clockInterval);
+  clockInterval = setInterval(() => {
+    if (!startTime) return;
+    const elapsed = Math.floor((Date.now() - parseInt(startTime)) / 1000);
+    const h = Math.floor(elapsed / 3600);
+    const m = Math.floor((elapsed % 3600) / 60);
+    const s = elapsed % 60;
+    const parts = [];
+    if (h > 0) parts.push(h + 'h');
+    parts.push((m < 10 ? '0' : '') + m + 'm');
+    parts.push((s < 10 ? '0' : '') + s + 's');
+    document.getElementById('clock-time').textContent = parts.join(' ');
+  }, 1000);
+}
+
+function resetDraft() {
+  if (!confirm('Reset all picks? This cannot be undone.')) return;
+  picks = {};
+  draftStarted = false;
+  startTime = null;
+  localStorage.removeItem('taf_picks_2026');
+  localStorage.removeItem('taf_started');
+  localStorage.removeItem('taf_starttime');
+  if (clockInterval) clearInterval(clockInterval);
+  document.getElementById('clock-dot').classList.remove('live');
+  document.getElementById('clock-status').textContent = 'Draft starts March 17 at 7:00 PM — Click START when your draft begins';
+  document.getElementById('clock-time').textContent = '7:00 PM';
+  const btn = document.getElementById('start-btn');
+  btn.textContent = '▶ START';
+  btn.style.background = '';
+  renderAll();
+}
+
+function openModal(roundKey) {
+  const rd = ROUNDS.find(r => String(r.r) === String(roundKey));
+  if (!rd || rd.type === 'keeper') return;
+  if (!draftStarted) { alert('Click START DRAFT first!'); return; }
+  activeModal = roundKey;
+  const existing = picks[roundKey];
+  document.getElementById('modal-title').textContent = 'Round ' + rd.r + ' · ' + rd.pk;
+  document.getElementById('modal-sub').textContent = rd.avail || '';
+  document.getElementById('modal-input').value = existing ? existing.name : '';
+  document.getElementById('modal-pos-input').value = existing ? existing.pos : '';
+  document.getElementById('modal').style.display = 'flex';
+  setTimeout(() => document.getElementById('modal-input').focus(), 80);
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+  activeModal = null;
+}
+
+function confirmPick() {
+  const name = document.getElementById('modal-input').value.trim();
+  const pos = document.getElementById('modal-pos-input').value.trim();
+  if (!name) { closeModal(); return; }
+  picks[activeModal] = { name, pos: pos || '—' };
+  save();
+  closeModal();
+  renderAll();
+}
+
+function clearPick() {
+  if (activeModal && picks[activeModal]) { delete picks[activeModal]; save(); }
+  closeModal();
+  renderAll();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Enter' && activeModal) confirmPick();
+});
+
+function vcClass(v) {
+  return v==='k'?'vk': v==='s'?'vs': v==='g'?'vg': 'vf';
+}
+
+function getCurrentRound() {
+  for (const rd of ROUNDS) {
+    if (rd.type === 'keeper') continue;
+    if (!picks[String(rd.r)]) return String(rd.r);
+  }
+  return null;
+}
+
+function renderAll() {
+  const grid = document.getElementById('main-grid');
+  grid.innerHTML = '';
+  const currentRd = draftStarted ? getCurrentRound() : null;
+  let draftedCount = 0;
+  const pickableCount = ROUNDS.filter(r => r.type === 'pick').length;
+
+  ROUNDS.forEach(rd => {
+    const key = String(rd.r);
+    const isDrafted = !!picks[key];
+    const isKeeper = rd.type === 'keeper';
+    const isCurrent = currentRd === key && draftStarted;
+    if (isDrafted || isKeeper) draftedCount++;
+
+    const card = document.createElement('div');
+    card.className = 'round-card'
+      + (isKeeper ? ' keeper-card' : '')
+      + (isDrafted && !isKeeper ? ' drafted' : '')
+      + (isCurrent ? ' current' : '');
+
+    let html = '';
+
+    // Header
+    html += `<div class="card-header">
+      <span class="round-num">RD ${rd.r}</span>
+      <span class="pick-bubble ${isKeeper?'keeper':isDrafted?'done':'normal'}">${rd.pk}</span>
+      <span class="avail-note">${rd.avail || ''}</span>
+      ${isCurrent ? '<span class="current-badge">ON THE CLOCK</span>' : ''}
+    </div>`;
+
+    if (isKeeper) {
+      html += `<div class="keeper-body">
+        <div class="keeper-name">${rd.p.n}</div>
+        <div class="keeper-pos">${rd.p.pos}</div>
+        <div class="keeper-meta">${rd.p.meta}</div>
+        <div class="keeper-note">${rd.p.note}</div>
+      </div>`;
+    } else if (isDrafted) {
+      html += `<div class="drafted-display" onclick="openModal('${key}')">
+        <div class="dl">✓ DRAFTED</div>
+        <div class="dn">${picks[key].name}</div>
+        <div class="dp">${picks[key].pos}</div>
+        <div class="edit-hint">Tap to edit</div>
+      </div>`;
+    } else {
+      html += `<div class="primary" onclick="openModal('${key}')">
+        <div class="primary-label">Target${draftStarted ? ' — tap to log pick' : ''}</div>
+        <div class="player-name">${rd.p.n}</div>
+        <div class="player-pos">${rd.p.pos}</div>
+        <div class="meta-row">
+          ${rd.p.adp ? `<span class="adp-tag">ADP ${rd.p.adp}</span>` : ''}
+          <span class="val-tag ${vcClass(rd.val)}">${rd.vl}</span>
+          ${rd.p.warn ? '<span class="warn-tag">⚠ URGENT</span>' : ''}
+        </div>
+        <div class="pick-note">${rd.p.note}</div>
+        ${draftStarted ? '<div class="draft-hint">↑ Tap to log your actual pick</div>' : ''}
+      </div>`;
+
+      if (rd.b && rd.b.length) {
+        html += `<div class="backups"><div class="backups-label">If taken →</div>`;
+        rd.b.forEach((b, i) => {
+          if (!b.n || b.n.startsWith('N/A')) return;
+          html += `<div class="backup-row">
+            <span class="b-num">${i+1}</span>
+            <span class="b-name">${b.n}</span>
+            <span class="b-pos">${b.pos}</span>
+            <span class="b-adp">${b.adp ? 'ADP '+b.adp : b.note ? '· '+b.note : ''}</span>
+          </div>`;
+        });
+        html += `</div>`;
+      }
+    }
+
+    card.innerHTML = html;
+    grid.appendChild(card);
+  });
+
+  const draftedPicks = Object.keys(picks).length;
+  document.getElementById('drafted-count').textContent = draftedPicks;
+  document.getElementById('remaining-count').textContent = pickableCount - draftedPicks;
+  updateRosterBar();
+}
+
+function updateRosterBar() {
+  const slots = {C:[], '1B':[], '2B':[], SS:[], '3B':[], OF:[], SP:[], RP:[]};
+
+  const classify = (posStr, name) => {
+    const p = (posStr || '').toUpperCase();
+    if (p.includes('SP')) { slots['SP'].push(name); return; }
+    if (p.includes('RP')) { slots['RP'].push(name); return; }
+    if (p.match(/\bC\b/) || p.startsWith('C ') || p.startsWith('C/') || p === 'C') { slots['C'].push(name); return; }
+    if (p.includes('1B')) { slots['1B'].push(name); return; }
+    if (p.includes('2B')) { slots['2B'].push(name); return; }
+    if (p.includes('SS')) { slots['SS'].push(name); return; }
+    if (p.includes('3B')) { slots['3B'].push(name); return; }
+    if (p.includes('OF') || p.includes('LF') || p.includes('CF') || p.includes('RF') || p.includes('DH')) { slots['OF'].push(name); return; }
+    slots['OF'].push(name);
+  };
+
+  Object.values(picks).forEach(p => classify(p.pos, p.name));
+  classify('OF', 'Langford'); classify('OF', 'PCA');
+  classify('RP', 'M. Miller'); classify('SP', 'Misiorowski');
+
+  const updateSlot = (id, name) => {
+    const s = document.getElementById(id);
+    if (!s) return;
+    s.className = 'pos-slot' + (name ? ' filled' : '');
+    let pl = s.querySelector('.pos-player');
+    let em = s.querySelector('.pos-empty');
+    if (name) {
+      if (!pl) { pl = document.createElement('div'); pl.className = 'pos-player'; s.appendChild(pl); }
+      pl.textContent = name;
+      if (em) em.style.display = 'none';
+    } else {
+      if (pl) pl.textContent = '';
+      if (em) em.style.display = 'block';
+    }
+  };
+
+  updateSlot('slot-C', slots['C'][0]);
+  updateSlot('slot-1B', slots['1B'][0]);
+  updateSlot('slot-2B', slots['2B'][0]);
+  updateSlot('slot-SS', slots['SS'][0]);
+  updateSlot('slot-3B', slots['3B'][0]);
+  updateSlot('slot-OF1', slots['OF'][0]);
+  updateSlot('slot-OF2', slots['OF'][1]);
+  updateSlot('slot-OF3', slots['OF'][2]);
+  updateSlot('slot-SP1', slots['SP'][0]);
+  updateSlot('slot-RP1', slots['RP'][0]);
+}
+
+function exportRoster() {
+  let text = 'TATIS ALL FOLKS — 2026 DRAFT RESULTS\n=====================================\n\n';
+  ROUNDS.forEach(rd => {
+    const key = String(rd.r);
+    if (rd.type === 'keeper') {
+      text += `Rd ${rd.r} [KEEPER]: ${rd.p.n} (${rd.p.pos})\n`;
+    } else if (picks[key]) {
+      text += `Rd ${rd.r} [${rd.pk}]: ${picks[key].name} (${picks[key].pos})\n`;
+    } else {
+      text += `Rd ${rd.r} [${rd.pk}]: — not yet picked\n`;
+    }
+  });
+  const blob = new Blob([text], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tatis_all_folks_2026_draft.txt';
+  a.click();
+}
+
+// Init
+if (draftStarted) {
+  document.getElementById('clock-dot').classList.add('live');
+  document.getElementById('clock-status').textContent = 'DRAFT LIVE — tap any round card to log your pick';
+  const btn = document.getElementById('start-btn');
+  btn.textContent = '● LIVE';
+  btn.style.background = '#065f35';
+  if (startTime) startClock();
+}
+renderAll();
+</script>
+</body>
+</html>
