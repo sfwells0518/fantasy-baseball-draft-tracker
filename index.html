@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sam's Draft War Room — 2026</title>
+<title>Tatis All Folks — 2026 Draft War Room</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -773,7 +773,7 @@ body {
 <!-- HEADER -->
 <div class="header">
   <div>
-    <div class="team-name">Sam's Fantasy ⚾️ Draft War Room</div>
+    <div class="team-name">Tatis All Folks</div>
     <div class="season-tag">2026 FANTASY BASEBALL · LIVE DRAFT TRACKER · March 17, 2026 · 7:00 PM</div>
   </div>
   <div class="header-stats">
@@ -818,6 +818,32 @@ body {
   <button class="tab-btn active" id="tab-draft" onclick="switchTab('draft')">📋 Draft Guide</button>
   <button class="tab-btn" id="tab-league" onclick="switchTab('league')">🏟 League Board</button>
 </div>
+
+<!-- ESPN SYNC PANEL -->
+<div id="espn-panel" style="background:#111827;border-bottom:1px solid #1f2937;padding:14px 16px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="font-size:13px;font-weight:700;color:#f9fafb;letter-spacing:.03em;">📡 ESPN Live Sync</div>
+      <div id="espn-status" style="font-size:12px;color:#6b7280;">⚫ Not connected</div>
+    </div>
+    <button id="espn-toggle-btn" onclick="toggleEspnPanel()" style="font-size:12px;padding:5px 12px;border-radius:8px;border:1px solid #374151;background:transparent;color:#9ca3af;cursor:pointer;">⚙ Setup</button>
+  </div>
+  <div id="espn-form" style="display:none;margin-top:14px;display:none;">
+    <div style="display:grid;gap:8px;">
+      <input id="espn-league-id" type="text" placeholder="League ID (e.g. 36245)" value="36245" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid #374151;background:#0a0f1a;color:#f9fafb;font-size:13px;" />
+      <input id="espn-s2" type="password" placeholder="espn_s2 cookie value" value="AEAvUxy3xv1iu4JUNEeNRC7PgkeJatx5ItE6qiIPrgCGIijWAcrup%2B9XcHgwNs117jLGhByf8f9cSKyXD2MFtSLjIydeO0Z%2FP561c6vXSSH3%2FFnLfvPP%2BuSlP%2FlF6INl5XblSiBecLuejMZ%2FW4II3eWV0B3Hdx%2Bfg9NYCKQ6mO%2BWdztEHFW5lU4Rf4vrvk%2BN29LN%2B7FFziL8CV49aTuYzhhFlzG%2FVFY%2BMhBHakLfMzIbJ%2F1rhy2jEpGdvwJLN8KAHBlz%2Bsybih0Odm6oA3hDVXuQ7jsATk%2BbMraMeDVlaEYiNdiFMik45Mc0aJNUPKSuWsg%3D" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid #374151;background:#0a0f1a;color:#f9fafb;font-size:13px;" />
+      <input id="espn-swid" type="text" placeholder="SWID value  {XXXX-...}" value="{E5F9368D-2D72-48E4-B84B-90673A12DDDD}" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid #374151;background:#0a0f1a;color:#f9fafb;font-size:13px;" />
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button id="espn-connect-btn" onclick="espnConnect()" style="padding:9px 20px;border-radius:8px;border:none;background:#16a34a;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">Connect</button>
+        <div id="espn-last-sync" style="font-size:11px;color:#4b5563;font-family:monospace;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="espn-toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);background:#16a34a;color:#fff;padding:10px 20px;border-radius:99px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;z-index:9999;pointer-events:none;white-space:nowrap;"></div>
+
 
 <!-- TAB: DRAFT GUIDE -->
 <div id="panel-draft">
@@ -881,6 +907,8 @@ body {
 </div>
 
 <script>
+
+
 
 
 
@@ -1862,6 +1890,163 @@ function acHide() {
 }
 // ──────────────────────────────────────────────────────
 
+
+function toggleEspnPanel() {
+  var form = document.getElementById('espn-form');
+  var btn = document.getElementById('espn-toggle-btn');
+  var showing = form.style.display !== 'none' && form.style.display !== '';
+  form.style.display = showing ? 'none' : 'block';
+  btn.textContent = showing ? '⚙ Setup' : '✕ Close';
+}
+
+
+// ── ESPN LIVE DRAFT SYNC ─────────────────────────────
+var espnConfig = { leagueId: '', espnS2: '', swid: '', active: false };
+var espnPollInterval = null;
+var espnLastPickCount = 0;
+var espnConnected = false;
+
+function espnConnect() {
+  var lid = document.getElementById('espn-league-id').value.trim();
+  var s2  = document.getElementById('espn-s2').value.trim();
+  var sw  = document.getElementById('espn-swid').value.trim();
+  if(!lid || !s2 || !sw) { alert('Please fill in all three fields.'); return; }
+  espnConfig = { leagueId: lid, espnS2: s2, swid: sw, active: true };
+  espnConnected = true;
+  document.getElementById('espn-status').textContent = '🟡 Connecting...';
+  document.getElementById('espn-status').style.color = '#fbbf24';
+  document.getElementById('espn-connect-btn').textContent = 'Disconnect';
+  document.getElementById('espn-connect-btn').onclick = espnDisconnect;
+  espnPoll();
+  espnPollInterval = setInterval(espnPoll, 15000);
+}
+
+function espnDisconnect() {
+  espnConfig.active = false;
+  espnConnected = false;
+  clearInterval(espnPollInterval);
+  espnPollInterval = null;
+  document.getElementById('espn-status').textContent = '⚫ Not connected';
+  document.getElementById('espn-status').style.color = '#6b7280';
+  document.getElementById('espn-connect-btn').textContent = 'Connect';
+  document.getElementById('espn-connect-btn').onclick = espnConnect;
+  document.getElementById('espn-last-sync').textContent = '';
+}
+
+function espnPoll() {
+  if(!espnConfig.active) return;
+  var url = 'https://fantasy.espn.com/apis/v3/games/flb/seasons/2026/segments/0/leagues/'
+    + espnConfig.leagueId + '?view=mDraftDetail&view=mSettings&view=mTeam';
+  fetch(url, {
+    credentials: 'include',
+    headers: {
+      'Cookie': 'espn_s2=' + espnConfig.espnS2 + '; SWID=' + espnConfig.swid
+    }
+  })
+  .then(function(r) {
+    if(!r.ok) throw new Error('ESPN returned ' + r.status);
+    return r.json();
+  })
+  .then(function(data) {
+    espnProcessDraft(data);
+    document.getElementById('espn-status').textContent = '🟢 Live — syncing every 15s';
+    document.getElementById('espn-status').style.color = '#4ade80';
+    var now = new Date();
+    document.getElementById('espn-last-sync').textContent =
+      'Last sync: ' + now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  })
+  .catch(function(err) {
+    var msg = err.message || 'unknown error';
+    if(msg.indexOf('Failed to fetch') !== -1 || msg.indexOf('NetworkError') !== -1 || msg.indexOf('CORS') !== -1) {
+      document.getElementById('espn-status').textContent = '🔴 CORS blocked — see note below';
+      document.getElementById('espn-status').style.color = '#f87171';
+      document.getElementById('espn-cors-note').style.display = 'block';
+    } else {
+      document.getElementById('espn-status').textContent = '🔴 Error — ' + msg;
+      document.getElementById('espn-status').style.color = '#f87171';
+    }
+    console.error('ESPN poll error:', err);
+  });
+}
+
+function espnProcessDraft(data) {
+  // Build team map: teamId -> team name
+  var teamMap = {};
+  if(data.teams) {
+    data.teams.forEach(function(t) {
+      var name = (t.location || '') + ' ' + (t.nickname || '');
+      teamMap[t.id] = name.trim();
+    });
+  }
+
+  // Process draft picks
+  var picks = (data.draftDetail && data.draftDetail.picks) ? data.draftDetail.picks : [];
+  if(picks.length === espnLastPickCount) return; // nothing new
+  
+  var newCount = 0;
+  picks.forEach(function(pick) {
+    var round = pick.roundId;
+    var teamId = pick.teamId;
+    var playerId = pick.playerId;
+    var playerName = pick.playerName || ('Player #' + playerId);
+    var overallPick = pick.overallPickNumber;
+    
+    // Figure out slot in round (0-indexed snake)
+    var slotInRound = pick.roundPickNumber - 1; // 0-indexed
+    // Convert to teamIdx using snake logic
+    var teamIdx = (round % 2 === 1) ? slotInRound : (11 - slotInRound);
+    var pid = pickId(round, teamIdx);
+    
+    // Skip if already logged
+    if(leaguePicks[pid] && leaguePicks[pid].espnSynced) return;
+    
+    // Get position from ESPN player data if available
+    var pos = pick.lineupSlotId ? espnSlotToPos(pick.lineupSlotId) : '';
+    
+    // Check if this is my pick
+    var myTeamIdx = getMyTeamIdx(round);
+    if(teamIdx === myTeamIdx) {
+      // Log as my own pick if not already logged
+      if(!picks[String(round)]) {
+        picks[String(round)] = { name: playerName, pos: pos, espnSynced: true };
+        savePicks();
+      }
+    } else {
+      // Log as league pick
+      leaguePicks[pid] = { name: playerName, pos: pos, team: teamMap[teamId] || '', espnSynced: true };
+      newCount++;
+    }
+  });
+
+  if(picks.length !== espnLastPickCount) {
+    espnLastPickCount = picks.length;
+    saveLeague();
+    renderAll();
+    if(lgVisible) renderLeagueBoard(activeLgRound);
+    if(newCount > 0) {
+      showEspnToast(newCount + ' new pick' + (newCount > 1 ? 's' : '') + ' synced from ESPN');
+    }
+  }
+}
+
+function espnSlotToPos(slotId) {
+  var slots = {0:'C',1:'1B',2:'2B',3:'3B',4:'SS',5:'OF',6:'OF',7:'OF',8:'DH',9:'SP',10:'SP',11:'SP',12:'SP',13:'SP',14:'RP',15:'RP',16:'Util',17:'Bench'};
+  return slots[slotId] || '';
+}
+
+function showEspnToast(msg) {
+  var t = document.getElementById('espn-toast');
+  if(!t) return;
+  t.textContent = '📡 ' + msg;
+  t.style.opacity = '1';
+  t.style.transform = 'translateY(0)';
+  setTimeout(function() {
+    t.style.opacity = '0';
+    t.style.transform = 'translateY(10px)';
+  }, 3000);
+}
+// ─────────────────────────────────────────────────────
+
 // Init
 if (draftStarted) {
   document.getElementById('clock-dot').classList.add('live');
@@ -2012,6 +2197,8 @@ function clearAllOtherPicks() {
 
 // Init
 renderRoundSelector();
+
+
 
 
 
