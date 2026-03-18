@@ -689,10 +689,9 @@ body {
 .db-round-label{font-family:inherit;font-weight:900;font-size:13px;letter-spacing:1px;color:#1e3a5f;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
 .db-your-badge{font-size:9px;font-family:monospace;color:var(--green);background:var(--green-light);padding:1px 6px;border-radius:4px;border:1px solid var(--green-mid);font-weight:700;}
 .db-keeper-badge{font-size:9px;font-family:monospace;color:var(--purple);background:var(--purple-light);padding:1px 6px;border-radius:4px;border:1px solid #c4b5fd;font-weight:700;}
-.picks-row{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-bottom:4px;}
-@media(max-width:900px){.picks-row{grid-template-columns:repeat(6,1fr);}}
+.picks-row{display:flex;flex-direction:row;flex-wrap:nowrap;gap:5px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;}
 @media(max-width:560px){.picks-row{grid-template-columns:repeat(4,1fr);}}
-.pick-slot{border:1px solid var(--border);border-radius:6px;padding:5px 6px;background:var(--surface2);cursor:pointer;transition:all .12s;min-height:52px;display:flex;flex-direction:column;justify-content:space-between;}
+.pick-slot{border:1px solid var(--border);border-radius:6px;padding:5px 6px;background:var(--surface2);cursor:pointer;transition:all .12s;min-height:52px;display:flex;flex-direction:column;justify-content:space-between;min-width:72px;max-width:90px;flex:0 0 72px;}
 .pick-slot:hover{border-color:var(--border2);background:var(--surface3);}
 .pick-slot.yours{border-color:var(--green);background:var(--green-light);}
 .pick-slot.keeper-slot{border-color:#c4b5fd;background:var(--purple-light);cursor:default;}
@@ -701,7 +700,7 @@ body {
 .ps-num{font-family:monospace;font-size:9px;color:var(--text3);margin-bottom:2px;}
 .pick-slot.yours .ps-num{color:var(--green);font-weight:700;}
 .pick-slot.keeper-slot .ps-num{color:var(--purple);}
-.ps-team{font-size:9px;color:var(--text3);font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ps-team{font-size:9px;color:var(--text3);font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .ps-player{font-size:10px;font-weight:600;color:var(--text);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .pick-slot.filled-yours .ps-player{color:var(--green);}
 .pick-slot.keeper-slot .ps-player{color:var(--purple);font-size:9px;}
@@ -1014,6 +1013,20 @@ body {
 .more-menu-btn:active { background: var(--surface3); }
 #tab-more.active { color: var(--green); border-bottom-color: var(--green); }
 
+.picks-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 8px;
+  cursor: grab;
+}
+.picks-row:active { cursor: grabbing; }
+.pick-slot {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
 </style>
 </head>
 <body>
@@ -1065,7 +1078,6 @@ body {
 <!-- TAB NAV -->
 <div class="tab-nav" id="tab-nav">
   <button class="tab-btn active" id="tab-draft"     onclick="switchTab('draft')">📋 Draft</button>
-  <button class="tab-btn"        id="tab-league"    onclick="switchTab('league')">🏟 League</button>
   <button class="tab-btn"        id="tab-keepers"   onclick="switchTab('keepers')">🔒 Keepers</button>
   <button class="tab-btn desktop-tab" id="tab-injuries"  onclick="switchTab('injuries')">⚠ Injuries</button>
   <button class="tab-btn desktop-tab" id="tab-prospects" onclick="switchTab('prospects')">🌱 Prospects</button>
@@ -1103,18 +1115,24 @@ body {
 
 
 <!-- TAB: DRAFT GUIDE -->
-<div id="panel-draft">
-<!-- MAIN GRID -->
+<div id="panel-draft" style="display:block">
+<!-- LEAGUE BOARD — at top for live logging -->
+<div id="league-inline" style="margin-bottom:20px;">
+  <div style="padding:0 4px 8px;">
+    <div style="font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--text2);text-transform:uppercase;">🏟 League Board</div>
+  </div>
+  <div id="round-selector" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;"></div>
+  <div id="gone-chips" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;min-height:24px;"></div>
+  <div id="draft-board" style="padding-bottom:16px;"></div>
+</div>
+
+<!-- DRAFT RECOMMENDATIONS -->
+<div style="font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--text2);text-transform:uppercase;padding:0 4px 10px;">📋 Round Recommendations</div>
 <div class="grid" id="main-grid"></div>
 
 </div><!-- /panel-draft -->
 
-<!-- TAB: LEAGUE BOARD -->
-<div id="panel-league" style="display:none">
-  <div id="round-selector" style="display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px 8px"></div>
-  <div id="gone-chips" style="display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px;min-height:28px"></div>
-  <div id="draft-board" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 16px 32px"></div>
-</div><!-- /panel-league -->
+
 
 <!-- TAB: KEEPERS -->
 <div id="panel-keepers" style="display:none;padding:16px;">
@@ -1176,6 +1194,13 @@ body {
 <!-- BASEBALL CARD OVERLAY -->
 <div id="bc-overlay" onclick="hideBaseballCard()"></div>
 <script>
+
+
+
+
+
+
+
 
 
 
@@ -1556,12 +1581,11 @@ function getMyTeamIdx(round){ return 0; } // Tatis All Folks is always team inde
 function slotToTeam(round, slot){ return (round % 2 === 1) ? slot : 11 - slot; }
 
 function toggleLeague() { switchTab('league'); }
+function toggleLeague() { /* no-op, league is always visible */ }
 function switchTab(tab) {
-  var allPanels = ['draft','league','keepers','injuries','prospects'];
-  // Hide more-menu if switching away from it
+  var allPanels = ['draft','keepers','injuries','prospects'];
   var moreMenu = document.getElementById('more-menu');
   if(tab === 'more') {
-    // Toggle the more menu
     if(moreMenu) {
       var showing = moreMenu.style.display === 'block';
       moreMenu.style.display = showing ? 'none' : 'block';
@@ -1570,15 +1594,12 @@ function switchTab(tab) {
     if(moreBtn) moreBtn.className = 'tab-btn mobile-more' + (!showing ? ' active' : '');
     return;
   }
-  // Hide more menu
   if(moreMenu) moreMenu.style.display = 'none';
-  // Show correct panel
   allPanels.forEach(function(p) {
     var el = document.getElementById('panel-' + p);
     if(el) el.style.display = (p === tab) ? 'block' : 'none';
   });
-  // Update tab buttons
-  var allTabs = ['draft','league','keepers','injuries','prospects','more'];
+  var allTabs = ['draft','keepers','injuries','prospects','more'];
   allTabs.forEach(function(t) {
     var btn = document.getElementById('tab-' + t);
     if(!btn) return;
@@ -1589,8 +1610,9 @@ function switchTab(tab) {
     var isActive = (t === tab) || (t === 'more' && moreTabs.indexOf(tab) !== -1);
     btn.className = cls + (isActive ? ' active' : '');
   });
-  lgVisible = (tab === 'league');
-  if(tab === 'league'){ renderRoundSelector(); renderLeagueBoard(activeLgRound); }
+  // League board is always visible when on draft tab
+  lgVisible = (tab === 'draft');
+  if(tab === 'draft'){ renderRoundSelector(); renderLeagueBoard(activeLgRound); }
   if(tab === 'prospects'){ renderProspectTab(); }
 }
 function renderProspectTab() {
@@ -1777,12 +1799,12 @@ function renderAll() {
       + '</div>';
 
     if (isKeeper) {
-      html += `<div class="keeper-body">
-        <div class="keeper-name">${rd.p.n}</div>
-        <div class="keeper-pos">${rd.p.pos}</div>
-        <div class="keeper-meta">${rd.p.meta}</div>
-        <div class="keeper-note">${rd.p.note}</div>
-      </div>`;
+      html += '<div class="keeper-body">'
+        + '<div class="keeper-name">' + rd.p.n + '</div>'
+        + '<div class="keeper-pos">' + rd.p.pos + '</div>'
+        + '<div class="keeper-meta">' + (rd.p.meta || '') + '</div>'
+        + '<div class="keeper-note">' + (rd.p.note || '') + '</div>'
+        + '</div>';
     } else if (isDrafted) {
       html += '<div class="drafted-display" onclick="openModal(\'' + key + '\')">'
         + '<div class="dl">&#10003; DRAFTED</div>'
@@ -1838,7 +1860,8 @@ function renderAll() {
   document.getElementById('drafted-count').textContent = draftedPicks;
   document.getElementById('remaining-count').textContent = pickableCount - draftedPicks;
   updateRosterBar();
-  if(lgVisible){ renderLeagueBoard(activeLgRound); }
+  renderRoundSelector();
+  renderLeagueBoard(activeLgRound);
 }
 
 function startDraft() {
@@ -1981,11 +2004,11 @@ function exportRoster() {
   ROUNDS.forEach(function(rd) {
     var key = String(rd.r);
     if (rd.type === 'keeper') {
-      text += `Rd ${rd.r} [KEEPER]: ${rd.p.n} (${rd.p.pos})\n`;
+      text += 'Rd ' + rd.r + ' [KEEPER]: ' + rd.p.n + ' (' + rd.p.pos + ')\n';
     } else if (picks[key]) {
-      text += `Rd ${rd.r} [${rd.pk}]: ${picks[key].name} (${picks[key].pos})\n`;
+      text += 'Rd ' + rd.r + ' [' + rd.pk + ']: ' + picks[key].name + ' (' + picks[key].pos + ')\n';
     } else {
-      text += `Rd ${rd.r} [${rd.pk}]: — not yet picked\n`;
+      text += 'Rd ' + rd.r + ' [' + rd.pk + ']: — not yet picked\n';
     }
   });
   var blob = new Blob([text], {type:'text/plain'});
@@ -2386,7 +2409,14 @@ function acHide() {
 
 // Init
 renderAll();
-renderRoundSelector();
+switchTab('draft');
+
+
+
+
+
+
+
 
 
 
