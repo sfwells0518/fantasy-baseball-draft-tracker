@@ -1214,6 +1214,7 @@ body {
 
 
 
+
 var ROUNDS = [
   {r:1, pk:'#1', type:'pick', val:'f', vl:'At ADP', avail:'Best player in fantasy',
    p:{n:'Shohei Ohtani', pos:'SP/DH — LAD', adp:1, note:'Unanimous 1.01. Two-way return in 2026: 45+ HR, ace Ks, ~20 SB. Zero debate.'},
@@ -1534,7 +1535,7 @@ function pickId(round, teamIdx){ return 'r' + round + '_t' + teamIdx; }
 function keeperKey(round, teamIdx){ return '' + teamIdx + '_' + round; }
 function isKeeper(round, teamIdx){ return !!KEEPERS[keeperKey(round, teamIdx)]; }
 function keeperName(round, teamIdx){ return KEEPERS[keeperKey(round, teamIdx)] || ''; }
-function getMyTeamIdx(round){ return (round % 2 === 1) ? 0 : 11; }
+function getMyTeamIdx(round){ return 0; } // Tatis All Folks is always team index 0
 function slotToTeam(round, slot){ return (round % 2 === 1) ? slot : 11 - slot; }
 
 function toggleLeague() { switchTab('league'); }
@@ -1643,7 +1644,7 @@ function renderLeagueBoard(round) {
   var isKeeperRd = isKeeper(round, myTeamIdx);
   var label = 'Round ' + round;
   if(isKeeperRd) label += ' <span class="db-keeper-badge">🔒 Your Keeper — ' + keeperName(round, myTeamIdx) + '</span>';
-  else label += ' <span class="db-your-badge">⭐ Your Pick (pick ' + (round % 2 === 1 ? '1st' : 'last') + ')</span>';
+  else label += ' <span class="db-your-badge">⭐ Your Pick (pick ' + (round % 2 === 1 ? '#1' : '#' + (round * 12)) + ')</span>';
 
   var html = '<div class="db-round-label">' + label + '</div><div class="picks-row">';
   for(var slot = 0; slot < 12; slot++) {
@@ -1730,6 +1731,7 @@ function clearAllOtherPicks() {
 
 // Init
 renderRoundSelector();
+
 
 
 
