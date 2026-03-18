@@ -1216,6 +1216,7 @@ body {
 
 
 
+
 var ROUNDS = [
   {r:1, pk:'#1', type:'pick', val:'f', vl:'At ADP', avail:'Best player in fantasy',
    p:{n:'Shohei Ohtani', pos:'SP/DH — LAD', adp:1, note:'Unanimous 1.01. Two-way return in 2026: 45+ HR, ace Ks, ~20 SB. Zero debate.'},
@@ -2353,8 +2354,7 @@ function clearAllOtherPicks() {
 }
 
 function prePopulateDraft() {
-  // Only skip if we already have sufficient data (9+ my picks and 80+ league picks)
-  if(Object.keys(picks).length >= 9 && Object.keys(leaguePicks).length >= 80) return;
+  if(Object.keys(picks).length >= 13 && Object.keys(leaguePicks).length >= 160) return;
   var p = {};
   p['1']={name:'Shohei Ohtani',pos:'DH/SP - LAD'};
   p['2']={name:'Hunter Brown',pos:'SP - HOU'};
@@ -2365,8 +2365,67 @@ function prePopulateDraft() {
   p['7']={name:'Aroldis Chapman',pos:'RP - BOS'};
   p['8']={name:'Cade Smith',pos:'RP - CLE'};
   p['9']={name:'Agustin Ramirez',pos:'C - MIA'};
+  p['10']={name:'Colson Montgomery',pos:'SS - CHW'};
+  p['11']={name:'Munetaka Murakami',pos:'3B - CHW'};
+  p['14']={name:'Mason Miller',pos:'RP - SD'};
+  p['20']={name:'Jacob Misiorowski',pos:'SP - MIL'};
   picks = p; localStorage.setItem('taf_picks_2026', JSON.stringify(picks));
   var lp = {};
+  lp['r10_t1']={name:'Jeremy Pena',pos:'SS - HOU'};
+  lp['r10_t10']={name:'Matt Chapman',pos:'3B - SF'};
+  lp['r10_t11']={name:'Taylor Ward',pos:'OF - BAL'};
+  lp['r10_t2']={name:'Ceddanne Rafaela',pos:'OF - BOS'};
+  lp['r10_t3']={name:'Bryan Abreu',pos:'RP - HOU'};
+  lp['r10_t4']={name:'Matt McLain',pos:'2B - CIN'};
+  lp['r10_t5']={name:'Luis Castillo',pos:'SP - SEA'};
+  lp['r10_t6']={name:'Ryan Helsley',pos:'RP - BAL'};
+  lp['r10_t7']={name:'Bryson Stott',pos:'2B - PHI'};
+  lp['r10_t8']={name:'Trey Yesavage',pos:'SP - TOR'};
+  lp['r10_t9']={name:'Spencer Torkelson',pos:'1B - DET'};
+  lp['r11_t1']={name:'Christian Walker',pos:'1B - HOU'};
+  lp['r11_t10']={name:'Yordan Alvarez',pos:'OF - HOU'};
+  lp['r11_t11']={name:'Bryan Reynolds',pos:'OF - PIT'};
+  lp['r11_t2']={name:'Xavier Edwards',pos:'2B - MIA'};
+  lp['r11_t3']={name:'Lawrence Butler',pos:'OF - ATH'};
+  lp['r11_t4']={name:'Ranger Suarez',pos:'SP - BOS'};
+  lp['r11_t5']={name:'Brendan Donovan',pos:'2B - SEA'};
+  lp['r11_t6']={name:'Steven Kwan',pos:'OF - CLE'};
+  lp['r11_t7']={name:'Wilyer Abreu',pos:'OF - BOS'};
+  lp['r11_t8']={name:'MacKenzie Gore',pos:'SP - TEX'};
+  lp['r11_t9']={name:'Robbie Ray',pos:'SP - SF'};
+  lp['r12_t1']={name:'Marcus Semien',pos:'2B - NYM'};
+  lp['r12_t10']={name:'Will Smith',pos:'C - LAD'};
+  lp['r12_t11']={name:'Shane Baz',pos:'SP - BAL'};
+  lp['r12_t2']={name:'Matthew Boyd',pos:'SP - CHC'};
+  lp['r12_t3']={name:'Tanner Bibee',pos:'SP - CLE'};
+  lp['r12_t4']={name:'Samuel Basallo',pos:'C - BAL'};
+  lp['r12_t5']={name:'Daulton Varsho',pos:'OF - TOR'};
+  lp['r12_t6']={name:'Jorge Polanco',pos:'2B - NYM'};
+  lp['r12_t7']={name:'Gleyber Torres',pos:'2B - DET'};
+  lp['r12_t8']={name:'Carlos Estevez',pos:'RP - KC'};
+  lp['r12_t9']={name:'Jesus Luzardo',pos:'SP - PHI'};
+  lp['r13_t10']={name:'Brent Rooker',pos:'OF - ATH'};
+  lp['r13_t9']={name:'Bubba Chandler',pos:'SP - PIT'};
+  lp['r14_t11']={name:'Jac Caglianone',pos:'OF - KC'};
+  lp['r15_t11']={name:'Bobby Witt Jr.',pos:'SS - KC'};
+  lp['r15_t6']={name:'Byron Buxton',pos:'OF - MIN'};
+  lp['r15_t8']={name:'Paul Skenes',pos:'SP - PIT'};
+  lp['r15_t9']={name:'Zach Neto',pos:'SS - LAA'};
+  lp['r16_t5']={name:'Garrett Crochet',pos:'SP - BOS'};
+  lp['r17_t3']={name:'Hunter Goodman',pos:'C - COL'};
+  lp['r18_t1']={name:'Jackson Holliday',pos:'2B - BAL'};
+  lp['r18_t3']={name:'JJ Wetherholt',pos:'SS - STL'};
+  lp['r18_t4']={name:'Spencer Strider',pos:'SP - ATL'};
+  lp['r18_t5']={name:'Tarik Skubal',pos:'SP - DET'};
+  lp['r18_t7']={name:'Drake Baldwin',pos:'C - ATL'};
+  lp['r18_t8']={name:'CJ Abrams',pos:'SS - WSH'};
+  lp['r19_t1']={name:'Gerrit Cole',pos:'SP - NYY'};
+  lp['r19_t11']={name:'Emmet Sheehan',pos:'SP - LAD'};
+  lp['r19_t2']={name:'George Springer',pos:'OF - TOR'};
+  lp['r19_t3']={name:'Konnor Griffin',pos:'SS - PIT'};
+  lp['r19_t5']={name:'Tyler Soderstrom',pos:'OF - ATH'};
+  lp['r19_t7']={name:'Eury Perez',pos:'SP - MIA'};
+  lp['r19_t8']={name:'Ben Rice',pos:'1B - NYY'};
   lp['r1_t1']={name:'Aaron Judge',pos:'OF - NYY'};
   lp['r1_t10']={name:'Fernando Tatis Jr.',pos:'OF - SD'};
   lp['r1_t11']={name:'Junior Caminero',pos:'3B - TB'};
@@ -2378,6 +2437,20 @@ function prePopulateDraft() {
   lp['r1_t7']={name:'Kyle Schwarber',pos:'DH - PHI'};
   lp['r1_t8']={name:'Gunnar Henderson',pos:'SS - BAL'};
   lp['r1_t9']={name:'Corbin Carroll',pos:'OF - ARI'};
+  lp['r20_t1']={name:'Chase DeLauter',pos:'OF - CLE'};
+  lp['r20_t10']={name:'Geraldo Perdomo',pos:'SS - ARI'};
+  lp['r20_t11']={name:'James Wood',pos:'OF - WSH'};
+  lp['r20_t2']={name:'Kyle Stowers',pos:'OF - MIA'};
+  lp['r20_t3']={name:'Nick Kurtz',pos:'1B - ATH'};
+  lp['r20_t4']={name:'Elly De La Cruz',pos:'SS - CIN'};
+  lp['r20_t5']={name:'Carter Jensen',pos:'C - KC'};
+  lp['r20_t6']={name:'Kevin McGonigle',pos:'SS - DET'};
+  lp['r20_t7']={name:'Nolan McLean',pos:'SP - NYM'};
+  lp['r20_t8']={name:'Jackson Chourio',pos:'OF - MIL'};
+  lp['r20_t9']={name:'Cam Schlittler',pos:'SP - NYY'};
+  lp['r22_t1']={name:'Matt Shaw',pos:'3B - CHC'};
+  lp['r22_t2']={name:'Luis Gil',pos:'SP - NYY'};
+  lp['r22_t4']={name:'Roman Anthony',pos:'OF - BOS'};
   lp['r2_t1']={name:'Logan Webb',pos:'SP - SF'};
   lp['r2_t10']={name:'Francisco Lindor',pos:'SS - NYM'};
   lp['r2_t11']={name:'Ketel Marte',pos:'2B - ARI'};
@@ -2455,7 +2528,17 @@ function prePopulateDraft() {
   lp['r8_t7']={name:'Drew Rasmussen',pos:'SP - TB'};
   lp['r8_t8']={name:'Tyler Glasnow',pos:'SP - LAD'};
   lp['r8_t9']={name:'Teoscar Hernandez',pos:'OF - LAD'};
+  lp['r9_t1']={name:'Chandler Simpson',pos:'OF - TB'};
+  lp['r9_t10']={name:'Luke Keaschall',pos:'2B - MIN'};
+  lp['r9_t11']={name:'Cade Horton',pos:'SP - CHC'};
+  lp['r9_t2']={name:'Devin Williams',pos:'RP - NYM'};
+  lp['r9_t3']={name:'Trevor Rogers',pos:'SP - BAL'};
+  lp['r9_t4']={name:'Christian Yelich',pos:'DH - MIL'};
+  lp['r9_t5']={name:'Sal Stewart',pos:'1B - CIN'};
   lp['r9_t6']={name:'Edwin Diaz',pos:'RP - LAD'};
+  lp['r9_t7']={name:'Mike Trout',pos:'OF - LAA'};
+  lp['r9_t8']={name:'Kazuma Okamoto',pos:'3B - TOR'};
+  lp['r9_t9']={name:'Sandy Alcantara',pos:'SP - MIA'};
   leaguePicks = lp; localStorage.setItem('taf_league_2026', JSON.stringify(leaguePicks));
 }
 
@@ -2463,6 +2546,7 @@ function prePopulateDraft() {
 prePopulateDraft();
 renderAll();
 switchTab('draft');
+
 
 
 
