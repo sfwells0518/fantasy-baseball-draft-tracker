@@ -3,43 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sam's Fantasy ⚾️ 2026 Draft War Room</title>
+<title>Tatis All Folks — 2026 Draft War Room</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --green: #2d7d52;
+  --green: #3a9e68;
   --green-light: #1e3d2e;
   --green-mid: #254d38;
-  --amber: #c07d2a;
+  --amber: #d4912e;
   --amber-light: #3d2e14;
-  --red: #b03a2e;
+  --red: #c94535;
   --red-light: #3d1c18;
-  --blue: #2d5fa8;
+  --blue: #4278c7;
   --blue-light: #1a2d4a;
-  --purple: #6b4fa8;
+  --purple: #8467c7;
   --purple-light: #2d2040;
   --bg: #242b35;
   --surface: #2e3642;
   --surface2: #323a46;
-  --surface3: #3a4350;
-  --border: #424e5c;
-  --border2: #4e5c6e;
-  --text: #e8ecf0;
-  --text2: #9daab8;
-  --text3: #6b7a8a;
+  --surface3: #3c4655;
+  --border: #4a5668;
+  --border2: #576476;
+  --text: #f0f4f8;
+  --text2: #b8c5d4;
+  --text3: #8494a8;
   --shadow: 0 1px 4px rgba(0,0,0,0.25), 0 1px 2px rgba(0,0,0,0.15);
   --shadow-md: 0 4px 12px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.2);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
-  min-height: 100vh;
-  padding: 12px;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+.page-wrap {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 12px 12px 80px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+@media (min-width: 920px) {
+  body { background: #1c2230; }
+  .page-wrap {
+    background: var(--bg);
+    box-shadow: 0 0 60px rgba(0,0,0,.5);
+    padding: 16px 20px 80px;
+  }
 }
 
 /* HEADER */
@@ -637,36 +659,36 @@ body {
 .tb-text{font-size:10px;color:var(--red);font-weight:600;flex:1;}
 .tb-sub{font-size:9px;color:#b91c1c;}
 .promoted-banner{background:var(--green-light);border:1px solid var(--green-mid);border-left:3px solid var(--green);border-radius:6px;padding:6px 9px;margin:0 10px 6px;}
-.pb-label{font-size:9px;font-family:'DM Mono',monospace;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}
-.pb-name{font-family:'Bebas Neue',cursive;font-size:17px;color:var(--green);letter-spacing:.5px;line-height:1.1;}
+.pb-label{font-size:9px;font-family:monospace;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}
+.pb-name{font-family:inherit;font-weight:900;font-size:17px;color:var(--green);letter-spacing:.5px;line-height:1.1;}
 .pb-pos{font-size:10px;color:#065f35;}
 .pb-meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
 .backup-row.taken-row{opacity:.4;}
 .backup-row.taken-row .b-name{text-decoration:line-through;}
-.taken-tag{font-size:9px;font-family:'DM Mono',monospace;color:var(--red);background:var(--red-light);padding:1px 5px;border-radius:3px;border:1px solid #fca5a5;margin-left:3px;}
-.next-up-tag{font-size:9px;font-family:'DM Mono',monospace;color:var(--green);background:var(--green-light);padding:1px 5px;border-radius:3px;border:1px solid var(--green-mid);margin-left:3px;}
+.taken-tag{font-size:9px;font-family:monospace;color:var(--red);background:var(--red-light);padding:1px 5px;border-radius:3px;border:1px solid #fca5a5;margin-left:3px;}
+.next-up-tag{font-size:9px;font-family:monospace;color:var(--green);background:var(--green-light);padding:1px 5px;border-radius:3px;border:1px solid var(--green-mid);margin-left:3px;}
 .backup-row.next-up{background:var(--green-light);border-radius:5px;}
 /* ── LEAGUE BOARD ── */
 .league-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);margin-bottom:10px;overflow:hidden;}
 .league-hdr{background:#2a3d52;padding:11px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-.lh-title{font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:2px;color:#fff;}
-.lh-sub{font-size:9px;color:rgba(255,255,255,.5);font-family:'DM Mono',monospace;letter-spacing:.06em;margin-top:1px;}
+.lh-title{font-family:inherit;font-weight:900;font-size:18px;letter-spacing:2px;color:#fff;}
+.lh-sub{font-size:9px;color:rgba(255,255,255,.5);font-family:monospace;letter-spacing:.06em;margin-top:1px;}
 .lh-actions{display:flex;gap:6px;flex-wrap:wrap;}
 .lh-btn{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;padding:5px 11px;border-radius:6px;border:1px solid rgba(255,255,255,.2);cursor:pointer;background:rgba(255,255,255,.1);color:#fff;transition:all .15s;}
 .lh-btn:hover{background:rgba(255,255,255,.2);}
 .league-controls{padding:8px 14px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.lc-label{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;white-space:nowrap;}
+.lc-label{font-size:10px;color:var(--text3);font-family:monospace;white-space:nowrap;}
 .round-selector{display:flex;gap:4px;flex-wrap:wrap;}
-.rs-btn{font-family:'DM Mono',monospace;font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;transition:all .12s;}
+.rs-btn{font-family:monospace;font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;transition:all .12s;}
 .rs-btn:hover{background:var(--surface3);}
 .rs-btn.active{background:#2a3d52;color:#fff;border-color:#1e3a5f;}
 .rs-btn.your-pick{border-color:var(--green);color:var(--green);background:var(--green-light);}
 .rs-btn.your-pick.active{background:var(--green);color:#fff;}
 .rs-btn.keeper-rd{border-color:#c4b5fd;color:var(--purple);background:var(--purple-light);}
 .draft-board{padding:10px 14px 14px;}
-.db-round-label{font-family:'Bebas Neue',cursive;font-size:13px;letter-spacing:1px;color:#1e3a5f;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
-.db-your-badge{font-size:9px;font-family:'DM Mono',monospace;color:var(--green);background:var(--green-light);padding:1px 6px;border-radius:4px;border:1px solid var(--green-mid);font-weight:700;}
-.db-keeper-badge{font-size:9px;font-family:'DM Mono',monospace;color:var(--purple);background:var(--purple-light);padding:1px 6px;border-radius:4px;border:1px solid #c4b5fd;font-weight:700;}
+.db-round-label{font-family:inherit;font-weight:900;font-size:13px;letter-spacing:1px;color:#1e3a5f;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+.db-your-badge{font-size:9px;font-family:monospace;color:var(--green);background:var(--green-light);padding:1px 6px;border-radius:4px;border:1px solid var(--green-mid);font-weight:700;}
+.db-keeper-badge{font-size:9px;font-family:monospace;color:var(--purple);background:var(--purple-light);padding:1px 6px;border-radius:4px;border:1px solid #c4b5fd;font-weight:700;}
 .picks-row{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin-bottom:4px;}
 @media(max-width:900px){.picks-row{grid-template-columns:repeat(6,1fr);}}
 @media(max-width:560px){.picks-row{grid-template-columns:repeat(4,1fr);}}
@@ -676,17 +698,17 @@ body {
 .pick-slot.keeper-slot{border-color:#c4b5fd;background:var(--purple-light);cursor:default;}
 .pick-slot.filled-other{border-color:#e2e8f0;background:var(--surface2);}
 .pick-slot.filled-yours{border-color:var(--green-mid);background:var(--green-light);}
-.ps-num{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);margin-bottom:2px;}
+.ps-num{font-family:monospace;font-size:9px;color:var(--text3);margin-bottom:2px;}
 .pick-slot.yours .ps-num{color:var(--green);font-weight:700;}
 .pick-slot.keeper-slot .ps-num{color:var(--purple);}
-.ps-team{font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ps-team{font-size:9px;color:var(--text3);font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ps-player{font-size:10px;font-weight:600;color:var(--text);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .pick-slot.filled-yours .ps-player{color:var(--green);}
 .pick-slot.keeper-slot .ps-player{color:var(--purple);font-size:9px;}
 .ps-empty{font-size:9px;color:var(--text3);font-style:italic;}
 .ps-tap{font-size:8px;color:var(--text3);margin-top:2px;font-style:italic;}
 .gone-section{padding:8px 14px;border-top:1px solid var(--border);background:var(--surface2);}
-.gone-title{font-family:'Bebas Neue',cursive;font-size:12px;letter-spacing:1px;color:var(--text2);margin-bottom:5px;}
+.gone-title{font-family:inherit;font-weight:900;font-size:12px;letter-spacing:1px;color:var(--text2);margin-bottom:5px;}
 .gone-chips{display:flex;flex-wrap:wrap;gap:4px;}
 .gone-chip{font-size:9px;background:var(--surface3);border:1px solid var(--border);border-radius:4px;padding:2px 6px;color:var(--text2);display:flex;align-items:center;gap:4px;}
 .gc-x{cursor:pointer;color:var(--red);font-weight:700;font-size:10px;}
@@ -695,17 +717,18 @@ body {
 .tab-nav {
   display: flex;
   gap: 0;
-  padding: 0 16px;
+  padding: 0;
   margin-bottom: 0;
   border-bottom: 2px solid var(--border);
   background: var(--bg);
-  position: sticky;
-  top: 0;
-  z-index: 50;
+  width: 100%;
+  overflow: visible;
+  position: relative;
+  z-index: 100;
 }
 .tab-btn {
-  padding: 10px 20px;
-  font-size: 13px;
+  padding: 10px 0;
+  font-size: 11px;
   font-weight: 700;
   border: none;
   background: none;
@@ -713,8 +736,14 @@ body {
   cursor: pointer;
   border-bottom: 3px solid transparent;
   margin-bottom: -2px;
-  letter-spacing: .03em;
+  letter-spacing: .01em;
   transition: color .15s, border-color .15s;
+  white-space: nowrap;
+  flex: 1;
+  text-align: center;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .tab-btn.active {
   color: var(--green);
@@ -766,14 +795,234 @@ body {
   color: var(--green);
   letter-spacing: .02em;
 }
+
+.bc-header-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+.bc-headshot-wrap {
+  width: 90px;
+  height: 90px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: rgba(0,0,0,.2);
+  border: 2px solid rgba(255,255,255,.2);
+  margin-bottom: 2px;
+}
+.bc-headshot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.3));
+}
+
+
+/* ── BASEBALL CARD POPUP ──────────────────────────── */
+#bc-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10,14,20,.85);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+#bc-overlay.show { display: flex; animation: bc-fade .2s ease; }
+@keyframes bc-fade { from{opacity:0} to{opacity:1} }
+.bc-card {
+  width: 285px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08);
+  animation: bc-pop .38s cubic-bezier(.34,1.56,.64,1);
+  cursor: pointer;
+}
+.bc-card:hover { transform: scale(1.02); transition: transform .18s; }
+@keyframes bc-pop {
+  from { transform:scale(.55) rotate(-6deg); opacity:0; }
+  to   { transform:scale(1)   rotate(0deg);  opacity:1; }
+}
+.bc-holo {
+  height: 5px;
+  background: linear-gradient(90deg,#ff6b6b 0%,#ffd93d 16%,#6bcb77 33%,#4d96ff 50%,#c77dff 66%,#ffd93d 83%,#ff6b6b 100%);
+  background-size: 200% 100%;
+  animation: holo-shift 2.5s linear infinite;
+}
+@keyframes holo-shift { from{background-position:0%} to{background-position:200%} }
+.bc-header {
+  padding: 16px 18px 14px;
+  position: relative;
+  overflow: hidden;
+}
+.bc-header::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(160deg,rgba(255,255,255,.1) 0%,transparent 55%);
+  pointer-events:none;
+}
+.bc-header-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+.bc-number {
+  position:absolute; right:-6px; top:-8px;
+  font-family:inherit;font-weight:900;
+  font-size:100px; color:rgba(255,255,255,.09);
+  line-height:1; letter-spacing:-4px; pointer-events:none;
+}
+.bc-series {
+  font-family:monospace;
+  font-size:9px; letter-spacing:.18em;
+  text-transform:uppercase; color:rgba(255,255,255,.55);
+  margin-bottom:4px;
+}
+.bc-name-big {
+  font-family:inherit;font-weight:900;
+  font-size:34px; line-height:1; color:#fff;
+  letter-spacing:1px; text-shadow:0 2px 10px rgba(0,0,0,.4);
+}
+.bc-pos-team {
+  font-family:monospace;
+  font-size:11px; color:rgba(255,255,255,.7);
+  margin-top:5px; letter-spacing:.06em;
+}
+.bc-headshot-wrap {
+  width:86px; height:86px;
+  border-radius:10px; overflow:hidden;
+  flex-shrink:0;
+  background:rgba(0,0,0,.25);
+  border:2px solid rgba(255,255,255,.2);
+  margin-bottom:2px;
+}
+.bc-headshot {
+  width:100%; height:100%;
+  object-fit:cover; object-position:top center;
+}
+.bc-body {
+  background:var(--surface);
+  padding:14px 18px 12px;
+}
+.bc-round-badge {
+  display:inline-flex; align-items:center; gap:5px;
+  background:var(--surface3); border:1px solid var(--border);
+  border-radius:99px; padding:4px 11px;
+  font-size:11px; font-family:monospace;
+  color:var(--text2); margin-bottom:12px;
+}
+.bc-round-badge span { color:var(--amber); font-weight:700; }
+.bc-stats {
+  display:grid; grid-template-columns:1fr 1fr 1fr;
+  gap:8px; margin-bottom:12px;
+}
+.bc-stat {
+  text-align:center;
+  background:var(--surface2); border-radius:9px;
+  padding:8px 4px; border:1px solid var(--border);
+}
+.bc-stat-val {
+  font-family:inherit;font-weight:900;
+  font-size:22px; color:var(--text);
+  letter-spacing:.5px; line-height:1;
+}
+.bc-stat-lbl {
+  font-size:9px; color:var(--text3);
+  font-family:monospace;
+  letter-spacing:.1em; margin-top:3px;
+  text-transform:uppercase;
+}
+.bc-note {
+  font-size:11px; color:var(--text2);
+  line-height:1.6;
+  border-top:1px solid var(--border);
+  padding-top:10px; font-style:italic;
+}
+.bc-footer {
+  background:var(--surface2);
+  padding:9px 18px;
+  display:flex; align-items:center; justify-content:space-between;
+  border-top:1px solid var(--border);
+}
+.bc-dismiss { font-size:10px; color:var(--text3); font-family:monospace; letter-spacing:.06em; }
+.bc-pick-num { font-family:inherit;font-weight:900; font-size:20px; color:var(--amber); letter-spacing:1px; }
+/* ─────────────────────────────────────────────────── */
+
+
+
+/* Prevent any panel from overflowing on mobile */
+[id^="panel-"] {
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+[id^="panel-"] * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* Global mobile containment */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+.header, .draft-clock, .roster-bar,
+.tab-nav, #espn-panel, .grid,
+.footer-notes, .note-card {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+/* Roster bar scrolls horizontally rather than overflowing */
+.roster-bar {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* Desktop tabs / mobile more */
+.desktop-tab { display: flex; }
+.mobile-more { display: none; }
+@media (max-width: 600px) {
+  .desktop-tab { display: none !important; }
+  .mobile-more { display: flex !important; }
+}
+.more-menu-btn {
+  display: block;
+  width: 100%;
+  padding: 13px 20px;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+.more-menu-btn:last-child { border-bottom: none; }
+.more-menu-btn:active { background: var(--surface3); }
+#tab-more.active { color: var(--green); border-bottom-color: var(--green); }
+
 </style>
 </head>
 <body>
+<div class="page-wrap">
 
 <!-- HEADER -->
 <div class="header">
   <div>
-    <div class="team-name">Sam's Fantasy ⚾️ 2026 Draft War Room</div>
+    <div class="team-name">Tatis All Folks</div>
     <div class="season-tag">2026 FANTASY BASEBALL · LIVE DRAFT TRACKER · March 17, 2026 · 7:00 PM</div>
   </div>
   <div class="header-stats">
@@ -815,8 +1064,16 @@ body {
 
 <!-- TAB NAV -->
 <div class="tab-nav" id="tab-nav">
-  <button class="tab-btn active" id="tab-draft" onclick="switchTab('draft')">📋 Draft Guide</button>
-  <button class="tab-btn" id="tab-league" onclick="switchTab('league')">🏟 League Board</button>
+  <button class="tab-btn active" id="tab-draft"     onclick="switchTab('draft')">📋 Draft</button>
+  <button class="tab-btn"        id="tab-league"    onclick="switchTab('league')">🏟 League</button>
+  <button class="tab-btn"        id="tab-keepers"   onclick="switchTab('keepers')">🔒 Keepers</button>
+  <button class="tab-btn desktop-tab" id="tab-injuries"  onclick="switchTab('injuries')">⚠ Injuries</button>
+  <button class="tab-btn desktop-tab" id="tab-prospects" onclick="switchTab('prospects')">🌱 Prospects</button>
+  <button class="tab-btn mobile-more" id="tab-more" onclick="switchTab('more')">More ▾</button>
+</div>
+<div id="more-menu" style="display:none;background:var(--surface3);border-bottom:2px solid var(--green);border-top:1px solid var(--border);">
+  <button class="more-menu-btn" onclick="switchTab('injuries')">⚠ Injuries</button>
+  <button class="more-menu-btn" onclick="switchTab('prospects')">🌱 Prospects</button>
 </div>
 
 <!-- ESPN SYNC PANEL -->
@@ -850,22 +1107,23 @@ body {
 <!-- MAIN GRID -->
 <div class="grid" id="main-grid"></div>
 
-<!-- FOOTER NOTES -->
-<div class="footer-notes">
-  <div class="note-card">
-    <div class="note-title">⚠ Injury Flags — Check Day-Of</div>
-    <div class="note-item"><strong>Francisco Lindor (SS · NYM)</strong> — hamate, verify status before targeting</div>
-    <div class="note-item"><strong>Corbin Carroll (OF · ARI)</strong> — hamate, ADP 7, huge steal if healthy</div>
-    <div class="note-item"><strong>Hunter Greene (SP · CIN)</strong> — bone spurs, likely out until June. Avoid.</div>
-    <div class="note-item"><strong>Jacob deGrom (SP · TEX)</strong> — dart throw only, always a health risk</div>
-    <div class="note-item"><strong>⚠ Brice Turang (2B · MIL)</strong> — ESPN #55 / FP #55. DO NOT wait until Rd 17 — he will be gone. Target Rd 5-6 or pivot to backup list on that card.</div></div>
-  </div>
-  <div class="note-card">
+</div><!-- /panel-draft -->
+
+<!-- TAB: LEAGUE BOARD -->
+<div id="panel-league" style="display:none">
+  <div id="round-selector" style="display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px 8px"></div>
+  <div id="gone-chips" style="display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px;min-height:28px"></div>
+  <div id="draft-board" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 16px 32px"></div>
+</div><!-- /panel-league -->
+
+<!-- TAB: KEEPERS -->
+<div id="panel-keepers" style="display:none;padding:16px;">
+  <div class="note-card" style="margin-bottom:12px;">
     <div class="note-title">🔒 Your 4 Keepers</div>
-    <div class="note-item green"><strong>Rd 3:</strong> Wyatt Langford · OF · TEX · ADP ~50</div>
-    <div class="note-item green"><strong>Rd 6:</strong> Pete Crow-Armstrong · OF · CHC · ADP ~30</div>
-    <div class="note-item green"><strong>Rd 14:</strong> Mason Miller · RP · SD · ADP ~26 ← BEST VALUE</div>
-    <div class="note-item green"><strong>Rd 20:</strong> Jacob Misiorowski · SP · MIL · ADP ~130</div>
+    <div class="note-item green"><strong>Rd 3 · Pick #KEEPER</strong> — Wyatt Langford · OF · TEX · ADP 50 · Cost: Rd 3</div>
+    <div class="note-item green"><strong>Rd 6 · Pick #KEEPER</strong> — Pete Crow-Armstrong · OF · CHC · ADP 16 · Cost: Rd 6 ← BEST SURPLUS</div>
+    <div class="note-item green"><strong>Rd 14 · Pick #KEEPER</strong> — Mason Miller · RP · SD · ADP 43 · Cost: Rd 14 ← BEST VALUE</div>
+    <div class="note-item green"><strong>Rd 20 · Pick #KEEPER</strong> — Jacob Misiorowski · SP · MIL · ADP ~130 · Cost: Rd 20</div>
   </div>
   <div class="note-card">
     <div class="note-title">⚡ Back-to-Back Turns</div>
@@ -877,16 +1135,24 @@ body {
     <div class="note-item"><strong>#216→#217:</strong> Max Fried + Josh Naylor</div>
     <div class="note-item"><strong>#264→#265:</strong> Jacob Wilson + Jonathan Aranda</div>
   </div>
-</div>
+</div><!-- /panel-keepers -->
 
-</div><!-- /panel-draft -->
+<!-- TAB: INJURIES -->
+<div id="panel-injuries" style="display:none;padding:16px;">
+  <div class="note-card">
+    <div class="note-title">⚠ Injury Flags — Check Day-Of</div>
+    <div class="note-item"><strong>Francisco Lindor (SS · NYM)</strong> — hamate surgery, verify status before targeting. ADP 9.</div>
+    <div class="note-item"><strong>Corbin Carroll (OF · ARI)</strong> — hamate, ADP 6 — massive steal if healthy, avoid if not.</div>
+    <div class="note-item"><strong>Hunter Greene (SP · CIN)</strong> — bone spurs, likely out until June. Avoid entirely.</div>
+    <div class="note-item"><strong>Jacob deGrom (SP · TEX)</strong> — dart throw only, always a health risk.</div>
+    <div class="note-item warn"><strong>⚠ Brice Turang (2B · MIL)</strong> — ESPN #55 / FP #55. Will be GONE by Rd 17. Target Rd 5–6 or use backup list.</div>
+  </div>
+</div><!-- /panel-injuries -->
 
-<!-- TAB: LEAGUE BOARD -->
-<div id="panel-league" style="display:none">
-  <div id="round-selector" style="display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px 8px"></div>
-  <div id="gone-chips" style="display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 10px;min-height:28px"></div>
-  <div id="draft-board" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 16px 32px"></div>
-</div><!-- /panel-league -->
+<!-- TAB: PROSPECTS -->
+<div id="panel-prospects" style="display:none;width:100%;overflow:hidden;box-sizing:border-box;">
+  <div id="prospect-guide-render"></div>
+</div><!-- /panel-prospects -->
 
 <!-- INPUT MODAL -->
 <div class="modal-overlay" id="modal" style="display:none;">
@@ -906,7 +1172,22 @@ body {
   </div>
 </div>
 
+
+<!-- BASEBALL CARD OVERLAY -->
+<div id="bc-overlay" onclick="hideBaseballCard()"></div>
 <script>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1322,11 +1603,16 @@ function confirmPick() {
   var name = document.getElementById('modal-input').value.trim();
   var pos  = document.getElementById('modal-pos-input').value.trim();
   if(!name){ window._lgMode = false; closeModal(); return; }
+  var showCard = false;
+  var cardRound = null;
+  var cardPick = '';
   if(window._lgMode && lgPickModal) {
     var mine = (lgPickModal.teamIdx === getMyTeamIdx(lgPickModal.round));
     if(mine) {
       picks[String(lgPickModal.round)] = {name: name, pos: pos || '—'};
       save();
+      showCard = true;
+      cardRound = lgPickModal.round;
     } else {
       leaguePicks[lgPickModal.pid] = {name: name, pos: pos || '—'};
       saveLeague();
@@ -1336,9 +1622,19 @@ function confirmPick() {
   } else {
     picks[activeModal] = {name: name, pos: pos || '—'};
     save();
+    showCard = true;
+    cardRound = activeModal;
   }
   closeModal();
   renderAll();
+  if(showCard && cardRound) {
+    var rdObj = null;
+    for(var _ri=0; _ri<ROUNDS.length; _ri++){
+      if(String(ROUNDS[_ri].r) === String(cardRound)){ rdObj = ROUNDS[_ri]; break; }
+    }
+    var pickNum = rdObj ? rdObj.pk : ('#' + cardRound);
+    setTimeout(function(){ showBaseballCard(name, pos || '—', cardRound, pickNum); }, 250);
+  }
 }
 
 function clearPick() {
@@ -2047,6 +2343,145 @@ function showEspnToast(msg) {
 }
 // ─────────────────────────────────────────────────────
 
+
+// ── BASEBALL CARD ─────────────────────────────────────
+var TEAM_COLORS = {
+  'LAD':'#005A9C','NYY':'#1C2841','BOS':'#BD3039','HOU':'#EB6E1F',
+  'ATL':'#CE1141','CHC':'#0E3386','MIL':'#12284B','SD':'#2F241D',
+  'SEA':'#005C5C','ARI':'#A71930','PHI':'#E81828','TEX':'#C0111F',
+  'BAL':'#DF4601','MIN':'#002B5C','KC':'#004687','TB':'#092C5C',
+  'CIN':'#C6011F','WSH':'#AB0003','CLE':'#E31937','DET':'#0C2340',
+  'SF':'#FD5A1E','STL':'#C41E3A','NYM':'#002D72','MIA':'#00A3E0',
+  'COL':'#33366','OAK':'#003831','ATH':'#003831','PIT':'#FDB827',
+  'LAA':'#BA0021','CWS':'#27251F','TOR':'#134A8E','FA':'#3a4350',
+};
+var CARD_STATS = {
+  'Shohei Ohtani':     {s1:'45+',l1:'HR',  s2:'200+',l2:'K',   s3:'20', l3:'SB'},
+  'Jazz Chisholm Jr.': {s1:'27', l1:'HR',  s2:'28',  l2:'SB',  s3:'.270',l3:'AVG'},
+  'Ketel Marte':       {s1:'26', l1:'HR',  s2:'12',  l2:'SB',  s3:'.290',l3:'AVG'},
+  'Manny Machado':     {s1:'30', l1:'HR',  s2:'94',  l2:'RBI', s3:'.265',l3:'AVG'},
+  'Logan Webb':        {s1:'3.0',l1:'ERA', s2:'188', l2:'IP',  s3:'1.14',l3:'WHIP'},
+  'Mookie Betts':      {s1:'24', l1:'HR',  s2:'16',  l2:'SB',  s3:'.295',l3:'AVG'},
+  'William Contreras': {s1:'22', l1:'HR',  s2:'74',  l2:'RBI', s3:'.280',l3:'AVG'},
+  'Freddy Peralta':    {s1:'3.2',l1:'ERA', s2:'204', l2:'K',   s3:'1.16',l3:'WHIP'},
+  'Riley Greene':      {s1:'24', l1:'HR',  s2:'22',  l2:'SB',  s3:'.275',l3:'AVG'},
+  'Cole Ragans':       {s1:'3.4',l1:'ERA', s2:'196', l2:'K',   s3:'1.18',l3:'WHIP'},
+  'Chris Sale':        {s1:'3.1',l1:'ERA', s2:'210', l2:'K',   s3:'1.08',l3:'WHIP'},
+  'George Kirby':      {s1:'3.3',l1:'ERA', s2:'172', l2:'K',   s3:'1.05',l3:'WHIP'},
+  'Griffin Jax':       {s1:'32', l1:'SV',  s2:'2.8', l2:'ERA', s3:'68',  l3:'K'},
+  'Brice Turang':      {s1:'11', l1:'HR',  s2:'31',  l2:'SB',  s3:'.269',l3:'AVG'},
+  'Max Fried':         {s1:'3.2',l1:'ERA', s2:'174', l2:'K',   s3:'1.19',l3:'WHIP'},
+  'Josh Naylor':       {s1:'28', l1:'HR',  s2:'91',  l2:'RBI', s3:'.278',l3:'AVG'},
+  'Roki Sasaki':       {s1:'2.8',l1:'ERA', s2:'185', l2:'K',   s3:'1.10',l3:'WHIP'},
+  'Jacob Wilson':      {s1:'.310',l1:'AVG',s2:'12',  l2:'HR',  s3:'18',  l3:'SB'},
+  'Jonathan Aranda':   {s1:'.285',l1:'AVG',s2:'16',  l2:'HR',  s3:'8',   l3:'SB'},
+  'Wyatt Langford':    {s1:'22', l1:'HR',  s2:'18',  l2:'SB',  s3:'.272',l3:'AVG'},
+  'Pete Crow-Armstrong':{s1:'31',l1:'HR',  s2:'35',  l2:'SB',  s3:'.258',l3:'AVG'},
+  'Mason Miller':      {s1:'38', l1:'SV',  s2:'1.9', l2:'ERA', s3:'82',  l3:'K'},
+  'Jacob Misiorowski': {s1:'3.6',l1:'ERA', s2:'178', l2:'K',   s3:'32%', l3:'K%'},
+};
+var ESPN_HEADSHOTS = {
+  'Shohei Ohtani':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/39832.png&w=280&h=203',
+  'Aaron Judge':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/33192.png&w=280&h=203',
+  'Jazz Chisholm Jr.':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/41433.png&w=280&h=203',
+  'Ketel Marte':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/32512.png&w=280&h=203',
+  'Manny Machado':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/31097.png&w=280&h=203',
+  'Logan Webb':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/41216.png&w=280&h=203',
+  'Pete Crow-Armstrong':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4717833.png&w=280&h=203',
+  'Mookie Betts':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/33039.png&w=280&h=203',
+  'William Contreras':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4038519.png&w=280&h=203',
+  'Freddy Peralta':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/39825.png&w=280&h=203',
+  'Riley Greene':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4919716.png&w=280&h=203',
+  'Cole Ragans':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4317473.png&w=280&h=203',
+  'Chris Sale':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/30948.png&w=280&h=203',
+  'George Kirby':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4918067.png&w=280&h=203',
+  'Griffin Jax':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4338215.png&w=280&h=203',
+  'Brice Turang':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4576458.png&w=280&h=203',
+  'Max Fried':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/32685.png&w=280&h=203',
+  'Josh Naylor':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/35066.png&w=280&h=203',
+  'Wyatt Langford':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/5114420.png&w=280&h=203',
+  'Mason Miller':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4918194.png&w=280&h=203',
+  'Jacob Misiorowski':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/5097230.png&w=280&h=203',
+  'Roki Sasaki':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4918957.png&w=280&h=203',
+  'Jacob Wilson':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/5157259.png&w=280&h=203',
+  'Jonathan Aranda':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4561473.png&w=280&h=203',
+  'Freddie Freeman':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/30193.png&w=280&h=203',
+  'Yordan Alvarez':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/36018.png&w=280&h=203',
+  'Fernando Tatis Jr.':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/35983.png&w=280&h=203',
+  'Corbin Carroll':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/42404.png&w=280&h=203',
+  'Gunnar Henderson':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/42507.png&w=280&h=203',
+  'Paul Skenes':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4719507.png&w=280&h=203',
+  'Tarik Skubal':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/42409.png&w=280&h=203',
+  'Garrett Crochet':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4297835.png&w=280&h=203',
+  'Logan Gilbert':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/41221.png&w=280&h=203',
+  'Bryan Woo':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4629089.png&w=280&h=203',
+  'Hunter Brown':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4717803.png&w=280&h=203',
+  'Yoshinobu Yamamoto':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4872587.png&w=280&h=203',
+  'Kyle Tucker':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/34967.png&w=280&h=203',
+  'Jackson Chourio':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4917869.png&w=280&h=203',
+  'Jarren Duran':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/41610.png&w=280&h=203',
+  'Rafael Devers':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/33859.png&w=280&h=203',
+  'Bryce Harper':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/30951.png&w=280&h=203',
+  'Pete Alonso':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/37498.png&w=280&h=203',
+  'CJ Abrams':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/42402.png&w=280&h=203',
+  'Byron Buxton':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/32655.png&w=280&h=203',
+  'Jackson Merrill':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4872691.png&w=280&h=203',
+  'Zach Neto':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4666100.png&w=280&h=203',
+  'Junior Caminero':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4905921.png&w=280&h=203',
+  'James Wood':'https://a.espncdn.com/combiner/i?img=/i/headshots/mlb/players/full/4918256.png&w=280&h=203',
+};
+
+function showBaseballCard(name, pos, round, pickNum) {
+  var team = 'FA';
+  var tm = pos.match(/[^\w]([A-Z]{2,4})$/);
+  if(tm) team = tm[1].trim();
+  var color = TEAM_COLORS[team] || '#3a4350';
+  var st = CARD_STATS[name] || {s1:'—',l1:'STAT',s2:'—',l2:'STAT',s3:'—',l3:'STAT'};
+  var jerseyNum = (name.charCodeAt(0) + name.charCodeAt(name.length-1)) % 45 + 1;
+  var posShort = pos.split(/[·—]/)[0].trim() || pos;
+  var imgUrl = ESPN_HEADSHOTS[name] || '';
+  var imgHtml = imgUrl
+    ? '<div class="bc-headshot-wrap"><img class="bc-headshot" src="' + imgUrl + '" alt="' + name + '" onerror="this.parentNode.style.display=\'none\'" /></div>'
+    : '';
+  var html =
+    '<div class="bc-card" onclick="hideBaseballCard()">' +
+      '<div class="bc-holo"></div>' +
+      '<div class="bc-header" style="background:' + color + '">' +
+        '<div class="bc-number">' + jerseyNum + '</div>' +
+        '<div class="bc-header-inner">' +
+          '<div>' +
+            '<div class="bc-series">2026 &middot; Tatis All Folks &middot; Rd ' + round + '</div>' +
+            '<div class="bc-name-big">' + name + '</div>' +
+            '<div class="bc-pos-team">' + posShort + ' &middot; ' + team + '</div>' +
+          '</div>' +
+          imgHtml +
+        '</div>' +
+      '</div>' +
+      '<div class="bc-body">' +
+        '<div class="bc-round-badge">Pick <span>' + pickNum + '</span> &middot; Round <span>' + round + '</span></div>' +
+        '<div class="bc-stats">' +
+          '<div class="bc-stat"><div class="bc-stat-val">' + st.s1 + '</div><div class="bc-stat-lbl">' + st.l1 + '</div></div>' +
+          '<div class="bc-stat"><div class="bc-stat-val">' + st.s2 + '</div><div class="bc-stat-lbl">' + st.l2 + '</div></div>' +
+          '<div class="bc-stat"><div class="bc-stat-val">' + st.s3 + '</div><div class="bc-stat-lbl">' + st.l3 + '</div></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="bc-footer">' +
+        '<div class="bc-dismiss">tap to dismiss</div>' +
+        '<div class="bc-pick-num">' + pickNum + '</div>' +
+      '</div>' +
+    '</div>';
+  var overlay = document.getElementById('bc-overlay');
+  overlay.innerHTML = html;
+  overlay.classList.add('show');
+}
+
+function hideBaseballCard() {
+  document.getElementById('bc-overlay').classList.remove('show');
+}
+// ──────────────────────────────────────────────────────
+
+
+
 // Init
 if (draftStarted) {
   document.getElementById('clock-dot').classList.add('live');
@@ -2076,13 +2511,83 @@ function slotToTeam(round, slot){ return (round % 2 === 1) ? slot : 11 - slot; }
 
 function toggleLeague() { switchTab('league'); }
 function switchTab(tab) {
-  var isDraft = tab === 'draft';
-  document.getElementById('panel-draft').style.display = isDraft ? 'block' : 'none';
-  document.getElementById('panel-league').style.display = isDraft ? 'none' : 'block';
-  document.getElementById('tab-draft').className = 'tab-btn' + (isDraft ? ' active' : '');
-  document.getElementById('tab-league').className = 'tab-btn' + (!isDraft ? ' active' : '');
-  lgVisible = !isDraft;
-  if(!isDraft){ renderRoundSelector(); renderLeagueBoard(activeLgRound); }
+  var allPanels = ['draft','league','keepers','injuries','prospects'];
+  // Hide more-menu if switching away from it
+  var moreMenu = document.getElementById('more-menu');
+  if(tab === 'more') {
+    // Toggle the more menu
+    if(moreMenu) {
+      var showing = moreMenu.style.display === 'block';
+      moreMenu.style.display = showing ? 'none' : 'block';
+    }
+    var moreBtn = document.getElementById('tab-more');
+    if(moreBtn) moreBtn.className = 'tab-btn mobile-more' + (!showing ? ' active' : '');
+    return;
+  }
+  // Hide more menu
+  if(moreMenu) moreMenu.style.display = 'none';
+  // Show correct panel
+  allPanels.forEach(function(p) {
+    var el = document.getElementById('panel-' + p);
+    if(el) el.style.display = (p === tab) ? 'block' : 'none';
+  });
+  // Update tab buttons
+  var allTabs = ['draft','league','keepers','injuries','prospects','more'];
+  allTabs.forEach(function(t) {
+    var btn = document.getElementById('tab-' + t);
+    if(!btn) return;
+    var cls = 'tab-btn';
+    if(t === 'injuries' || t === 'prospects') cls += ' desktop-tab';
+    if(t === 'more') cls += ' mobile-more';
+    var moreTabs = ['injuries','prospects'];
+    var isActive = (t === tab) || (t === 'more' && moreTabs.indexOf(tab) !== -1);
+    btn.className = cls + (isActive ? ' active' : '');
+  });
+  lgVisible = (tab === 'league');
+  if(tab === 'league'){ renderRoundSelector(); renderLeagueBoard(activeLgRound); }
+  if(tab === 'prospects'){ renderProspectTab(); }
+}
+function renderProspectTab() {
+  var el = document.getElementById('prospect-guide-render');
+  if(!el || el.innerHTML !== '') return;
+  var h = '';
+  h += '<div style="background:#1e2730;padding:14px 16px 12px;border-bottom:1px solid var(--border)">';
+  h += '<div style="font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--text)">🌱 FULL PROSPECT DRAFT GUIDE</div>';
+  h += '<div style="font-size:10px;color:var(--text3);font-family:monospace;margin-top:3px;letter-spacing:.05em">ESPN + FANTASYPROS · MARCH 17, 2026</div>';
+  h += '</div>';
+  h += '<div style="padding:12px;box-sizing:border-box;width:100%;overflow:hidden;">';
+  var prospects = [
+    {num:'#1',pos:'SP',name:'Trey Yesavage',team:'TOR',age:23,tag:'Opening Day',adp:149,color:'#d97706',note:'Confirmed #3 TOR starter. 41% K rate, wipeout splitter. Shut down Ohtani and the Yankees in the ALCS.'},
+    {num:'#2',pos:'1B',name:'Sal Stewart',team:'CIN',age:22,tag:'Opening Day',adp:201,color:'#d97706',note:'Confirmed OD 1B batting 6th for CIN. .315/.394/.629 in Triple-A. 25+ HR upside, elite plate discipline.'},
+    {num:'#3',pos:'C/DH',name:'Samuel Basallo',team:'BAL',age:21,tag:'Opening Day',adp:231,color:'#d97706',note:'$84M deal locks him in through 2034. Hit 23 HR in 76 Triple-A games (45 HR pace) at just 20 years old.'},
+    {num:'#4',pos:'3B',name:'Munetaka Murakami',team:'TOR',age:25,tag:'Confirmed Starter',adp:185,color:'#2563eb',note:'Confirmed TOR starter. Japan all-time HR king under 30. Power/avg combo with elite plate discipline.'},
+    {num:'#5',pos:'2B/OF',name:'Luke Keaschall',team:'MIN',age:22,tag:'Early Season',adp:150,color:'#2563eb',note:'ESPN says 50 picks too cheap. Healthy, top-5 dynasty 2B. Speed/contact with improving pop.'},
+    {num:'#6',pos:'OF',name:'Daylen Lile',team:'PHI',age:22,tag:'Confirmed CF',adp:270,color:'#16a34a',note:'Confirmed PHI OD CF. Son of Carl Crawford — 42+46 SB in back-to-back minor league seasons.'},
+    {num:'#7',pos:'SP',name:'Tatsuya Imai',team:'HOU',age:26,tag:'Confirmed Starter',adp:190,color:'#2563eb',note:'Sub-2.50 ERA in Japan for 4 straight years. Elite splitter. Now with HOU — great park for pitchers.'},
+    {num:'#8',pos:'3B',name:'Coby Mayo',team:'BAL',age:23,tag:'Waiver Stash',adp:290,color:'#7c3aed',note:'.301/.393/.548 final month of 2025. Pete Alonso now in Baltimore — opportunity could open up.'},
+    {num:'#9',pos:'SP',name:'Connelly Early',team:'BOS',age:23,tag:'Monitor Only',adp:223,color:'#7c3aed',note:'NOT confirmed OD (5-way competition). Stash only if he wins the job. Stuff is real.'},
+  ];
+  prospects.forEach(function(p) {
+    h += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:10px;box-sizing:border-box;width:100%;overflow:hidden;">';
+    // Top row: prospect number + tag
+    h += '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;flex-wrap:wrap;">';
+    h += '<span style="font-size:10px;font-family:monospace;color:var(--text3);letter-spacing:.1em">PROSPECT ' + p.num + ' · ' + p.pos + '</span>';
+    h += '<span style="background:' + p.color + '22;border:1px solid ' + p.color + ';color:' + p.color + ';font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;white-space:nowrap">' + p.tag.toUpperCase() + '</span>';
+    h += '</div>';
+    // Player name
+    h += '<div style="font-size:22px;font-weight:900;color:var(--text);line-height:1;margin-bottom:4px;letter-spacing:.5px">' + p.name + '</div>';
+    // Position / team / age
+    h += '<div style="font-size:11px;color:var(--text3);font-family:monospace;margin-bottom:8px">' + p.pos + ' — ' + p.team + ' · Age ' + p.age + '</div>';
+    // ADP badge
+    h += '<div style="margin-bottom:8px;">';
+    h += '<span style="background:var(--surface3);border:1px solid var(--border);border-radius:6px;padding:3px 9px;font-size:11px;font-family:monospace;color:var(--text2)">ADP ~' + p.adp + '</span>';
+    h += '</div>';
+    // Note
+    h += '<div style="font-size:12px;color:var(--text2);line-height:1.6;word-wrap:break-word;overflow-wrap:break-word;">' + p.note + '</div>';
+    h += '</div>';
+  });
+  h += '</div>';
+  el.innerHTML = h;
 }
 
 function renderRoundSelector() {
@@ -2197,6 +2702,18 @@ function clearAllOtherPicks() {
 
 // Init
 renderRoundSelector();
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2339,5 +2856,6 @@ renderRoundSelector();
   </div>
 </div>
 
+</div><!-- /page-wrap -->
 </body>
 </html>
