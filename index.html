@@ -1216,40 +1216,6 @@ body {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var ROUNDS = [
   {r:1, pk:'#1', type:'pick', val:'f', vl:'At ADP', avail:'Best player in fantasy',
    p:{n:'Shohei Ohtani', pos:'SP/DH — LAD', adp:1, note:'Unanimous 1.01. Two-way return in 2026: 45+ HR, ace Ks, ~20 SB. Zero debate.'},
@@ -1557,311 +1523,18 @@ var ROUNDS = [
 ];
 
 var picks = JSON.parse(localStorage.getItem('taf_picks_2026') || '{}');
+var leaguePicks = JSON.parse(localStorage.getItem('taf_league_2026') || '{}');
+var TEAMS = ["Tatis All Folks", "Holliday Cruz Lines", "You're Killin Me Smalls", "Better Call Kurtz Goodman", "Vlad Romance", "A Double Barrel Shaboingboing", "Mets WS back OFF!", "Pat's Team", "RIP Dollar Dog Night", "Team Kim", "YORDONG(Sad Pat McInnis Noises)", "SERENITY NOW"];
+var KEEPERS = {};
 var draftStarted = JSON.parse(localStorage.getItem('taf_started') || 'false');
 var startTime = localStorage.getItem('taf_starttime') || null;
 var activeModal = null;
 var clockInterval = null;
-var espnConfig = { leagueId: '', espnS2: '', swid: '', active: false };
-var espnPollInterval = null;
-var espnLastPickCount = 0;
-var espnConnected = false;
-var TEAMS = ["Tatis All Folks", "Holliday Cruz Lines", "You're Killin Me Smalls", "My Nick Kurtz", "Vlad Romance", "A Pair of Crochetd Skuballs", "Mets WS back OFF!", "B.Lowe J0bs from Riley Reid", "RIP Dollar Dog Night", "Team Kim", "YORDONG(Sad Pat McInnis Noises)", "SERENITY NOW"];
-var KEEPERS = {"0_3": "Langford", "0_6": "PCA", "0_14": "Mason Miller", "0_20": "Misiorowski", "1_18": "J. Holliday", "1_19": "Gerrit Cole", "1_20": "Chase DeLauter", "1_22": "Matthew Shaw", "2_20": "Kyle Stowers", "2_2": "Cal Raleigh", "2_19": "G. Springer", "2_22": "Luis Gil", "3_19": "K. Griffin", "3_20": "Nick Kurtz", "3_18": "JJ Wetherholt", "3_17": "H. Goodman", "4_7": "Vladdy Jr.", "4_22": "Roman Anthony", "4_20": "Elly De La Cruz", "4_18": "Spencer Strider", "5_6": "C. Sanchez", "5_20": "Nolan McLean", "5_19": "Eury Perez", "5_18": "Drake Baldwin", "6_9": "Edwin Diaz", "6_5": "Bryce Harper", "6_20": "K. McGonigle", "6_15": "Byron Buxton", "7_16": "G. Crochet", "7_18": "Tarik Skubal", "7_19": "T. Soderstrom", "7_20": "Carter Jensen", "8_18": "CJ Abrams", "8_20": "J. Chourio", "8_19": "Ben Rice", "8_15": "Paul Skenes", "9_15": "Zach Neto", "9_12": "Jesus Luzardo", "9_13": "Bubba Chandler", "9_20": "Cam Schlittler", "10_11": "Yordan Alvarez", "10_13": "Brent Rooker", "10_6": "Bryan Woo", "10_20": "G. Perdomo", "11_19": "E. Sheehan", "11_15": "Bobby Witt Jr.", "11_14": "Jac Caglianone", "11_20": "James Wood"};
-var leaguePicks = JSON.parse(localStorage.getItem('taf_league_2026') || '{}');
-var activeLgRound = 1;
-var lgPickModal = null;
-var lgVisible = false;
 
-function saveLeague(){ localStorage.setItem('taf_league_2026', JSON.stringify(leaguePicks)); }
-function pickId(round, teamIdx){ return 'r' + round + '_t' + teamIdx; }
-function keeperKey(round, teamIdx){ return '' + teamIdx + '_' + round; }
-function isKeeper(round, teamIdx){ return !!KEEPERS[keeperKey(round, teamIdx)]; }
-function keeperName(round, teamIdx){ return KEEPERS[keeperKey(round, teamIdx)] || ''; }
-function getMyTeamIdx(round){ return 0; } // Tatis All Folks is always team index 0
-function slotToTeam(round, slot){ return (round % 2 === 1) ? slot : 11 - slot; }
-
-function toggleLeague() { switchTab('league'); }
-function toggleLeague() { /* no-op, league is always visible */ }
-function switchTab(tab) {
-  var allPanels = ['draft','keepers','injuries','prospects'];
-  var moreMenu = document.getElementById('more-menu');
-  if(tab === 'more') {
-    if(moreMenu) {
-      var showing = moreMenu.style.display === 'block';
-      moreMenu.style.display = showing ? 'none' : 'block';
-    }
-    var moreBtn = document.getElementById('tab-more');
-    if(moreBtn) moreBtn.className = 'tab-btn mobile-more' + (!showing ? ' active' : '');
-    return;
-  }
-  if(moreMenu) moreMenu.style.display = 'none';
-  allPanels.forEach(function(p) {
-    var el = document.getElementById('panel-' + p);
-    if(el) el.style.display = (p === tab) ? 'block' : 'none';
-  });
-  var allTabs = ['draft','keepers','injuries','prospects','more'];
-  allTabs.forEach(function(t) {
-    var btn = document.getElementById('tab-' + t);
-    if(!btn) return;
-    var cls = 'tab-btn';
-    if(t === 'injuries' || t === 'prospects') cls += ' desktop-tab';
-    if(t === 'more') cls += ' mobile-more';
-    var moreTabs = ['injuries','prospects'];
-    var isActive = (t === tab) || (t === 'more' && moreTabs.indexOf(tab) !== -1);
-    btn.className = cls + (isActive ? ' active' : '');
-  });
-  // League board is always visible when on draft tab
-  lgVisible = (tab === 'draft');
-  if(tab === 'draft'){ renderRoundSelector(); renderLeagueBoard(activeLgRound); }
-  if(tab === 'prospects'){ renderProspectTab(); }
-}
-function renderProspectTab() {
-  var el = document.getElementById('prospect-guide-render');
-  if(!el || el.innerHTML !== '') return;
-  var h = '';
-  h += '<div style="background:#1e2730;padding:14px 16px 12px;border-bottom:1px solid var(--border)">';
-  h += '<div style="font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--text)">🌱 FULL PROSPECT DRAFT GUIDE</div>';
-  h += '<div style="font-size:10px;color:var(--text3);font-family:monospace;margin-top:3px;letter-spacing:.05em">ESPN + FANTASYPROS · MARCH 17, 2026</div>';
-  h += '</div>';
-  h += '<div style="padding:12px;box-sizing:border-box;width:100%;overflow:hidden;">';
-  var prospects = [
-    {num:'#1',pos:'SP',name:'Trey Yesavage',team:'TOR',age:23,tag:'Opening Day',adp:149,color:'#d97706',note:'Confirmed #3 TOR starter. 41% K rate, wipeout splitter. Shut down Ohtani and the Yankees in the ALCS.'},
-    {num:'#2',pos:'1B',name:'Sal Stewart',team:'CIN',age:22,tag:'Opening Day',adp:201,color:'#d97706',note:'Confirmed OD 1B batting 6th for CIN. .315/.394/.629 in Triple-A. 25+ HR upside, elite plate discipline.'},
-    {num:'#3',pos:'C/DH',name:'Samuel Basallo',team:'BAL',age:21,tag:'Opening Day',adp:231,color:'#d97706',note:'$84M deal locks him in through 2034. Hit 23 HR in 76 Triple-A games (45 HR pace) at just 20 years old.'},
-    {num:'#4',pos:'3B',name:'Munetaka Murakami',team:'TOR',age:25,tag:'Confirmed Starter',adp:185,color:'#2563eb',note:'Confirmed TOR starter. Japan all-time HR king under 30. Power/avg combo with elite plate discipline.'},
-    {num:'#5',pos:'2B/OF',name:'Luke Keaschall',team:'MIN',age:22,tag:'Early Season',adp:150,color:'#2563eb',note:'ESPN says 50 picks too cheap. Healthy, top-5 dynasty 2B. Speed/contact with improving pop.'},
-    {num:'#6',pos:'OF',name:'Daylen Lile',team:'PHI',age:22,tag:'Confirmed CF',adp:270,color:'#16a34a',note:'Confirmed PHI OD CF. Son of Carl Crawford — 42+46 SB in back-to-back minor league seasons.'},
-    {num:'#7',pos:'SP',name:'Tatsuya Imai',team:'HOU',age:26,tag:'Confirmed Starter',adp:190,color:'#2563eb',note:'Sub-2.50 ERA in Japan for 4 straight years. Elite splitter. Now with HOU — great park for pitchers.'},
-    {num:'#8',pos:'3B',name:'Coby Mayo',team:'BAL',age:23,tag:'Waiver Stash',adp:290,color:'#7c3aed',note:'.301/.393/.548 final month of 2025. Pete Alonso now in Baltimore — opportunity could open up.'},
-    {num:'#9',pos:'SP',name:'Connelly Early',team:'BOS',age:23,tag:'Monitor Only',adp:223,color:'#7c3aed',note:'NOT confirmed OD (5-way competition). Stash only if he wins the job. Stuff is real.'},
-  ];
-  prospects.forEach(function(p) {
-    h += '<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:10px;box-sizing:border-box;width:100%;overflow:hidden;">';
-    // Top row: prospect number + tag
-    h += '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;flex-wrap:wrap;">';
-    h += '<span style="font-size:10px;font-family:monospace;color:var(--text3);letter-spacing:.1em">PROSPECT ' + p.num + ' · ' + p.pos + '</span>';
-    h += '<span style="background:' + p.color + '22;border:1px solid ' + p.color + ';color:' + p.color + ';font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;white-space:nowrap">' + p.tag.toUpperCase() + '</span>';
-    h += '</div>';
-    // Player name
-    h += '<div style="font-size:22px;font-weight:900;color:var(--text);line-height:1;margin-bottom:4px;letter-spacing:.5px">' + p.name + '</div>';
-    // Position / team / age
-    h += '<div style="font-size:11px;color:var(--text3);font-family:monospace;margin-bottom:8px">' + p.pos + ' — ' + p.team + ' · Age ' + p.age + '</div>';
-    // ADP badge
-    h += '<div style="margin-bottom:8px;">';
-    h += '<span style="background:var(--surface3);border:1px solid var(--border);border-radius:6px;padding:3px 9px;font-size:11px;font-family:monospace;color:var(--text2)">ADP ~' + p.adp + '</span>';
-    h += '</div>';
-    // Note
-    h += '<div style="font-size:12px;color:var(--text2);line-height:1.6;word-wrap:break-word;overflow-wrap:break-word;">' + p.note + '</div>';
-    h += '</div>';
-  });
-  h += '</div>';
-  el.innerHTML = h;
-}
-
-function renderRoundSelector() {
-  var el = document.getElementById('round-selector');
-  if(!el) return;
-  el.innerHTML = '';
-  for(var r = 1; r <= 27; r++) {
-    var myIdx = getMyTeamIdx(r);
-    var isKeeperRd = isKeeper(r, myIdx);
-    var btn = document.createElement('button');
-    var cls = 'rs-btn ' + (isKeeperRd ? 'keeper-rd' : 'your-pick');
-    if(r === activeLgRound) cls += ' active';
-    btn.className = cls;
-    btn.textContent = r;
-    btn.setAttribute('data-round', r);
-    btn.onclick = (function(round){ return function(){ activeLgRound = round; renderRoundSelector(); renderLeagueBoard(round); }; })(r);
-    el.appendChild(btn);
-  }
-}
-
-function renderLeagueBoard(round) {
-  var el = document.getElementById('draft-board');
-  if(!el) return;
-  var myTeamIdx = getMyTeamIdx(round);
-  var isKeeperRd = isKeeper(round, myTeamIdx);
-  var label = 'Round ' + round;
-  if(isKeeperRd) label += ' <span class="db-keeper-badge">🔒 Your Keeper — ' + keeperName(round, myTeamIdx) + '</span>';
-  else label += ' <span class="db-your-badge">⭐ Your Pick — pick ' + (round % 2 === 1 ? '#' + ((round-1)*12+1) : '#' + (round*12)) + '</span>';
-
-  var html = '<div class="db-round-label">' + label + '</div><div class="picks-row">';
-  for(var slot = 0; slot < 12; slot++) {
-    var teamIdx = slotToTeam(round, slot);
-    var team = TEAMS[teamIdx] || '';
-    var shortTeam = team.split(' ').slice(0,2).join(' ');
-    var pid = pickId(round, teamIdx);
-    var mine = (teamIdx === myTeamIdx);
-    var kp = isKeeper(round, teamIdx);
-    var drafted = leaguePicks[pid];
-    var myOwnPick = mine && picks[String(round)];
-    var overallPick = (round-1)*12 + slot + 1;
-
-    var slotClass = 'pick-slot';
-    if(kp) slotClass += ' keeper-slot';
-    else if(mine && myOwnPick) slotClass += ' filled-yours';
-    else if(mine) slotClass += ' yours';
-    else if(drafted) slotClass += ' filled-other';
-
-    var clickAttr = kp ? '' : 'onclick="openLgModal(' + "'" + pid + "'," + teamIdx + ',' + round + ')"';
-    html += '<div class="' + slotClass + '" ' + clickAttr + '>';
-    html += '<div class="ps-num">#' + overallPick + '</div>';
-    html += '<div class="ps-team">' + shortTeam + '</div>';
-    if(kp) html += '<div class="ps-player">' + keeperName(round, teamIdx) + '</div>';
-    else if(mine && myOwnPick) html += '<div class="ps-player">' + myOwnPick.name + '</div>';
-    else if(drafted) html += '<div class="ps-player">' + drafted.name + '</div>';
-    else html += '<div class="ps-empty">' + (mine ? '← YOUR PICK' : 'Empty') + '</div>' + (mine ? '' : '<div class="ps-tap">tap to log</div>');
-    html += '</div>';
-  }
-  html += '</div>';
-  el.innerHTML = html;
-  renderGoneChips(round);
-}
-
-function renderGoneChips(round) {
-  var el = document.getElementById('gone-chips');
-  if(!el) return;
-  var html = '';
-  var myTeamIdx = getMyTeamIdx(round);
-  for(var slot = 0; slot < 12; slot++) {
-    var teamIdx = slotToTeam(round, slot);
-    if(teamIdx === myTeamIdx) continue;
-    var pid = pickId(round, teamIdx);
-    var kp = isKeeper(round, teamIdx);
-    if(kp) {
-      html += '<span class="gone-chip" style="border-color:#c4b5fd;color:#6d28d9">' + keeperName(round, teamIdx) + ' <em style="font-size:8px">(keeper)</em></span>';
-    } else if(leaguePicks[pid]) {
-      html += '<span class="gone-chip">' + leaguePicks[pid].name + '<span class="gc-x" onclick="clearLgPick(' + "'" + pid + "'" + ')">×</span></span>';
-    }
-  }
-  if(!html) html = '<span style="font-size:10px;color:var(--text3);font-style:italic">No picks logged yet for this round</span>';
-  el.innerHTML = html;
-}
-
-function openLgModal(pid, teamIdx, round) {
-  var _badge = document.getElementById('modal-pos-display'); if(_badge){ _badge.style.display='none'; _badge.textContent=''; }
-  lgPickModal = {pid: pid, teamIdx: teamIdx, round: round};
-  var mine = (teamIdx === getMyTeamIdx(round));
-  var team = TEAMS[teamIdx] || '';
-  var existing = mine ? picks[String(round)] : leaguePicks[pid];
-  document.getElementById('modal-title').textContent = mine ? 'Round ' + round + ' · Your Pick' : 'Round ' + round + ' · ' + team;
-  document.getElementById('modal-sub').textContent = mine ? 'Log your pick here OR tap the round card above' : 'Log ' + team + "'s pick";
-  document.getElementById('modal-input').value = existing ? existing.name : '';
-  document.getElementById('modal-pos-input').value = existing ? (existing.pos || '') : '';
-  window._lgMode = true;
-  document.getElementById('modal').style.display = 'flex';
-  setTimeout(function(){ document.getElementById('modal-input').focus(); }, 80);
-}
-
-function clearLgPick(pid) {
-  delete leaguePicks[pid];
-  saveLeague();
-  if(lgVisible) renderLeagueBoard(activeLgRound);
-  renderAll();
-}
-
-function clearAllOtherPicks() {
-  if(!confirm('Clear all other teams logged picks?')) return;
-  leaguePicks = {};
-  saveLeague();
-  if(lgVisible) renderLeagueBoard(activeLgRound);
-  renderAll();
-}
-
-function renderAll() {
-  var grid = document.getElementById('main-grid');
-  grid.innerHTML = '';
-  var currentRd = draftStarted ? getCurrentRound() : null;
-  var draftedCount = 0;
-  var pickableCount = ROUNDS.filter(function(r){ return r.type === 'pick'; }).length;
-
-  ROUNDS.forEach(function(rd) {
-    var key = String(rd.r);
-    var isDrafted = !!picks[key];
-    var isKeeper = rd.type === 'keeper';
-    var isCurrent = currentRd === key && draftStarted;
-    if (isDrafted || isKeeper) draftedCount++;
-
-    var card = document.createElement('div');
-    card.className = 'round-card'
-      + (isKeeper ? ' keeper-card' : '')
-      + (isDrafted && !isKeeper ? ' drafted' : '')
-      + (isCurrent ? ' current' : '');
-
-    var html = '';
-
-    // Header
-    html += '<div class="card-header">'
-      + '<span class="round-num">RD ' + rd.r + '</span>'
-      + '<span class="pick-bubble ' + (isKeeper?'keeper':isDrafted?'done':'normal') + '">' + rd.pk + '</span>'
-      + '<span class="avail-note">' + (rd.avail || '') + '</span>'
-      + (isCurrent ? '<span class="current-badge">ON THE CLOCK</span>' : '')
-      + '</div>';
-
-    if (isKeeper) {
-      html += '<div class="keeper-body">'
-        + '<div class="keeper-name">' + rd.p.n + '</div>'
-        + '<div class="keeper-pos">' + rd.p.pos + '</div>'
-        + '<div class="keeper-meta">' + (rd.p.meta || '') + '</div>'
-        + '<div class="keeper-note">' + (rd.p.note || '') + '</div>'
-        + '</div>';
-    } else if (isDrafted) {
-      html += '<div class="drafted-display" onclick="openModal(\'' + key + '\')">'
-        + '<div class="dl">&#10003; DRAFTED</div>'
-        + '<div class="dn">' + picks[key].name + '</div>'
-        + '<div class="dp">' + picks[key].pos + '</div>'
-        + '<div class="edit-hint">Tap to edit</div>'
-        + '</div>';
-    } else {
-      // primary render handled below with taken-check
-
-      var takenSet = getTakenSet();
-      var primaryTaken = takenSet.has(rd.p.n.toLowerCase());
-      var backupsTagged = (rd.b || []).filter(function(b){ return b.n && !b.n.startsWith('N/A'); }).map(function(b){ return {n:b.n, pos:b.pos||'', adp:b.adp||'', note:b.note||'', taken: takenSet.has(b.n.toLowerCase())}; });
-      var firstAvail = null;
-      for(var bi=0; bi<backupsTagged.length; bi++){ if(!backupsTagged[bi].taken){ firstAvail = backupsTagged[bi]; break; } }
-
-      if(primaryTaken && firstAvail) {
-        html += '<div class="taken-banner"><span style="font-size:12px">✗</span><div><div class="tb-text">' + rd.p.n + ' — Already Taken</div><div class="tb-sub">Next available target auto-promoted below</div></div></div>';
-        html += '<div class="promoted-banner"><div class="pb-label">↑ Next Target — Auto Promoted</div><div class="pb-name">' + firstAvail.n + '</div><div class="pb-pos">' + firstAvail.pos + '</div><div class="pb-meta">' + (firstAvail.adp ? '<span class="adp-tag">ADP ' + firstAvail.adp + '</span>' : '') + '<span class="val-tag ' + vcClass(rd.val) + '">' + rd.vl + '</span></div></div>';
-        html += '<div class="primary" onclick="openModal(' + "'" + key + "'" + ')" style="opacity:.4;pointer-events:none"><div class="primary-label">Original target (taken)</div><div class="player-name" style="text-decoration:line-through;color:var(--text3)">' + rd.p.n + '</div><div class="player-pos">' + rd.p.pos + '</div></div>';
-      } else if(primaryTaken) {
-        html += '<div class="taken-banner"><span style="font-size:12px">✗</span><div><div class="tb-text">' + rd.p.n + ' — Taken. All backups also gone.</div><div class="tb-sub">Check League Board above for best available</div></div></div>';
-        html += '<div class="primary" onclick="openModal(' + "'" + key + "'" + ')"><div class="primary-label">Best available — check board</div><div class="player-name" style="text-decoration:line-through;color:var(--text3)">' + rd.p.n + '</div><div class="player-pos">' + rd.p.pos + '</div>' + (draftStarted ? '<div class="draft-hint">↑ Tap to log your actual pick</div>' : '') + '</div>';
-      } else {
-        html += '<div class="primary" onclick="openModal(' + "'" + key + "'" + ')"><div class="primary-label">Target' + (draftStarted ? ' — tap to log pick' : '') + '</div><div class="player-name">' + rd.p.n + '</div><div class="player-pos">' + rd.p.pos + '</div><div class="meta-row">' + (rd.p.adp ? '<span class="adp-tag">ADP ' + rd.p.adp + '</span>' : '') + '<span class="val-tag ' + vcClass(rd.val) + '">' + rd.vl + '</span>' + (rd.p.warn ? '<span class="warn-tag">⚠ URGENT</span>' : '') + '</div><div class="pick-note">' + rd.p.note + '</div>' + (draftStarted ? '<div class="draft-hint">↑ Tap to log your actual pick</div>' : '') + '</div>';
-      }
-
-      if(backupsTagged.length) {
-        html += '<div class="backups"><div class="backups-label">If taken →</div>';
-        // Only show available players, up to 5
-        var available = backupsTagged.filter(function(b){ return !b.taken; }).slice(0, 5);
-        for(var bi2 = 0; bi2 < available.length; bi2++) {
-          var b = available[bi2];
-          var isNext = bi2 === 0 && primaryTaken;
-          var rc = isNext ? 'backup-row next-up' : 'backup-row';
-          var badge = isNext ? '<span class="next-up-tag">NEXT UP</span>' : '';
-          var adpt = b.adp ? 'ADP ' + b.adp : (b.note ? '· ' + b.note : '');
-          html += '<div class="' + rc + '"><span class="b-num">' + (bi2+1) + '</span><span class="b-name">' + b.n + badge + '</span><span class="b-pos">' + b.pos + '</span><span class="b-adp">' + adpt + '</span></div>';
-        }
-        if(available.length === 0) {
-          html += '<div class="backup-row"><span class="b-name" style="color:var(--text3);font-style:italic">All backups taken — check League Board</span></div>';
-        }
-        html += '</div>';
-      }
-    }
-
-    if(rd.type !== 'keeper' && !isDrafted) { html += renderProspectCallout(rd.r); }
-    card.innerHTML = html;
-    grid.appendChild(card);
-  });
-
-  var draftedPicks = Object.keys(picks).length;
-  document.getElementById('drafted-count').textContent = draftedPicks;
-  document.getElementById('remaining-count').textContent = pickableCount - draftedPicks;
-  updateRosterBar();
-  renderRoundSelector();
-  renderLeagueBoard(activeLgRound);
+function save() {
+  localStorage.setItem('taf_picks_2026', JSON.stringify(picks));
+  localStorage.setItem('taf_started', JSON.stringify(draftStarted));
+  if (startTime) localStorage.setItem('taf_starttime', startTime);
 }
 
 function startDraft() {
@@ -1879,64 +1552,38 @@ function startDraft() {
   renderAll();
 }
 
-function vcClass(v) {
-  return v==='k'?'vk': v==='s'?'vs': v==='g'?'vg': 'vf';
+function startClock() {
+  if (clockInterval) clearInterval(clockInterval);
+  clockInterval = setInterval(function() {
+    if (!startTime) return;
+    var elapsed = Math.floor((Date.now() - parseInt(startTime)) / 1000);
+    var h = Math.floor(elapsed / 3600);
+    var m = Math.floor((elapsed % 3600) / 60);
+    var s = elapsed % 60;
+    var parts = [];
+    if (h > 0) parts.push(h + 'h');
+    parts.push((m < 10 ? '0' : '') + m + 'm');
+    parts.push((s < 10 ? '0' : '') + s + 's');
+    document.getElementById('clock-time').textContent = parts.join(' ');
+  }, 1000);
 }
 
-function getCurrentRound() {
-  for (var rd of ROUNDS) {
-    if (rd.type === 'keeper') continue;
-    if (!picks[String(rd.r)]) return String(rd.r);
-  }
-  return null;
-}
-
-function updateRosterBar() {
-  var slots = {C:[], '1B':[], '2B':[], SS:[], '3B':[], OF:[], SP:[], RP:[]};
-
-  var classify = function(posStr, name) {
-    var p = (posStr || '').toUpperCase();
-    if (p.includes('SP')) { slots['SP'].push(name); return; }
-    if (p.includes('RP')) { slots['RP'].push(name); return; }
-    if (p.match(/\bC\b/) || p.startsWith('C ') || p.startsWith('C/') || p === 'C') { slots['C'].push(name); return; }
-    if (p.includes('1B')) { slots['1B'].push(name); return; }
-    if (p.includes('2B')) { slots['2B'].push(name); return; }
-    if (p.includes('SS')) { slots['SS'].push(name); return; }
-    if (p.includes('3B')) { slots['3B'].push(name); return; }
-    if (p.includes('OF') || p.includes('LF') || p.includes('CF') || p.includes('RF') || p.includes('DH')) { slots['OF'].push(name); return; }
-    slots['OF'].push(name);
-  };
-
-  Object.values(picks || {}).forEach(function(p){ classify(p.pos, p.name); });
-  classify('OF', 'Langford'); classify('OF', 'PCA');
-  classify('RP', 'M. Miller'); classify('SP', 'Misiorowski');
-
-  var updateSlot = function(id, name) {
-    var s = document.getElementById(id);
-    if (!s) return;
-    s.className = 'pos-slot' + (name ? ' filled' : '');
-    var pl = s.querySelector('.pos-player');
-    var em = s.querySelector('.pos-empty');
-    if (name) {
-      if (!pl) { pl = document.createElement('div'); pl.className = 'pos-player'; s.appendChild(pl); }
-      pl.textContent = name;
-      if (em) em.style.display = 'none';
-    } else {
-      if (pl) pl.textContent = '';
-      if (em) em.style.display = 'block';
-    }
-  };
-
-  updateSlot('slot-C', slots['C'][0]);
-  updateSlot('slot-1B', slots['1B'][0]);
-  updateSlot('slot-2B', slots['2B'][0]);
-  updateSlot('slot-SS', slots['SS'][0]);
-  updateSlot('slot-3B', slots['3B'][0]);
-  updateSlot('slot-OF1', slots['OF'][0]);
-  updateSlot('slot-OF2', slots['OF'][1]);
-  updateSlot('slot-OF3', slots['OF'][2]);
-  updateSlot('slot-SP1', slots['SP'][0]);
-  updateSlot('slot-RP1', slots['RP'][0]);
+function resetDraft() {
+  if (!confirm('Reset all picks? This cannot be undone.')) return;
+  picks = {};
+  draftStarted = false;
+  startTime = null;
+  localStorage.removeItem('taf_picks_2026');
+  localStorage.removeItem('taf_started');
+  localStorage.removeItem('taf_starttime');
+  if (clockInterval) clearInterval(clockInterval);
+  document.getElementById('clock-dot').classList.remove('live');
+  document.getElementById('clock-status').textContent = 'Draft starts March 17 at 7:00 PM — Click START when your draft begins';
+  document.getElementById('clock-time').textContent = '7:00 PM';
+  var btn = document.getElementById('start-btn');
+  btn.textContent = '▶ START';
+  btn.style.background = '';
+  renderAll();
 }
 
 function openModal(roundKey) {
@@ -1952,6 +1599,13 @@ function openModal(roundKey) {
   document.getElementById('modal-pos-input').value = existing ? existing.pos : '';
   document.getElementById('modal').style.display = 'flex';
   setTimeout(function(){ document.getElementById('modal-input').focus(); }, 80);
+}
+
+function closeModal() {
+  var dd = document.getElementById('ac-dropdown'); if(dd){ dd.style.display = 'none'; dd.innerHTML = ''; }
+  var badge = document.getElementById('modal-pos-display'); if(badge){ badge.style.display='none'; badge.textContent=''; }
+  document.getElementById('modal').style.display = 'none';
+  activeModal = null;
 }
 
 function confirmPick() {
@@ -1992,71 +1646,24 @@ function clearPick() {
   renderAll();
 }
 
-function closeModal() {
-  var dd = document.getElementById('ac-dropdown'); if(dd){ dd.style.display = 'none'; dd.innerHTML = ''; }
-  var badge = document.getElementById('modal-pos-display'); if(badge){ badge.style.display='none'; badge.textContent=''; }
-  document.getElementById('modal').style.display = 'none';
-  activeModal = null;
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'Enter' && activeModal) confirmPick();
+});
+
+function vcClass(v) {
+  return v==='k'?'vk': v==='s'?'vs': v==='g'?'vg': 'vf';
 }
 
-function exportRoster() {
-  var text = 'TATIS ALL FOLKS — 2026 DRAFT RESULTS\n=====================================\n\n';
-  ROUNDS.forEach(function(rd) {
-    var key = String(rd.r);
-    if (rd.type === 'keeper') {
-      text += 'Rd ' + rd.r + ' [KEEPER]: ' + rd.p.n + ' (' + rd.p.pos + ')\n';
-    } else if (picks[key]) {
-      text += 'Rd ' + rd.r + ' [' + rd.pk + ']: ' + picks[key].name + ' (' + picks[key].pos + ')\n';
-    } else {
-      text += 'Rd ' + rd.r + ' [' + rd.pk + ']: — not yet picked\n';
-    }
-  });
-  var blob = new Blob([text], {type:'text/plain'});
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'tatis_all_folks_2026_draft.txt';
-  a.click();
+function getCurrentRound() {
+  for (var rd of ROUNDS) {
+    if (rd.type === 'keeper') continue;
+    if (!picks[String(rd.r)]) return String(rd.r);
+  }
+  return null;
 }
 
-function resetDraft() {
-  if (!confirm('Reset all picks? This cannot be undone.')) return;
-  picks = {};
-  draftStarted = false;
-  startTime = null;
-  localStorage.removeItem('taf_picks_2026');
-  localStorage.removeItem('taf_started');
-  localStorage.removeItem('taf_starttime');
-  if (clockInterval) clearInterval(clockInterval);
-  document.getElementById('clock-dot').classList.remove('live');
-  document.getElementById('clock-status').textContent = 'Draft starts March 17 at 7:00 PM — Click START when your draft begins';
-  document.getElementById('clock-time').textContent = '7:00 PM';
-  var btn = document.getElementById('start-btn');
-  btn.textContent = '▶ START';
-  btn.style.background = '';
-  renderAll();
-}
 
-function save() {
-  localStorage.setItem('taf_picks_2026', JSON.stringify(picks));
-  localStorage.setItem('taf_started', JSON.stringify(draftStarted));
-  if (startTime) localStorage.setItem('taf_starttime', startTime);
-}
-
-function startClock() {
-  if (clockInterval) clearInterval(clockInterval);
-  clockInterval = setInterval(function() {
-    if (!startTime) return;
-    var elapsed = Math.floor((Date.now() - parseInt(startTime)) / 1000);
-    var h = Math.floor(elapsed / 3600);
-    var m = Math.floor((elapsed % 3600) / 60);
-    var s = elapsed % 60;
-    var parts = [];
-    if (h > 0) parts.push(h + 'h');
-    parts.push((m < 10 ? '0' : '') + m + 'm');
-    parts.push((s < 10 ? '0' : '') + s + 's');
-    document.getElementById('clock-time').textContent = parts.join(' ');
-  }, 1000);
-}
 
 var PLAYER_DB = [
   {n:"Shohei Ohtani",p:"SP/DH",t:"LAD"},
@@ -2333,6 +1940,8 @@ var PLAYER_DB = [
   {n:"Victor Mederos",p:"SP",t:"LAA"},
 ];
 
+// Total: 272 players
+
 var PROSPECT_DATA = {"15": {"label": "Prospect Target", "name": "Trey Yesavage", "pos": "SP - Toronto Blue Jays - Age 23", "tags": [["pct-od", "Opening Day Starter"], ["pct-adp", "ADP ~149"]], "note": "Confirmed #3 in TOR rotation. Postseason legend - dominated the Yankees in the ALCS. 41% K rate in minors, wipeout splitter. Innings cap early but locked in. With Gerrit Cole and Eury Perez both kept by other teams, Yesavage is your best available SP prospect. Priority pick in Rd 15-16."}, "19": {"label": "Prospect Target", "name": "Sal Stewart", "pos": "1B - Cincinnati Reds - Age 22", "tags": [["pct-od", "Opening Day (batting 6th)"], ["pct-adp", "ADP ~201"]], "note": "Best value rookie hitter in the draft. Confirmed in CIN Opening Day lineup. .315/.394/.629 in Triple-A, 21% barrel rate, 95.4 mph avg exit velo, 5 HR in MLB debut. Projects 25+ HR and .270 avg. Steal at ADP 201 - do not var him slip past Rd 22."}, "21": {"label": "Two Prospect Targets", "name": "Murakami + Basallo", "pos": "3B/DH TOR + C/DH BAL - Both Opening Day", "tags": [["pct-od", "Both confirmed starters"], ["pct-adp", "ADP ~185 / ~231"]], "note": "MURAKAMI: Japan all-time HR king under 30. Confirmed in TOR everyday lineup. Averaged 36 HR per season over last 4 NPB years. Real 25-30 HR upside. Best late 3B available with Jazz kept. BASALLO: $84M pre-arb deal locks everyday role. Hit 23 HR in 76 Triple-A games at age 20. Top-5 prospect. 20+ HR with C eligibility - critical since Raleigh was kept by another team."}, "22": {"label": "Prospect Target", "name": "Tatsuya Imai", "pos": "SP - Chicago White Sox - Age 26", "tags": [["pct-od", "Opening Day Starter"], ["pct-adp", "ADP ~190"]], "note": "Sub-2.50 ERA in Japan for 4 straight seasons. Elite splitter generates wipeout whiff rates. CWS is a bad team but that means consistent starts and good ratios. In H2H categories his ERA, WHIP, and K categories are the value. Great SP depth add given how many arms are already kept across your league."}, "23": {"label": "Prospect Target", "name": "Daylen Lile", "pos": "OF - Philadelphia Phillies - Age 22", "tags": [["pct-od", "Opening Day CF (confirmed)"], ["pct-adp", "ADP ~270"]], "note": "Son of Carl Crawford - confirmed PHI CF from Opening Day. Back-to-back 42 and 46 SB seasons in minors with solid averages. Phillies have a loaded lineup for counting stats. Pure SB and AVG weapon in H2H. Cheapest legitimate stolen base source available in the late draft."}, "24": {"label": "Prospect Target", "name": "Luke Keaschall", "pos": "2B/OF - Minnesota Twins - Age 24", "tags": [["pct-od", "Opening Day Roster"], ["pct-adp", "ADP ~150 (50 picks too late - ESPN)"]], "note": "ESPN Passan says he is being drafted 50 spots too late. Missed most of 2025 with forearm fracture but hit .294/.359/.436 with 4 HR and 9 SB in 42 post-return games. Fully healthy for 2026. Top-5 dynasty 2B target, multi-eligible. Speed and avg combo in a winning MIN lineup. With Jazz Chisholm kept, 2B is very thin in your league."}, "25": {"label": "Prospect Power Dart", "name": "Coby Mayo", "pos": "3B - Baltimore Orioles - Age 23", "tags": [["pct-od", "Opening Day Roster"], ["pct-adp", "ADP ~290"]], "note": "Former top-5 overall prospect. Rough first 100 MLB games but finished 2025 strong - .301 avg, .393 OBP, .548 SLG and 5 HR in the final month. Carrying that form into spring 2026. Pete Alonso now hitting behind him. Camden Yards is HR-friendly. Pure power ceiling dart at essentially free in rounds 25-27."}, "26": {"label": "Prospect Stash - Monitor", "name": "Connelly Early", "pos": "SP - Boston Red Sox - Age 24", "tags": [["pct-es", "NOT Opening Day - monitor"], ["pct-adp", "ADP ~223"]], "note": "UPDATE March 17: Early is in a 5-man competition for the BOS 5th rotation spot. He is NOT confirmed for Opening Day. Plus fastball with elite extension. Worth a final-round stash. If he starts in Triple-A he will be waiver wire available in mid-April."}};
 
 function renderProspectCallout(rdNum) {
@@ -2350,7 +1959,6 @@ function renderProspectCallout(rdNum) {
     + '<div class="pc-note">' + data.note + '</div>'
     + '</div>';
 }
-
 function getTakenSet() {
   var s = new Set();
   try { Object.values(picks || {}).forEach(function(p){ if(p && p.name) s.add(p.name.toLowerCase()); }); } catch(e){}
@@ -2359,6 +1967,171 @@ function getTakenSet() {
   return s;
 }
 
+function renderAll() {
+  var grid = document.getElementById('main-grid');
+  grid.innerHTML = '';
+  var currentRd = draftStarted ? getCurrentRound() : null;
+  var draftedCount = 0;
+  var pickableCount = ROUNDS.filter(function(r){ return r.type === 'pick'; }).length;
+
+  ROUNDS.forEach(function(rd) {
+    var key = String(rd.r);
+    var isDrafted = !!picks[key];
+    var isKeeper = rd.type === 'keeper';
+    var isCurrent = currentRd === key && draftStarted;
+    if (isDrafted || isKeeper) draftedCount++;
+
+    var card = document.createElement('div');
+    card.className = 'round-card'
+      + (isKeeper ? ' keeper-card' : '')
+      + (isDrafted && !isKeeper ? ' drafted' : '')
+      + (isCurrent ? ' current' : '');
+
+    var html = '';
+
+    // Header
+    html += '<div class="card-header">'
+      + '<span class="round-num">RD ' + rd.r + '</span>'
+      + '<span class="pick-bubble ' + (isKeeper?'keeper':isDrafted?'done':'normal') + '">' + rd.pk + '</span>'
+      + '<span class="avail-note">' + (rd.avail || '') + '</span>'
+      + (isCurrent ? '<span class="current-badge">ON THE CLOCK</span>' : '')
+      + '</div>';
+
+    if (isKeeper) {
+      html += '<div class="keeper-body">'
+        + '<div class="keeper-name">' + rd.p.n + '</div>'
+        + '<div class="keeper-pos">' + rd.p.pos + '</div>'
+        + '<div class="keeper-meta">' + (rd.p.meta || '') + '</div>'
+        + '<div class="keeper-note">' + (rd.p.note || '') + '</div>'
+        + '</div>';
+    } else if (isDrafted) {
+      html += '<div class="drafted-display" onclick="openModal(\'' + key + '\')">'
+        + '<div class="dl">&#10003; DRAFTED</div>'
+        + '<div class="dn">' + picks[key].name + '</div>'
+        + '<div class="dp">' + picks[key].pos + '</div>'
+        + '<div class="edit-hint">Tap to edit</div>'
+        + '</div>';
+    } else {
+      // primary render handled below with taken-check
+
+      var takenSet = getTakenSet();
+      var primaryTaken = takenSet.has(rd.p.n.toLowerCase());
+      var backupsTagged = (rd.b || []).filter(function(b){ return b.n && !b.n.startsWith('N/A'); }).map(function(b){ return {n:b.n, pos:b.pos||'', adp:b.adp||'', note:b.note||'', taken: takenSet.has(b.n.toLowerCase())}; });
+      var firstAvail = null;
+      for(var bi=0; bi<backupsTagged.length; bi++){ if(!backupsTagged[bi].taken){ firstAvail = backupsTagged[bi]; break; } }
+
+      if(primaryTaken && firstAvail) {
+        html += '<div class="taken-banner"><span style="font-size:12px">✗</span><div><div class="tb-text">' + rd.p.n + ' — Already Taken</div><div class="tb-sub">Next available target auto-promoted below</div></div></div>';
+        html += '<div class="promoted-banner"><div class="pb-label">↑ Next Target — Auto Promoted</div><div class="pb-name">' + firstAvail.n + '</div><div class="pb-pos">' + firstAvail.pos + '</div><div class="pb-meta">' + (firstAvail.adp ? '<span class="adp-tag">ADP ' + firstAvail.adp + '</span>' : '') + '<span class="val-tag ' + vcClass(rd.val) + '">' + rd.vl + '</span></div></div>';
+        html += '<div class="primary" onclick="openModal(' + "'" + key + "'" + ')" style="opacity:.4;pointer-events:none"><div class="primary-label">Original target (taken)</div><div class="player-name" style="text-decoration:line-through;color:var(--text3)">' + rd.p.n + '</div><div class="player-pos">' + rd.p.pos + '</div></div>';
+      } else if(primaryTaken) {
+        html += '<div class="taken-banner"><span style="font-size:12px">✗</span><div><div class="tb-text">' + rd.p.n + ' — Taken. All backups also gone.</div><div class="tb-sub">Check League Board above for best available</div></div></div>';
+        html += '<div class="primary" onclick="openModal(' + "'" + key + "'" + ')"><div class="primary-label">Best available — check board</div><div class="player-name" style="text-decoration:line-through;color:var(--text3)">' + rd.p.n + '</div><div class="player-pos">' + rd.p.pos + '</div>' + (draftStarted ? '<div class="draft-hint">↑ Tap to log your actual pick</div>' : '') + '</div>';
+      } else {
+        html += '<div class="primary" onclick="openModal(' + "'" + key + "'" + ')"><div class="primary-label">Target' + (draftStarted ? ' — tap to log pick' : '') + '</div><div class="player-name">' + rd.p.n + '</div><div class="player-pos">' + rd.p.pos + '</div><div class="meta-row">' + (rd.p.adp ? '<span class="adp-tag">ADP ' + rd.p.adp + '</span>' : '') + '<span class="val-tag ' + vcClass(rd.val) + '">' + rd.vl + '</span>' + (rd.p.warn ? '<span class="warn-tag">⚠ URGENT</span>' : '') + '</div><div class="pick-note">' + rd.p.note + '</div>' + (draftStarted ? '<div class="draft-hint">↑ Tap to log your actual pick</div>' : '') + '</div>';
+      }
+
+      if(backupsTagged.length) {
+        html += '<div class="backups"><div class="backups-label">If taken →</div>';
+        // Only show available players, up to 5
+        var available = backupsTagged.filter(function(b){ return !b.taken; }).slice(0, 5);
+        for(var bi2 = 0; bi2 < available.length; bi2++) {
+          var b = available[bi2];
+          var isNext = bi2 === 0 && primaryTaken;
+          var rc = isNext ? 'backup-row next-up' : 'backup-row';
+          var badge = isNext ? '<span class="next-up-tag">NEXT UP</span>' : '';
+          var adpt = b.adp ? 'ADP ' + b.adp : (b.note ? '· ' + b.note : '');
+          html += '<div class="' + rc + '"><span class="b-num">' + (bi2+1) + '</span><span class="b-name">' + b.n + badge + '</span><span class="b-pos">' + b.pos + '</span><span class="b-adp">' + adpt + '</span></div>';
+        }
+        if(available.length === 0) {
+          html += '<div class="backup-row"><span class="b-name" style="color:var(--text3);font-style:italic">All backups taken — check League Board</span></div>';
+        }
+        html += '</div>';
+      }
+    }
+
+    if(rd.type !== 'keeper' && !isDrafted) { html += renderProspectCallout(rd.r); }
+    card.innerHTML = html;
+    grid.appendChild(card);
+  });
+
+  var draftedPicks = Object.keys(picks).length;
+  document.getElementById('drafted-count').textContent = draftedPicks;
+  document.getElementById('remaining-count').textContent = pickableCount - draftedPicks;
+  updateRosterBar();
+  renderRoundSelector();
+  renderLeagueBoard(activeLgRound);
+}
+
+function updateRosterBar() {
+  var slots = {C:[], '1B':[], '2B':[], SS:[], '3B':[], OF:[], SP:[], RP:[]};
+
+  var classify = function(posStr, name) {
+    var p = (posStr || '').toUpperCase();
+    if (p.includes('SP')) { slots['SP'].push(name); return; }
+    if (p.includes('RP')) { slots['RP'].push(name); return; }
+    if (p.match(/\bC\b/) || p.startsWith('C ') || p.startsWith('C/') || p === 'C') { slots['C'].push(name); return; }
+    if (p.includes('1B')) { slots['1B'].push(name); return; }
+    if (p.includes('2B')) { slots['2B'].push(name); return; }
+    if (p.includes('SS')) { slots['SS'].push(name); return; }
+    if (p.includes('3B')) { slots['3B'].push(name); return; }
+    if (p.includes('OF') || p.includes('LF') || p.includes('CF') || p.includes('RF') || p.includes('DH')) { slots['OF'].push(name); return; }
+    slots['OF'].push(name);
+  };
+
+  Object.values(picks || {}).forEach(function(p){ classify(p.pos, p.name); });
+  classify('OF', 'Langford'); classify('OF', 'PCA');
+  classify('RP', 'M. Miller'); classify('SP', 'Misiorowski');
+
+  var updateSlot = function(id, name) {
+    var s = document.getElementById(id);
+    if (!s) return;
+    s.className = 'pos-slot' + (name ? ' filled' : '');
+    var pl = s.querySelector('.pos-player');
+    var em = s.querySelector('.pos-empty');
+    if (name) {
+      if (!pl) { pl = document.createElement('div'); pl.className = 'pos-player'; s.appendChild(pl); }
+      pl.textContent = name;
+      if (em) em.style.display = 'none';
+    } else {
+      if (pl) pl.textContent = '';
+      if (em) em.style.display = 'block';
+    }
+  };
+
+  updateSlot('slot-C', slots['C'][0]);
+  updateSlot('slot-1B', slots['1B'][0]);
+  updateSlot('slot-2B', slots['2B'][0]);
+  updateSlot('slot-SS', slots['SS'][0]);
+  updateSlot('slot-3B', slots['3B'][0]);
+  updateSlot('slot-OF1', slots['OF'][0]);
+  updateSlot('slot-OF2', slots['OF'][1]);
+  updateSlot('slot-OF3', slots['OF'][2]);
+  updateSlot('slot-SP1', slots['SP'][0]);
+  updateSlot('slot-RP1', slots['RP'][0]);
+}
+
+function exportRoster() {
+  var text = 'TATIS ALL FOLKS — 2026 DRAFT RESULTS\n=====================================\n\n';
+  ROUNDS.forEach(function(rd) {
+    var key = String(rd.r);
+    if (rd.type === 'keeper') {
+      text += 'Rd ' + rd.r + ' [KEEPER]: ' + rd.p.n + ' (' + rd.p.pos + ')\n';
+    } else if (picks[key]) {
+      text += 'Rd ' + rd.r + ' [' + rd.pk + ']: ' + picks[key].name + ' (' + picks[key].pos + ')\n';
+    } else {
+      text += 'Rd ' + rd.r + ' [' + rd.pk + ']: — not yet picked\n';
+    }
+  });
+  var blob = new Blob([text], {type:'text/plain'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tatis_all_folks_2026_draft.txt';
+  a.click();
+}
+
+
+// ── AUTOCOMPLETE ──────────────────────────────────────
 function acSearch(query) {
   var dd = document.getElementById('ac-dropdown');
   if(!query || query.length < 2) { dd.style.display = 'none'; dd.innerHTML = ''; return; }
@@ -2406,44 +2179,290 @@ function acHide() {
     if(dd) dd.style.display = 'none';
   }, 150);
 }
+// ──────────────────────────────────────────────────────
 
 // Init
+if (draftStarted) {
+  document.getElementById('clock-dot').classList.add('live');
+  document.getElementById('clock-status').textContent = 'DRAFT LIVE — tap any round card to log your pick';
+  var btn = document.getElementById('start-btn');
+  btn.textContent = '● LIVE';
+  btn.style.background = '#065f35';
+  if (startTime) startClock();
+}
+renderAll();
+
+// ── LEAGUE DRAFT TRACKER ─────────────────────────────────────────────────
+// TEAMS already declared above
+var KEEPERS = {"0_3":"Langford","0_6":"PCA","0_14":"Mason Miller","0_20":"Misiorowski","1_18":"J. Holliday","1_19":"Gerrit Cole","1_20":"Chase DeLauter","1_22":"Matthew Shaw","2_20":"Kyle Stowers","2_2":"Cal Raleigh","2_19":"G. Springer","2_22":"Luis Gil","3_19":"K. Griffin","3_20":"Nick Kurtz","3_18":"JJ Wetherholt","3_17":"H. Goodman","4_7":"Vladdy Jr.","4_22":"Roman Anthony","4_20":"Elly De La Cruz","4_18":"Spencer Strider","5_6":"C. Sanchez","5_20":"Nolan McLean","5_19":"Eury Perez","5_18":"Drake Baldwin","6_9":"Edwin Diaz","6_5":"Bryce Harper","6_20":"K. McGonigle","6_15":"Byron Buxton","7_16":"G. Crochet","7_18":"Tarik Skubal","7_19":"T. Soderstrom","7_20":"Carter Jensen","8_18":"CJ Abrams","8_20":"J. Chourio","8_19":"Ben Rice","8_15":"Paul Skenes","9_15":"Zach Neto","9_12":"Jesus Luzardo","9_13":"Bubba Chandler","9_20":"Cam Schlittler","10_11":"Yordan Alvarez","10_13":"Brent Rooker","10_6":"Bryan Woo","10_20":"G. Perdomo","11_19":"E. Sheehan","11_15":"Bobby Witt Jr.","11_14":"Jac Caglianone","11_20":"James Wood"};
+var leaguePicks = JSON.parse(localStorage.getItem('taf_league_2026') || '{}');
+var activeLgRound = 1;
+var lgPickModal = null;
+var lgVisible = false;
+
+function saveLeague(){ localStorage.setItem('taf_league_2026', JSON.stringify(leaguePicks)); }
+function pickId(round, teamIdx){ return 'r' + round + '_t' + teamIdx; }
+function keeperKey(round, teamIdx){ return '' + teamIdx + '_' + round; }
+function isKeeper(round, teamIdx){ return !!KEEPERS[keeperKey(round, teamIdx)]; }
+function keeperName(round, teamIdx){ return KEEPERS[keeperKey(round, teamIdx)] || ''; }
+function getMyTeamIdx(round){ return 0; }
+function slotToTeam(round, slot){ return (round % 2 === 1) ? slot : 11 - slot; }
+
+function toggleLeague() {}
+function switchTab(tab) {
+  var allPanels = ['draft','keepers','injuries','prospects'];
+  var moreMenu = document.getElementById('more-menu');
+  if(tab === 'more') {
+    if(moreMenu) {
+      var showing = moreMenu.style.display === 'block';
+      moreMenu.style.display = showing ? 'none' : 'block';
+    }
+    var moreBtn = document.getElementById('tab-more');
+    if(moreBtn) moreBtn.className = 'tab-btn mobile-more' + (!showing ? ' active' : '');
+    return;
+  }
+  if(moreMenu) moreMenu.style.display = 'none';
+  allPanels.forEach(function(p) {
+    var el = document.getElementById('panel-' + p);
+    if(el) el.style.display = (p === tab) ? 'block' : 'none';
+  });
+  var allTabs = ['draft','keepers','injuries','prospects','more'];
+  allTabs.forEach(function(t) {
+    var btn = document.getElementById('tab-' + t);
+    if(!btn) return;
+    var cls = 'tab-btn';
+    if(t === 'injuries' || t === 'prospects') cls += ' desktop-tab';
+    if(t === 'more') cls += ' mobile-more';
+    var moreTabs = ['injuries','prospects'];
+    var isActive = (t === tab) || (t === 'more' && moreTabs.indexOf(tab) !== -1);
+    btn.className = cls + (isActive ? ' active' : '');
+  });
+  lgVisible = (tab === 'draft');
+  if(tab === 'draft'){ renderRoundSelector(); renderLeagueBoard(activeLgRound); }
+  if(tab === 'prospects'){ renderProspectTab(); }
+}
+
+function renderRoundSelector() {
+  var el = document.getElementById('round-selector');
+  if(!el) return;
+  el.innerHTML = '';
+  for(var r = 1; r <= 27; r++) {
+    var myIdx = getMyTeamIdx(r);
+    var isKeeperRd = isKeeper(r, myIdx);
+    var btn = document.createElement('button');
+    var cls = 'rs-btn ' + (isKeeperRd ? 'keeper-rd' : 'your-pick');
+    if(r === activeLgRound) cls += ' active';
+    btn.className = cls;
+    btn.textContent = r;
+    btn.setAttribute('data-round', r);
+    btn.onclick = (function(round){ return function(){ activeLgRound = round; renderRoundSelector(); renderLeagueBoard(round); }; })(r);
+    el.appendChild(btn);
+  }
+}
+
+function renderLeagueBoard(round) {
+  var el = document.getElementById('draft-board');
+  if(!el) return;
+  var myTeamIdx = getMyTeamIdx(round);
+  var isKeeperRd = isKeeper(round, myTeamIdx);
+  var label = 'Round ' + round;
+  if(isKeeperRd) label += ' <span class="db-keeper-badge">🔒 Your Keeper — ' + keeperName(round, myTeamIdx) + '</span>';
+  else label += ' <span class="db-your-badge">⭐ Your Pick (pick ' + (round % 2 === 1 ? '1st' : 'last') + ')</span>';
+
+  var html = '<div class="db-round-label">' + label + '</div><div class="picks-row">';
+  for(var slot = 0; slot < 12; slot++) {
+    var teamIdx = slotToTeam(round, slot);
+    var team = TEAMS[teamIdx] || '';
+    var shortTeam = team.split(' ').slice(0,2).join(' ');
+    var pid = pickId(round, teamIdx);
+    var mine = (teamIdx === myTeamIdx);
+    var kp = isKeeper(round, teamIdx);
+    var drafted = leaguePicks[pid];
+    var myOwnPick = mine && picks[String(round)];
+    var overallPick = (round-1)*12 + slot + 1;
+
+    var slotClass = 'pick-slot';
+    if(kp) slotClass += ' keeper-slot';
+    else if(mine && myOwnPick) slotClass += ' filled-yours';
+    else if(mine) slotClass += ' yours';
+    else if(drafted) slotClass += ' filled-other';
+
+    var clickAttr = kp ? '' : 'onclick="openLgModal(' + "'" + pid + "'," + teamIdx + ',' + round + ')"';
+    html += '<div class="' + slotClass + '" ' + clickAttr + '>';
+    html += '<div class="ps-num">#' + overallPick + '</div>';
+    html += '<div class="ps-team">' + shortTeam + '</div>';
+    if(kp) html += '<div class="ps-player">' + keeperName(round, teamIdx) + '</div>';
+    else if(mine && myOwnPick) html += '<div class="ps-player">' + myOwnPick.name + '</div>';
+    else if(drafted) html += '<div class="ps-player">' + drafted.name + '</div>';
+    else html += '<div class="ps-empty">' + (mine ? '← YOUR PICK' : 'Empty') + '</div>' + (mine ? '' : '<div class="ps-tap">tap to log</div>');
+    html += '</div>';
+  }
+  html += '</div>';
+  el.innerHTML = html;
+  renderGoneChips(round);
+}
+
+function renderGoneChips(round) {
+  var el = document.getElementById('gone-chips');
+  if(!el) return;
+  var html = '';
+  var myTeamIdx = getMyTeamIdx(round);
+  for(var slot = 0; slot < 12; slot++) {
+    var teamIdx = slotToTeam(round, slot);
+    if(teamIdx === myTeamIdx) continue;
+    var pid = pickId(round, teamIdx);
+    var kp = isKeeper(round, teamIdx);
+    if(kp) {
+      html += '<span class="gone-chip" style="border-color:#c4b5fd;color:#6d28d9">' + keeperName(round, teamIdx) + ' <em style="font-size:8px">(keeper)</em></span>';
+    } else if(leaguePicks[pid]) {
+      html += '<span class="gone-chip">' + leaguePicks[pid].name + '<span class="gc-x" onclick="clearLgPick(' + "'" + pid + "'" + ')">×</span></span>';
+    }
+  }
+  if(!html) html = '<span style="font-size:10px;color:var(--text3);font-style:italic">No picks logged yet for this round</span>';
+  el.innerHTML = html;
+}
+
+function openLgModal(pid, teamIdx, round) {
+  var _badge = document.getElementById('modal-pos-display'); if(_badge){ _badge.style.display='none'; _badge.textContent=''; }
+  lgPickModal = {pid: pid, teamIdx: teamIdx, round: round};
+  var mine = (teamIdx === getMyTeamIdx(round));
+  var team = TEAMS[teamIdx] || '';
+  var existing = mine ? picks[String(round)] : leaguePicks[pid];
+  document.getElementById('modal-title').textContent = mine ? 'Round ' + round + ' · Your Pick' : 'Round ' + round + ' · ' + team;
+  document.getElementById('modal-sub').textContent = mine ? 'Log your pick here OR tap the round card above' : 'Log ' + team + "'s pick";
+  document.getElementById('modal-input').value = existing ? existing.name : '';
+  document.getElementById('modal-pos-input').value = existing ? (existing.pos || '') : '';
+  window._lgMode = true;
+  document.getElementById('modal').style.display = 'flex';
+  setTimeout(function(){ document.getElementById('modal-input').focus(); }, 80);
+}
+
+function clearLgPick(pid) {
+  delete leaguePicks[pid];
+  saveLeague();
+  if(lgVisible) renderLeagueBoard(activeLgRound);
+  renderAll();
+}
+
+function clearAllOtherPicks() {
+  if(!confirm('Clear all other teams logged picks?')) return;
+  leaguePicks = {};
+  saveLeague();
+  if(lgVisible) renderLeagueBoard(activeLgRound);
+  renderAll();
+}
+
+function prePopulateDraft() {
+  // Only skip if we already have sufficient data (9+ my picks and 80+ league picks)
+  if(Object.keys(picks).length >= 9 && Object.keys(leaguePicks).length >= 80) return;
+  var p = {};
+  p['1']={name:'Shohei Ohtani',pos:'DH/SP - LAD'};
+  p['2']={name:'Hunter Brown',pos:'SP - HOU'};
+  p['3']={name:'Wyatt Langford',pos:'OF - TEX'};
+  p['4']={name:'Josh Naylor',pos:'1B - SEA'};
+  p['5']={name:'Jhoan Duran',pos:'RP - PHI'};
+  p['6']={name:'Pete Crow-Armstrong',pos:'OF - CHC'};
+  p['7']={name:'Aroldis Chapman',pos:'RP - BOS'};
+  p['8']={name:'Cade Smith',pos:'RP - CLE'};
+  p['9']={name:'Agustin Ramirez',pos:'C - MIA'};
+  picks = p; localStorage.setItem('taf_picks_2026', JSON.stringify(picks));
+  var lp = {};
+  lp['r1_t1']={name:'Aaron Judge',pos:'OF - NYY'};
+  lp['r1_t10']={name:'Fernando Tatis Jr.',pos:'OF - SD'};
+  lp['r1_t11']={name:'Junior Caminero',pos:'3B - TB'};
+  lp['r1_t2']={name:'Juan Soto',pos:'OF - NYM'};
+  lp['r1_t3']={name:'Jose Ramirez',pos:'3B - CLE'};
+  lp['r1_t4']={name:'Kyle Tucker',pos:'OF - LAD'};
+  lp['r1_t5']={name:'Ronald Acuna Jr.',pos:'OF - ATL'};
+  lp['r1_t6']={name:'Julio Rodriguez',pos:'OF - SEA'};
+  lp['r1_t7']={name:'Kyle Schwarber',pos:'DH - PHI'};
+  lp['r1_t8']={name:'Gunnar Henderson',pos:'SS - BAL'};
+  lp['r1_t9']={name:'Corbin Carroll',pos:'OF - ARI'};
+  lp['r2_t1']={name:'Logan Webb',pos:'SP - SF'};
+  lp['r2_t10']={name:'Francisco Lindor',pos:'SS - NYM'};
+  lp['r2_t11']={name:'Ketel Marte',pos:'2B - ARI'};
+  lp['r2_t2']={name:'Cal Raleigh',pos:'C - SEA'};
+  lp['r2_t3']={name:'Freddy Peralta',pos:'SP - NYM'};
+  lp['r2_t4']={name:'Yoshinobu Yamamoto',pos:'SP - LAD'};
+  lp['r2_t5']={name:'Matt Olson',pos:'1B - ATL'};
+  lp['r2_t6']={name:'Trea Turner',pos:'SS - PHI'};
+  lp['r2_t7']={name:'Manny Machado',pos:'3B - SD'};
+  lp['r2_t8']={name:'Pete Alonso',pos:'1B - BAL'};
+  lp['r2_t9']={name:'Jazz Chisholm Jr.',pos:'2B - NYY'};
+  lp['r3_t1']={name:'Chris Sale',pos:'SP - ATL'};
+  lp['r3_t10']={name:'Jacob deGrom',pos:'SP - TEX'};
+  lp['r3_t11']={name:'Framber Valdez',pos:'SP - DET'};
+  lp['r3_t2']={name:'Logan Gilbert',pos:'SP - SEA'};
+  lp['r3_t3']={name:'Rafael Devers',pos:'1B - SF'};
+  lp['r3_t4']={name:'Austin Riley',pos:'3B - ATL'};
+  lp['r3_t5']={name:'Max Fried',pos:'SP - NYY'};
+  lp['r3_t6']={name:'Jarren Duran',pos:'OF - BOS'};
+  lp['r3_t7']={name:'Vinnie Pasquantino',pos:'1B - KC'};
+  lp['r3_t8']={name:'Cole Ragans',pos:'SP - KC'};
+  lp['r3_t9']={name:'Freddie Freeman',pos:'1B - LAD'};
+  lp['r4_t1']={name:'Shea Langeliers',pos:'C - ATH'};
+  lp['r4_t10']={name:'Mookie Betts',pos:'SS - LAD'};
+  lp['r4_t11']={name:'Dylan Cease',pos:'SP - TOR'};
+  lp['r4_t2']={name:'George Kirby',pos:'SP - SEA'};
+  lp['r4_t3']={name:'Seiya Suzuki',pos:'OF - CHC'};
+  lp['r4_t4']={name:'Jose Altuve',pos:'2B - HOU'};
+  lp['r4_t5']={name:'Brice Turang',pos:'2B - MIL'};
+  lp['r4_t6']={name:'William Contreras',pos:'C - MIL'};
+  lp['r4_t7']={name:'Jackson Merrill',pos:'OF - SD'};
+  lp['r4_t8']={name:'Kyle Bradish',pos:'SP - BAL'};
+  lp['r4_t9']={name:'Joe Ryan',pos:'SP - MIN'};
+  lp['r5_t1']={name:'Cody Bellinger',pos:'OF - NYY'};
+  lp['r5_t10']={name:'Riley Greene',pos:'OF - DET'};
+  lp['r5_t11']={name:'Michael Busch',pos:'1B - CHC'};
+  lp['r5_t2']={name:'Trevor Story',pos:'SS - BOS'};
+  lp['r5_t3']={name:'Nick Pivetta',pos:'SP - SD'};
+  lp['r5_t4']={name:'Zack Wheeler',pos:'SP - PHI'};
+  lp['r5_t5']={name:'Maikel Garcia',pos:'3B - KC'};
+  lp['r5_t6']={name:'Bryce Harper',pos:'1B - PHI'};
+  lp['r5_t7']={name:'Eugenio Suarez',pos:'3B - CIN'};
+  lp['r5_t8']={name:'Nico Hoerner',pos:'2B - CHC'};
+  lp['r5_t9']={name:'Randy Arozarena',pos:'OF - SEA'};
+  lp['r6_t1']={name:'Kevin Gausman',pos:'SP - TOR'};
+  lp['r6_t10']={name:'Bryan Woo',pos:'SP - SEA'};
+  lp['r6_t11']={name:'Luis Robert Jr.',pos:'OF - NYM'};
+  lp['r6_t2']={name:'Yandy Diaz',pos:'1B - TB'};
+  lp['r6_t3']={name:'Michael Harris II',pos:'OF - ATL'};
+  lp['r6_t4']={name:'Alex Bregman',pos:'3B - CHC'};
+  lp['r6_t5']={name:'Dansby Swanson',pos:'SS - CHC'};
+  lp['r6_t6']={name:'Bo Bichette',pos:'SS - NYM'};
+  lp['r6_t7']={name:'Cristopher Sanchez',pos:'SP - PHI'};
+  lp['r6_t8']={name:'Oneil Cruz',pos:'OF - PIT'};
+  lp['r6_t9']={name:'Corey Seager',pos:'SS - TEX'};
+  lp['r7_t1']={name:'Salvador Perez',pos:'C - KC'};
+  lp['r7_t10']={name:'Nick Lodolo',pos:'SP - CIN'};
+  lp['r7_t11']={name:'Ryan Pepiot',pos:'SP - TB'};
+  lp['r7_t2']={name:'Brandon Nimmo',pos:'OF - TEX'};
+  lp['r7_t3']={name:'Andy Pages',pos:'OF - LAD'};
+  lp['r7_t4']={name:'Vladimir Guerrero Jr.',pos:'1B - TOR'};
+  lp['r7_t5']={name:'Chase Burns',pos:'SP - CIN'};
+  lp['r7_t6']={name:'Andres Munoz',pos:'RP - SEA'};
+  lp['r7_t7']={name:'Willy Adames',pos:'SS - SF'};
+  lp['r7_t8']={name:'Jo Adell',pos:'OF - LAA'};
+  lp['r7_t9']={name:'Nathan Eovaldi',pos:'SP - TEX'};
+  lp['r8_t1']={name:'David Bednar',pos:'RP - NYY'};
+  lp['r8_t10']={name:'Michael King',pos:'SP - SD'};
+  lp['r8_t11']={name:'Addison Barger',pos:'3B - TOR'};
+  lp['r8_t2']={name:'Sonny Gray',pos:'SP - BOS'};
+  lp['r8_t3']={name:'Brandon Lowe',pos:'2B - PIT'};
+  lp['r8_t4']={name:'Gavin Williams',pos:'SP - CLE'};
+  lp['r8_t5']={name:'Jakob Marsee',pos:'OF - MIA'};
+  lp['r8_t6']={name:'Ozzie Albies',pos:'2B - ATL'};
+  lp['r8_t7']={name:'Drew Rasmussen',pos:'SP - TB'};
+  lp['r8_t8']={name:'Tyler Glasnow',pos:'SP - LAD'};
+  lp['r8_t9']={name:'Teoscar Hernandez',pos:'OF - LAD'};
+  lp['r9_t6']={name:'Edwin Diaz',pos:'RP - LAD'};
+  leaguePicks = lp; localStorage.setItem('taf_league_2026', JSON.stringify(leaguePicks));
+}
+
+// Init
+prePopulateDraft();
 renderAll();
 switchTab('draft');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
