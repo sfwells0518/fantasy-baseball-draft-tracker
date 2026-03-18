@@ -1215,6 +1215,8 @@ body {
 
 
 
+
+
 var ROUNDS = [
   {r:1, pk:'#1', type:'pick', val:'f', vl:'At ADP', avail:'Best player in fantasy',
    p:{n:'Shohei Ohtani', pos:'SP/DH — LAD', adp:1, note:'Unanimous 1.01. Two-way return in 2026: 45+ HR, ace Ks, ~20 SB. Zero debate.'},
@@ -1644,7 +1646,7 @@ function renderLeagueBoard(round) {
   var isKeeperRd = isKeeper(round, myTeamIdx);
   var label = 'Round ' + round;
   if(isKeeperRd) label += ' <span class="db-keeper-badge">🔒 Your Keeper — ' + keeperName(round, myTeamIdx) + '</span>';
-  else label += ' <span class="db-your-badge">⭐ Your Pick (pick ' + (round % 2 === 1 ? '#1' : '#' + (round * 12)) + ')</span>';
+  else label += ' <span class="db-your-badge">⭐ Your Pick — pick ' + (round % 2 === 1 ? '#' + ((round-1)*12+1) : '#' + (round*12)) + '</span>';
 
   var html = '<div class="db-round-label">' + label + '</div><div class="picks-row">';
   for(var slot = 0; slot < 12; slot++) {
@@ -1656,7 +1658,7 @@ function renderLeagueBoard(round) {
     var kp = isKeeper(round, teamIdx);
     var drafted = leaguePicks[pid];
     var myOwnPick = mine && picks[String(round)];
-    var overallPick = (round % 2 === 1) ? (round-1)*12 + slot + 1 : round*12 - slot;
+    var overallPick = (round-1)*12 + slot + 1;
 
     var slotClass = 'pick-slot';
     if(kp) slotClass += ' keeper-slot';
@@ -1730,7 +1732,10 @@ function clearAllOtherPicks() {
 }
 
 // Init
+renderAll();
 renderRoundSelector();
+
+
 
 
 
