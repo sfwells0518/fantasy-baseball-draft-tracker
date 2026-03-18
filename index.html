@@ -1207,6 +1207,7 @@ body {
 
 
 
+
 var ROUNDS = [
   {r:1, pk:'#1', type:'pick', val:'f', vl:'At ADP', avail:'Best player in fantasy',
    p:{n:'Shohei Ohtani', pos:'SP/DH — LAD', adp:1, note:'Unanimous 1.01. Two-way return in 2026: 45+ HR, ace Ks, ~20 SB. Zero debate.'},
@@ -2231,14 +2232,10 @@ function espnDisconnect() {
 
 function espnPoll() {
   if(!espnConfig.active) return;
-  var url = 'https://fantasy.espn.com/apis/v3/games/flb/seasons/2026/segments/0/leagues/'
-    + espnConfig.leagueId + '?view=mDraftDetail&view=mSettings&view=mTeam';
-  fetch(url, {
-    credentials: 'include',
-    headers: {
-      'Cookie': 'espn_s2=' + espnConfig.espnS2 + '; SWID=' + espnConfig.swid
-    }
-  })
+  var url = '/api/espn?leagueId=' + encodeURIComponent(espnConfig.leagueId)
+    + '&espnS2=' + encodeURIComponent(espnConfig.espnS2)
+    + '&swid=' + encodeURIComponent(espnConfig.swid);
+  fetch(url)
   .then(function(r) {
     if(!r.ok) throw new Error('ESPN returned ' + r.status);
     return r.json();
@@ -2702,6 +2699,7 @@ function clearAllOtherPicks() {
 
 // Init
 renderRoundSelector();
+
 
 
 
