@@ -48,19 +48,19 @@ body {
   max-width: 100vw;
 }
 .page-wrap {
-  max-width: 900px;
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   padding: 12px 12px 80px;
   box-sizing: border-box;
   overflow-x: hidden;
 }
-@media (min-width: 920px) {
+@media (min-width: 1220px) {
   body { background: #1c2230; }
   .page-wrap {
     background: var(--bg);
-    box-shadow: 0 0 60px rgba(0,0,0,.5);
-    padding: 16px 20px 80px;
+    box-shadow: 0 0 80px rgba(0,0,0,.6);
+    padding: 20px 32px 80px;
   }
 }
 
@@ -1208,6 +1208,11 @@ body {
 
 
 
+
+
+
+
+
 var ROUNDS = [
   {r:1, pk:'#1', type:'pick', val:'f', vl:'At ADP', avail:'Best player in fantasy',
    p:{n:'Shohei Ohtani', pos:'SP/DH — LAD', adp:1, note:'Unanimous 1.01. Two-way return in 2026: 45+ HR, ace Ks, ~20 SB. Zero debate.'},
@@ -2237,8 +2242,14 @@ function espnPoll() {
     + '&swid=' + encodeURIComponent(espnConfig.swid);
   fetch(url)
   .then(function(r) {
-    if(!r.ok) throw new Error('ESPN returned ' + r.status);
-    return r.json();
+    return r.json().then(function(body) {
+      if(!r.ok) {
+        var hint = body.hint || body.error || ('status ' + r.status);
+        var detail = body.detail ? (' · ' + body.detail.slice(0,80)) : '';
+        throw new Error(hint + detail);
+      }
+      return body;
+    });
   })
   .then(function(data) {
     espnProcessDraft(data);
@@ -2249,15 +2260,8 @@ function espnPoll() {
       'Last sync: ' + now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
   })
   .catch(function(err) {
-    var msg = err.message || 'unknown error';
-    if(msg.indexOf('Failed to fetch') !== -1 || msg.indexOf('NetworkError') !== -1 || msg.indexOf('CORS') !== -1) {
-      document.getElementById('espn-status').textContent = '🔴 CORS blocked — see note below';
-      document.getElementById('espn-status').style.color = '#f87171';
-      document.getElementById('espn-cors-note').style.display = 'block';
-    } else {
-      document.getElementById('espn-status').textContent = '🔴 Error — ' + msg;
-      document.getElementById('espn-status').style.color = '#f87171';
-    }
+    document.getElementById('espn-status').textContent = '🔴 Error — ' + (err.message || 'unknown');
+    document.getElementById('espn-status').style.color = '#f87171';
     console.error('ESPN poll error:', err);
   });
 }
@@ -2491,8 +2495,8 @@ if (draftStarted) {
 renderAll();
 
 // ── LEAGUE DRAFT TRACKER ─────────────────────────────────────────────────
-var TEAMS = ["Stuntin' Like My Vladdy", "Serenity Now", "Team Kim", "Sho Bombs and Cruz Missiles", "You're Killin Me Smalls", "Holliday Cruz Lines", "YORDONG (Sad Pat)", "GlasNow and Later", "Can of Corn", "Mets WS Back ON", "RIP Dollar Dog Night", "Tatis All Folks"];
-var KEEPERS = {"0_7": "Vladdy Jr.", "0_22": "Roman Anthony", "0_20": "Elly De La Cruz", "0_18": "Spencer Strider", "1_19": "E. Sheehan", "1_15": "Bobby Witt Jr.", "1_14": "Jac Caglianone", "1_20": "James Wood", "2_15": "Zach Neto", "2_12": "Jesus Luzardo", "2_13": "Bubba Chandler", "2_20": "Cam Schlittler", "3_6": "C. Sanchez", "3_20": "Nolan McLean", "3_19": "Eury Perez", "3_18": "Drake Baldwin", "4_20": "Kyle Stowers", "4_2": "Cal Raleigh", "4_19": "G. Springer", "4_22": "Luis Gil", "5_18": "J. Holliday", "5_19": "Gerrit Cole", "5_20": "Chase DeLauter", "5_22": "Matthew Shaw", "6_11": "Yordan Alvarez", "6_13": "Brent Rooker", "6_6": "Bryan Woo", "6_20": "G. Perdomo", "7_16": "G. Crochet", "7_18": "Tarik Skubal", "7_19": "T. Soderstrom", "7_20": "Carter Jensen", "8_19": "K. Griffin", "8_20": "Nick Kurtz", "8_18": "JJ Wetherholt", "8_17": "H. Goodman", "9_9": "Edwin Diaz", "9_5": "Bryce Harper", "9_20": "K. McGonigle", "9_15": "Byron Buxton", "10_18": "CJ Abrams", "10_20": "J. Chourio", "10_19": "Ben Rice", "10_15": "Paul Skenes", "11_3": "Langford", "11_6": "PCA", "11_14": "Mason Miller", "11_20": "Misiorowski"};
+var TEAMS = ["Tatis All Folks", "Stuntin' Like My Vladdy", "Serenity Now", "Team Kim", "Sho Bombs and Cruz Missiles", "You're Killin Me Smalls", "Holliday Cruz Lines", "YORDONG (Sad Pat)", "GlasNow and Later", "Can of Corn", "Mets WS Back ON", "RIP Dollar Dog Night"];
+var KEEPERS = {"0_3": "Langford", "0_6": "PCA", "0_14": "Mason Miller", "0_20": "Misiorowski", "1_7": "Vladdy Jr.", "1_22": "Roman Anthony", "1_20": "Elly De La Cruz", "1_18": "Spencer Strider", "2_19": "E. Sheehan", "2_15": "Bobby Witt Jr.", "2_14": "Jac Caglianone", "2_20": "James Wood", "3_15": "Zach Neto", "3_12": "Jesus Luzardo", "3_13": "Bubba Chandler", "3_20": "Cam Schlittler", "4_6": "C. Sanchez", "4_20": "Nolan McLean", "4_19": "Eury Perez", "4_18": "Drake Baldwin", "5_20": "Kyle Stowers", "5_2": "Cal Raleigh", "5_19": "G. Springer", "5_22": "Luis Gil", "6_18": "J. Holliday", "6_19": "Gerrit Cole", "6_20": "Chase DeLauter", "6_22": "Matthew Shaw", "7_11": "Yordan Alvarez", "7_13": "Brent Rooker", "7_6": "Bryan Woo", "7_20": "G. Perdomo", "8_16": "G. Crochet", "8_18": "Tarik Skubal", "8_19": "T. Soderstrom", "8_20": "Carter Jensen", "9_19": "K. Griffin", "9_20": "Nick Kurtz", "9_18": "JJ Wetherholt", "9_17": "H. Goodman", "10_9": "Edwin Diaz", "10_5": "Bryce Harper", "10_20": "K. McGonigle", "10_15": "Byron Buxton", "11_18": "CJ Abrams", "11_20": "J. Chourio", "11_19": "Ben Rice", "11_15": "Paul Skenes"};
 var leaguePicks = JSON.parse(localStorage.getItem('taf_league_2026') || '{}');
 var activeLgRound = 1;
 var lgPickModal = null;
@@ -2699,6 +2703,11 @@ function clearAllOtherPicks() {
 
 // Init
 renderRoundSelector();
+
+
+
+
+
 
 
 
